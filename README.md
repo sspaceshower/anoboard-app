@@ -9,26 +9,24 @@ This repository has been created for front-end part of **ANOBOARD** using mainly
 4. Ref: Assets
 5. Ref: React Command Guide
 
----------------
 
 ## HOW TO
 ~~aka my effort to keep this organized~~<br>
 Here, we are using **ReactJS** and **CSS/SCSS** stylesheet.
 
-1. To start working, first clone the repository, then go to the project folder (where package.json is) and then run `npm install` and `npm start`. After the first pull, you can run project only with `npm start`
-2. The directory we'll be working on is *src* and *public*. React files are kept in */src*, and stylesheets are kept in */src/scss*. Downloaded Fonts and assets should be kept in */public*. Creating a new folder in dir */public* is fine. Just try to be as organized as possible.
-3. During working, if you found a part that someone else should be working on, please mark it with `TODO:` and add it to TODO section *(refer to TO-DO LIST section for more information)*
-4. If you want to use any library that is not yet included in the work, please install it using
-`npm install` and add the name of the library to *React Library* Section. Including css file and stuffs using linking are fine, but please see if there exists a react plugin to be installed (just because it is easier)
+1. To start working, first clone the repository, then go to the project folder (where package.json is) and then run `npm install` and `npm start`. After the first pull, you can run project only with `npm start`<br>
+2. The directory we'll be working on is *src* and *public*. React files are kept in */src*, and stylesheets are kept in */src/scss*. Downloaded Fonts and assets should be kept in */public*. Creating a new folder in dir */public* is fine. Just try to be as organized as possible.<br>
+3. During working, if you found a part that someone else should be working on, please mark it with `TODO:` and add it to TODO section *(refer to TO-DO LIST section for more information)*<br>
+4. If you want to use any library that is not yet included in the work, please install it using<br>
+`npm install` and add the name of the library to *React Library* Section. Including css file and stuffs using linking are fine, but please see if there exists a react plugin to be installed (just because it is easier)<br>
 5. **In the last, all the files in this repository will be packed using webpack to get `bundle.js` and `bundle.css`**, but we will wait until front-end and API are finished before packing.
 
 please **DO NOT** copy assets from the old repository to here if you are not using it. there're too many unused files there, and I am not sure which one are actually used, so this way (ideally) we could delete everything there after we finish with this one.
 
-----------------
 ## TO-DO LIST
 ### `Guide`
 - Please add the comment with keyword `TODO:` and include a short tag/category in <> before describing the task. For example:
-> //`TODO: <database\> request ___ from the server` <
+> `TODO: <database> request ___ from the server`
 <p>Please also list it here with the filename if possible. you can freely create a new tag if you want to</p>
 - If you are done with the task, delete the comment `TODO:` from the source code, move the task into DONE section and to a strikethrough on it (cover with \~~content\~~)
 <br>
@@ -52,7 +50,7 @@ please **DO NOT** copy assets from the old repository to here if you are not usi
 
 #### API
 <br>
-----------------
+
 ## INSTALLED REACT LIBRARY
 
 you can also find the list in `package.json` file
