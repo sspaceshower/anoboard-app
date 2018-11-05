@@ -1,0 +1,30 @@
+@import '_base.scss';
+
+.wrap {
+  height: 120px;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.profile-img-container {
+  height: 78px;
+  width: 78px;
+  border-radius: 78px;
+  align-items: center;
+  justify-content: center;
+  background-color: $lightgray;
+}
+
+.profile-name {
+  color: $darkgray;
+  font-size: 26px;
+  font-family: $boldfont;
+}
+
+.biography {
+  color: $lightgray;
+  font-size: 17px;
+  font-family: $defaultfont;
+}
+
+.
