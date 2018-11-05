@@ -1,0 +1,86 @@
+@import '_base.scss';
+
+#sidebar {
+  height: 100%;
+  padding: 25px 0px 25px 0px;
+  margin: 0;
+  background-color: white;
+  font-family: $semiboldfont;
+}
+
+.sidebar-logo {
+  padding: 15px;
+  vertical-align: center;
+  text-align: center;
+  background-color: $brown-text;
+  color: white;
+}
+
+.sidebar-button {
+  height: 35px;
+  width: 100%;
+  padding-left: 30px;
+  margin: 0;
+  line-height: 35px;
+  text-align: left;
+  font-size: 18px;
+  color: $brown-text;
+  transition: all 0.2s ease-out;
+
+  &:hover{
+    cursor: default;
+    color: $orange;
+  }
+  &:active{
+    color: white;
+    background-color: $brown-bg;
+  }
+  &:active:hover{
+    cursor: default;
+    background-color: $orange;
+  }
+}
+
+.sub-menu {
+  padding-left: 45px;
+  font-size: 18px;
+  margin-bottom: 5px;
+  color: $brown-text;
+  font-family: $boldfont;
+}
+
+.sub-menu-button {
+  height: 25px;
+  width: 100%;
+  padding-left: 45px;
+  text-align: left;
+  vertical-align: middle;
+  color: $brown-text;
+  font-size: 16px;
+  font-family: $defaultfont;
+  transition: all 0.2s ease-out;
+
+  &:hover {
+    cursor: default;
+    color: $orange;
+  }
+  &:active{
+    color: white;
+    background-color: $brown-bg;
+  }
+  &:active:hover{
+    cursor: default;
+    background-color: $orange;
+  }
+}
+
+.show-more{
+  font-size: 12px;
+  font-family: $defaultfont;
+  color: $brown-tag;
+  padding: 5px 0 0 45px;
+  &:hover {
+    cursor: default;
+    color: $orange
+  }
+}

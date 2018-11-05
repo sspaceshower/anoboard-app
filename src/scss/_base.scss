@@ -1,0 +1,35 @@
+//palette
+$brown-bg: #9F826B;
+$brown-text: #A19797;
+$brown-tag: #A2795A;
+$orange: #FFD185;
+
+$board: #3D4751;
+$blue-title: #4A4F54;
+$blue-content: #5A6978;
+
+$lightgray: #AFBACA;
+$fadegray: #D3D4D6;
+$linegray: #D7D2D2;
+$darkgray: #3D4434;
+
+
+//fontbook
+$defaultfont: SourceSansPro;
+$boldfont: SourceSansPro-Bold;
+$semiboldfont: SourceSansPro-SemiBold;
+
+body {
+  background-color: $brown-bg;
+}
+
+.wrapper {
+  height: 100vh;
+}
+
+.horizontal-line {
+	height: 1px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+	background: $linegray;
+}
