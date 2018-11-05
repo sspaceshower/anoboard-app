@@ -57,11 +57,11 @@ you can also find the list in `package.json` file
 - [react-bootstrap](https://react-bootstrap.github.io)
 - [react-fontawesome](https://fontawesome.com)
 - [react-router](https://reacttraining.com/react-router/core/guides/philosophy)
-----------------
+
 ## ASSETS
 - fonts: Source Sans Pro
 
-----------------
+# React Command Guide
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
