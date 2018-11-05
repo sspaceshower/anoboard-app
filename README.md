@@ -1,6 +1,6 @@
 # README.MD
 Please read the instruction on this file before working on the project
-This repository has been created for front-end part of **ANOBOARD** using mainly ReactJS and scss
+This repository has been created for front-end part of **ANOBOARD** using mainly ReactJS and SCSS
 
 ## Index
 1. Instruction on how to work on this repository
@@ -33,7 +33,7 @@ please **DO NOT** copy assets from the old repository to here if you are not usi
 
 ### `TO-DO TASKS`
 #### database
-- sidemenu.js : request the list of the groups that user is participating in
+- `sidemenu.js` : request the list of the groups that user is participating in
 
 #### front-end
 
