@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Grid, Row, Col } from 'react-bootstrap';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComments } from '@fortawesome/free-solid-svg-icons';
@@ -28,7 +28,7 @@ const createPostBox = (post) => {
 
   return(
     <Col xs={12} md={4}>
-      <Container fluid className="postbox-wrap">
+      <Grid fluid className="postbox-wrap">
         <Row>
           <Col xs={5} className="postbox-author">{author}</Col>
           <Col xs={7} className="postbox-tag">{"#mockup" /*TODO: <mockup> change to createTag*/}</Col>
@@ -39,7 +39,7 @@ const createPostBox = (post) => {
           <div className="postbox-reply"><FontAwesomeIcon icon="comments" /></div>
           <div className="postbox-timestamp">{"mockup" /*TODO: <mockup> change to createTimeStamp()*/}</div>
         </Row>
-      </Container>
+      </Grid>
     </Col>
   );
 }

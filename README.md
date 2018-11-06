@@ -51,12 +51,11 @@ when the corresponding API part is finished.
 ## INSTALLED REACT LIBRARY
 
 you can also find the list in `package.json` file
-- [reactstrap](https://reactstrap.github.io)
 - [react-bootstrap](https://react-bootstrap.github.io)
 - [react-fontawesome](https://fontawesome.com)
 - [react-router](https://reacttraining.com/react-router/core/guides/philosophy)
 
-**note;** as you can see, I am using `reactstrap (v4)` together with `react-bootstrap (v3)`even though they are just the different versions of the same thing. This is because I found v4 after working with v3 for a while; the components seems nicer, but changing to v4 seems to break some of the Layout I've already worked on. Ideally we will turn to just `reactstrap`, but for now I will keep the v3 until the layout issues are (hopefully) solved.
+**updated** deleting `reactstrap (v4)`. now use only `react-bootstrap (v3)`
 
 ## ASSETS
 - fonts: Source Sans Pro

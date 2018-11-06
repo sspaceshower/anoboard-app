@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col } from 'reactstrap';
+import { Row, Col } from 'react-bootstrap';
 import Board from './board.js';
 import Profile from './profile.js';
 import Trophy from './trophy.js';

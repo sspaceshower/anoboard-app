@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Grid, Row, Col } from 'react-bootstrap';
 import { fetchUserData, fetchBoardData } from './helper/fetchdata.js'
 import FullBoard from './elements/fullboard.js';
 import Sidemenu from './elements/sidemenu.js';
@@ -20,7 +20,7 @@ class Myboard extends React.Component {
   }
   render() {
     return (
-      <Container fluid>
+      <Grid fluid>
         <Row className="wrapper">
             <Sidemenu user={this.state.currentUser}/>
             <Col md={2}></Col>
@@ -28,7 +28,7 @@ class Myboard extends React.Component {
               <FullBoard user={this.state.currentUser} board={this.state.board}/>
             </Col>
         </Row>
-      </Container>
+      </Grid>
     );
   }
 }
