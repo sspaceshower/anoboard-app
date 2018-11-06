@@ -1,5 +1,5 @@
 # README.MD
-Please read the instruction on this file before working on the project
+Please read the instruction on this file before working on the project.<br>
 This repository has been created for front-end part of **ANOBOARD** using mainly ReactJS and SCSS
 
 quick link:
@@ -30,7 +30,7 @@ please **DO NOT** copy assets from the old repository to here if you are not usi
 ### Guide
 - Please add the comment with keyword `TODO:` and include a short tag/category in <> before describing the task. For example:
 > `TODO: <API> request ___ from the server`
-<p>Please also list it in the `[trello](https://trello.com/b/ELM3AR0h/anoboard)` with location(filename) in the description if possible. you can freely create a new tag/label if you want to</p>
+<p>Please also list it in the [trello](https://trello.com/b/ELM3AR0h/anoboard) with location(filename) in the description if possible. you can freely create a new tag/label if you want to</p>
 - When working on something, please move the task to DOING section on trello; comment your name on it if possuble.
 - If you are done with the task, delete the comment `TODO:` from the source code, move the task into DONE section on trello
 <br>
