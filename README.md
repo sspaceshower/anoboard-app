@@ -51,11 +51,11 @@ when the corresponding API part is finished.
 ## INSTALLED REACT LIBRARY
 
 you can also find the list in `package.json` file
-- [react-bootstrap](https://react-bootstrap.github.io)
+- [react-bootstrap](https://react-bootstrap.netlify.com)
 - [react-fontawesome](https://fontawesome.com)
 - [react-router](https://reacttraining.com/react-router/core/guides/philosophy)
 
-**updated** deleting `reactstrap (v4)`. now use only `react-bootstrap (v3)`
+**updated** deleting `reactstrap` and `react-bootstrap (v3)`. now use only `react-bootstrap (v4)`
 
 ## ASSETS
 - fonts: Source Sans Pro
