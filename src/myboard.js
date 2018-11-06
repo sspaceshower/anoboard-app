@@ -13,8 +13,9 @@ class Myboard extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      currentUser: fetchUserData(),
-      board: fetchBoardData()
+      //TODO: <mockup> to be changed when fetchUserData and fetchBoardData is complemented
+      currentUser: fetchUserData("<mockup>"),
+      board: fetchBoardData("<mockup>")
     }
   }
   render() {
