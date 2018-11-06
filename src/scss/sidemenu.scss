@@ -3,7 +3,6 @@
 #sidebar {
   height: 100%;
   padding: 25px 0px 25px 0px;
-  margin: 0;
   position: fixed;
   background-color: white;
   font-family: $semiboldfont;
@@ -29,7 +28,6 @@
   transition: all 0.2s ease-out;
 
   &:hover{
-    cursor: default;
     color: $orange;
   }
   &:active{
@@ -37,7 +35,6 @@
     background-color: $brown-bg;
   }
   &:active:hover{
-    cursor: default;
     background-color: $orange;
   }
 }
@@ -62,16 +59,13 @@
   transition: all 0.2s ease-out;
 
   &:hover {
-    cursor: default;
     color: $orange;
-
   }
   &:active{
     color: white;
     background-color: $brown-bg;
   }
   &:active:hover{
-    cursor: default;
     background-color: $orange;
   }
 }
@@ -82,7 +76,6 @@
   color: $brown-tag;
   padding: 5px 0 0 45px;
   &:hover {
-    cursor: default;
     color: $orange
   }
 }

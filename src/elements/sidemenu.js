@@ -13,8 +13,9 @@ library.add(faEnvelope);
 const createMenu = (menulist) => {
   const iconStyle = {
     display: 'inline-block',
-    padding: '0',
+    padding: '0 0 0 15px',
     margin: '0',
+    textAlign: 'center',
   }
 
   const labelStyle = {
@@ -23,10 +24,10 @@ const createMenu = (menulist) => {
   var menu = [];
   for(let i=0; i< menulist.length; i++){
     menu.push(
-      <Link to={menulist[i].url}>
+      <Link to={menulist[i].url} style={{textDecoration: "none"}}>
         <Row className="sidebar-button">
-          <Col xs={1} style={iconStyle}><FontAwesomeIcon icon={menulist[i].icon} /></Col>
-          <Col xs={11} style={labelStyle}>{menulist[i].label}</Col>
+          <Col xs={2} style={iconStyle}><FontAwesomeIcon icon={menulist[i].icon} /></Col>
+          <Col xs={10} style={labelStyle}>{menulist[i].label}</Col>
         </Row>
       </Link>
     );
@@ -70,23 +71,21 @@ class Sidemenu extends React.Component {
 
     return(
       <Router>
-        <div>
-          <Col hidden-xs md={2} id="sidebar">
-            <Row>
-              <Col xsOffset={2} xs={8} className="sidebar-logo">logo</Col>
+        <Col md={2} id="sidebar">
+            <Row className="justify-content-md-center">
+              <Col xs={8} className="sidebar-logo">logo</Col>
             </Row>
-            <Row>
-              <Col xsOffset={2} xs={8} className="horizontal-line"></Col>
+            <Row className="justify-content-md-center">
+              <Col xs={8} className="horizontal-line"></Col>
             </Row>
             {createMenu(menulist)}
-            <Row>
-              <Col xsOffset={2} xs={8} className="horizontal-line"></Col>
+            <Row className="justify-content-md-center">
+              <Col xs={8} className="horizontal-line"></Col>
             </Row>
             <Row className="sub-menu">GROUPS</Row>
             {createSubMenu(this.state.grouplist)}
             <Row className="show-more">show more..</Row>
-          </Col>
-        </div>
+        </Col>
       </Router>
     );
   }

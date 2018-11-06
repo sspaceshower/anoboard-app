@@ -19,7 +19,7 @@ class Board extends React.Component {
     return(
       <Row id="board">
         <Col md={12}>
-            <Row>
+            <Row className="justify-content-md-center">
               {newPostButton()}
               {createPostStack(this.state.posts)}
             </Row>
@@ -32,26 +32,23 @@ class Board extends React.Component {
 const newPostButton = () => {
   return(
     <Col xs={12} md={4}>
-      <div className="postbox-wrap" style={{textAlign:"center"}}>
-        <Row style={{marginTop: "60px"}}>
+      <div className="postbox-wrap" style={{paddingTop: '65px'}}>
+        <Row className="justify-content-md-center">
             <FontAwesomeIcon icon="plus-circle" className="postbox-new-icon"/>
-            <Row>
-              <div className="postbox-new-text">write a new post</div>
-            </Row>
+        </Row>
+        <Row className="justify-content-md-center">
+            <div className="postbox-new-text">write a new post</div>
         </Row>
       </div>
     </Col>
   );
 }
 
-//TODO: <frontend> edit aligning style
 const createPostStack = (posts) => {
     var stack = [];
     for(let i=0; i<posts.length;i++){
       stack.push(
-        <div>
-          <Postbox post={posts[i]} />
-        </div>
+        <Postbox post={posts[i]} />
       );
     }
     return(stack);
