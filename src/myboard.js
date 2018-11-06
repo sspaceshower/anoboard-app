@@ -1,17 +1,33 @@
 import React from 'react';
-import { Grid, Row, Col } from 'react-bootstrap'
-import Sidemenu from './sidemenu.js';
-import Board from './board.js';
+import { Container, Row, Col } from 'reactstrap';
+import { fetchUserData, fetchBoardData } from './helper/fetchdata.js'
+import FullBoard from './elements/fullboard.js';
+import Sidemenu from './elements/sidemenu.js';
 
-class Myboard extends React.Component{
+const paddingSet = {
+  paddingLeft: '40px',
+  paddingRight: '40px'
+}
+
+class Myboard extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      currentUser: fetchUserData(),
+      board: fetchBoardData()
+    }
+  }
   render() {
     return (
-      <Grid fluid>
+      <Container fluid>
         <Row className="wrapper">
-            <Sidemenu />
-            <Board />
+            <Sidemenu user={this.state.currentUser}/>
+            <Col md={2}></Col>
+            <Col md={10} style={paddingSet}>
+              <FullBoard user={this.state.currentUser} board={this.state.board}/>
+            </Col>
         </Row>
-      </Grid>
+      </Container>
     );
   }
 }
