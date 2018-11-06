@@ -4,6 +4,7 @@
   height: 100%;
   padding: 25px 0px 25px 0px;
   margin: 0;
+  position: fixed;
   background-color: white;
   font-family: $semiboldfont;
 }
@@ -63,6 +64,7 @@
   &:hover {
     cursor: default;
     color: $orange;
+
   }
   &:active{
     color: white;

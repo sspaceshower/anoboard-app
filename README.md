@@ -2,6 +2,10 @@
 Please read the instruction on this file before working on the project
 This repository has been created for front-end part of **ANOBOARD** using mainly ReactJS and SCSS
 
+quick link:
+- [trello](https://trello.com/b/ELM3AR0h/anoboard)
+- if you cannot access the link above, first accept the invitation [here](https://trello.com/invite/b/ELM3AR0h/0b1536c363948e3daea6a7fcf56aaa5c/anoboard)
+
 ## Index
 1. Instruction on how to work on this repository
 2. TO-DO List
@@ -23,40 +27,35 @@ Here, we are using **ReactJS** and **CSS/SCSS** stylesheet.
 please **DO NOT** copy assets from the old repository to here if you are not using it. there're too many unused files there, and I am not sure which one are actually used, so this way (ideally) we could delete everything there after we finish with this one.
 
 ## TO-DO LIST
-### `Guide`
+### Guide
 - Please add the comment with keyword `TODO:` and include a short tag/category in <> before describing the task. For example:
-> `TODO: <database> request ___ from the server`
-<p>Please also list it here with the filename if possible. you can freely create a new tag if you want to</p>
-- If you are done with the task, delete the comment `TODO:` from the source code, move the task into DONE section and to a strikethrough on it (cover with ~~content~~)
+> `TODO: <API> request ___ from the server`
+<p>Please also list it in the `[trello](https://trello.com/b/ELM3AR0h/anoboard)` with location(filename) in the description if possible. you can freely create a new tag/label if you want to</p>
+- When working on something, please move the task to DOING section on trello; comment your name on it if possuble.
+- If you are done with the task, delete the comment `TODO:` from the source code, move the task into DONE section on trello
 <br>
 
 
-### `TO-DO TASKS`
-#### database
-- `sidemenu.js` : request the list of the groups that user is participating in
+### Tag List
+- `API`: request/pushing of information between front-end to back-end
+- `mockup`: fake information used to preview the website, to be changed/deleted
+when the corresponding API part is finished.
+- `frontend`: interface/design
 
-#### front-end
+### Trello
+- [trello](https://trello.com/b/ELM3AR0h/anoboard)
+- again, if you cannot access the link above, first accept the invitation [here](https://trello.com/invite/b/ELM3AR0h/0b1536c363948e3daea6a7fcf56aaa5c/anoboard) *will update to delete the link once everyone has joined*
 
-#### API
-<br>
-
-
-
-### `DONE TASKS`
-#### database
-#### front-end
-- ~~just an example of strikethrough~~
-
-#### API
-<br>
 
 ## INSTALLED REACT LIBRARY
 
 you can also find the list in `package.json` file
-
+- [reactstrap](https://reactstrap.github.io)
 - [react-bootstrap](https://react-bootstrap.github.io)
 - [react-fontawesome](https://fontawesome.com)
 - [react-router](https://reacttraining.com/react-router/core/guides/philosophy)
+
+**note;** as you can see, I am using `reactstrap (v4)` together with `react-bootstrap (v3)`even though they are just the different versions of the same thing. This is because I found v4 after working with v3 for a while; the components seems nicer, but changing to v4 seems to break some of the Layout I've already worked on. Ideally we will turn to just `reactstrap`, but for now I will keep the v3 until the layout issues are (hopefully) solved.
 
 ## ASSETS
 - fonts: Source Sans Pro

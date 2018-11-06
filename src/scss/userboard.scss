@@ -1,15 +1,41 @@
 @import '_base.scss';
 
+#board {
+  height: 100%;
+  min-height: 1000px;
+  margin: 0 0 30px 0;
+  padding: 30px;
+  color: white;
+  border-radius: 5px;
+  background-color: $board;
+  font-family: $defaultfont;
+}
+
+#profile {
+  float:left;
+  display: inline-flex;
+}
+
+#trophy {
+  float:right;
+  display: inline-flex;
+}
+
 .wrap {
   height: 120px;
   border-radius: 5px;
   background-color: white;
+  margin: 25px 0 15px 0;
+  padding: 21px 0 21px 0;
 }
+
 
 .profile-img-container {
   height: 78px;
   width: 78px;
   border-radius: 78px;
+  margin-left: auto;
+  margin-right: auto;
   align-items: center;
   justify-content: center;
   background-color: $lightgray;
@@ -23,8 +49,90 @@
 
 .biography {
   color: $lightgray;
-  font-size: 17px;
+  margin-right: 21px;
+  font-size: 15px;
+  line-height: 15px;
   font-family: $defaultfont;
 }
 
-.
+.trophy-title-wrap {
+  height: 120px;
+  float: left;
+  border-radius: 5px 0 0 5px;
+  color: white;
+  background-color: $board;
+}
+
+.trophy-container {
+  height: 64px;
+  width: 64px;
+  border-radius: 64px;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
+  justify-content: center;
+  background-color: $lightgray;
+}
+
+.postbox-wrap {
+  height: 225px;
+  border-radius: 5px;
+  padding: 10px 20px 10px 20px;
+  margin-right: auto;
+  margin-right: auto;
+  margin-top: 30px;
+  background-color: white;
+}
+
+.postbox-author {
+  font-family: $boldfont;
+  font-size: 22px;
+  color: $blue-title;
+  float: left;
+  display: inline-flex;
+  margin: 0;
+  padding: 0;
+}
+
+.postbox-tag {
+  font-family: $defaultfont;
+  font-size: 18px;
+  color: $brown-tag;
+  float: right;
+  display: inline-flex;
+  margin: 0;
+  padding: 0;
+}
+
+.postbox-content {
+  height: 135px;
+  font-family: $defaultfont;
+  font-size: 20px;
+  color: $blue-content;
+  margin: 0;
+  padding: 0;
+}
+
+.postbox-reply {
+  color: $fadegray;
+  float: left;
+  display: inline-flex;
+}
+
+.postbox-timestamp {
+  font-family: $defaultfont;
+  font-size: 18px;
+  float: right;
+  color: $fadegray
+}
+
+.postbox-new-icon {
+  font-size: 64px;
+  color: $fadegray;
+}
+
+.postbox-new-text {
+  color: $fadegray;
+  font-size: 20px;
+  font-family: $semiboldfont;
+}
