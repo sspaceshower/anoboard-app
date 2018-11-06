@@ -1,6 +1,11 @@
 import React from 'react';
 
-//TODO: <Api> fetch user data
+//TODO: <API> fetch login status
+export const loginStatus = () => {
+
+}
+
+//TODO: <API> fetch user data
 export const fetchUserData = (username) => {
   /*TODO: fill in these parts
     const userdata = {
@@ -79,6 +84,19 @@ export const fetchBoardData = (username) => {
 
 //TODO: <API> fetch group data, see list of attribuites in Trello
 export const fetchGroupData = (groupname) => {
+  return(
+    null
+  );
+}
+
+//TODO: <API> fetch user data when searched
+export const fetchUserQuery = (searchdata) => {
+  return(
+    null
+  );
+}
+//TODO: <API> fetch group data when searched
+export const fetchGroupQuery = (searchdata) => {
   return(
     null
   );
