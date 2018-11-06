@@ -1,7 +1,7 @@
 import React from 'react';
 
 //TODO: <Api> fetch user data
-export const fetchUserData = () => {
+export const fetchUserData = (username) => {
   /*TODO: fill in these parts
     const userdata = {
     fname: null,
@@ -28,7 +28,7 @@ export const fetchUserData = () => {
 }
 
 //TODO: <API> fetch board data
-export const fetchBoardData = () => {
+export const fetchBoardData = (username) => {
   /*TODO: fill in these part
   const boarddata = {
     owner: null;
@@ -78,7 +78,7 @@ export const fetchBoardData = () => {
 }
 
 //TODO: <API> fetch group data, see list of attribuites in Trello
-export const fetchGroupData = () => {
+export const fetchGroupData = (groupname) => {
   return(
     null
   );
