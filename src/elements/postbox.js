@@ -28,7 +28,7 @@ const createPostBox = (post) => {
   return(
     <Col xs={12} sm={6} md={4}>
       <div className="postbox-wrap">
-        <Row>
+        <Row className>
           <Col xs={5} className="postbox-author">{author}</Col>
           <Col xs={7} className="postbox-tag">{"#mockup" /*TODO: <mockup> change to createTag*/}</Col>
         </Row>

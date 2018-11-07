@@ -19,7 +19,7 @@ quick link:
 ~~aka my effort to keep this organized~~<br>
 Here, we are using **ReactJS** and **CSS/SCSS** stylesheet.
 
-1. To start working, first clone the repository, then go to the project folder (where package.json is) and then run `npm install` and `npm start`. After the first pull, you can run project only with `npm start`
+1. To start working, first clone the repository, then go to the project folder (where package.json is) and then run `npm install` and `npm start`. After the first pull, you can run project only with `npm start`.You also have to install sass package for scss reference, so run the command the npm prompt you when trying to run the project
 2. The directory we'll be working on is `src` and `public`. React and JavaScript files are kept in `/src`, and stylesheets are kept in `/src/scss`. Downloaded Fonts and assets should be kept in `public`. Creating a new folder in the dir is fine if you need it. Just try to be as organized as possible.
 3. During working, if you found a part that someone else should be working on, please mark it with `TODO:` and add it to TODO section *(refer to TO-DO LIST section for more information)*
 4. If you want to use any library that is not yet included in the work, please install it using`npm install` and add the name of the library to *React Library* Section. Including css file and stuffs using linking are fine, but please see if there exists a react plugin to be installed (just because it is easier)<br>
