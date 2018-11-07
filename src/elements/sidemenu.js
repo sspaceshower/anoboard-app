@@ -16,11 +16,11 @@ const createMenu = (menulist) => {
     padding: '0 0 0 15px',
     margin: '0',
     textAlign: 'center',
-  }
+  };
 
   const labelStyle = {
     display: 'inline-block',
-  }
+  };
   var menu = [];
   for(let i=0; i< menulist.length; i++){
     menu.push(
@@ -35,7 +35,7 @@ const createMenu = (menulist) => {
   return (
     menu
   );
-}
+};
 
 
 const createSubMenu = (grouplist) => {
@@ -53,7 +53,8 @@ const createSubMenu = (grouplist) => {
   return (
     submenu
   );
-}
+};
+
 
 class Sidemenu extends React.Component {
   constructor(props){
@@ -84,7 +85,9 @@ class Sidemenu extends React.Component {
             </Row>
             <Row className="sub-menu">GROUPS</Row>
             {createSubMenu(this.state.grouplist)}
-            <Row className="show-more">show more..</Row>
+            <Link to={"/groups"} style={{textDecoration: "none"}}>
+                <Row className="show-more">show more..</Row>
+            </Link>
         </Col>
       </Router>
     );
