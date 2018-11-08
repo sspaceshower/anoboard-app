@@ -4,11 +4,11 @@ Please read the instruction on this file before working on the project.
 This repository has been created for front-end part of **ANOBOARD** using mainly ReactJS and SCSS
 
 Update:
-- 18/11/07\t remove reactstrap & change react-bootstrap version
-- 18/11/08
-* update to remove trello & migrating to GitHub project board, set automation
-* use pull request instead of pushing to master.
-* use `npm ci` instead of `npm install`
+* 18/11/07\t remove reactstrap & change react-bootstrap version
+* 18/11/08
+  * update to remove trello & migrating to GitHub project board, set automation
+  * use pull request instead of pushing to master.
+  * use `npm ci` instead of `npm install`
 
 ## Index
 1. Instruction on how to work on this repository
