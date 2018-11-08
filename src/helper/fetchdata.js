@@ -9,6 +9,7 @@ export const loginStatus = () => {
 export const fetchUserData = (username) => {
   /*TODO: fill in these parts
     const userdata = {
+    username: null,
     fname: null,
     mname: null,
     lname: null,
@@ -20,6 +21,7 @@ export const fetchUserData = (username) => {
 
   //TODO: <mockup> To be deleted after the request to user information has been completed
   const userdata = {
+      username: "johnweasly",
       fname: "John",
       mname: "Michael",
       lname: "Weasly",
