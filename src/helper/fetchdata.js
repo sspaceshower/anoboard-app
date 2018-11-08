@@ -25,7 +25,8 @@ export const fetchUserData = (username) => {
       fname: "John",
       mname: "Michael",
       lname: "Weasly",
-      biography: "this is a short biography that I type just because I can't think of anything else",
+      biography: "this is a short biography that I type just because I can't think of anything else\
+      and yeah it have to be loooooong, for testing",
       grouplist: ["CS473", "CS555", "CS250", "CS101"],
       trophy: ["A","B","C","D","E"],
       setTrophyList: ["A", "B", "C"]
