@@ -76,15 +76,15 @@ class Sidebar extends React.Component {
       <Router>
         <Col md={2} id="sidebar">
             <Row className="justify-content-md-center">
-              <Col xs={8} className="sidebar-logo">logo</Col>
+              <Col xs={8} id="sidebar-logo">logo</Col>
             </Row>
             <Row className="justify-content-md-center">
               <Col xs={8} className="horizontal-line"></Col>
             </Row>
-            <Col md={{size: 8, offset: 1}} className="sidebar-login-text">
+            <Col md={{size: 8, offset: 1}} id="sidebar-login-text">
               logged in as
             </Col>
-            <Col md={{size: 8, offset: 1}} className="sidebar-login-user">
+            <Col md={{size: 8, offset: 1}} id="sidebar-login-user">
               {createDisplayName(this.state.currentUser, false)}
             </Col>
             {createMenu(menulist)}
@@ -94,7 +94,7 @@ class Sidebar extends React.Component {
             <Row className="sub-menu">GROUPS</Row>
             {createSubMenu(this.state.currentUser.grouplist)}
             <Link to={"/groups"} style={{textDecoration: "none"}}>
-                <Row className="show-more">show more..</Row>
+                <Row id="show-more">show more..</Row>
             </Link>
         </Col>
       </Router>
