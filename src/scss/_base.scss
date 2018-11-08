@@ -10,7 +10,7 @@ $blue-content: #5A6978;
 
 $lightgray: #AFBACA;
 $fadegray: #D3D4D6;
-$linegray: #D7D2D2;
+$bgray: #D7D2D2;
 $darkgray: #3D4434;
 
 
@@ -31,14 +31,14 @@ body {
 	height: 1px;
   margin-top: 15px;
   margin-bottom: 15px;
-	background: $linegray;
+	background: $lightgray;
 }
 
 .breakline {
   height: 1px;
   margin-top: 5px;
   margin-bottom: 5px;
-	background: $fadegray;
+	background: $bgray;
 }
 
 :hover{
