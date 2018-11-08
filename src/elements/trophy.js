@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import '../scss/userboard.scss';
 
 function createTrophy(){
@@ -7,8 +7,11 @@ function createTrophy(){
 }
 function Trophy(){
   return(
-      <Col xs={1} className="trophy-title-wrap">
-      </Col>
+    <Container fluid>
+      <Row>
+        <Col xs={2} md={1} id="trophy-title-wrap"></Col>
+      </Row>
+    </Container>
   );
 }
 
