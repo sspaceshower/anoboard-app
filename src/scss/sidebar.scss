@@ -16,6 +16,19 @@
   color: white;
 }
 
+.sidebar-login-text {
+  color: $bgray;
+  font-size: 14px;
+  font-family: $defaultfont;
+}
+
+.sidebar-login-user {
+  color: $blue-title;
+  font-family: $boldfont;
+  font-size: 21px;
+  margin-bottom: 10px;
+}
+
 .sidebar-button {
   height: 35px;
   width: 100%;

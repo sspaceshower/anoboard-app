@@ -4,7 +4,8 @@ import { Row, Col } from 'react-bootstrap';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faBell, faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import '../scss/sidemenu.scss';
+import { createDisplayName } from '../helper/helper.js'
+import '../scss/sidebar.scss';
 
 library.add(faHome);
 library.add(faBell);
@@ -21,6 +22,7 @@ const createMenu = (menulist) => {
   const labelStyle = {
     display: 'inline-block',
   };
+
   var menu = [];
   for(let i=0; i< menulist.length; i++){
     menu.push(
@@ -56,12 +58,12 @@ const createSubMenu = (grouplist) => {
 };
 
 
-class Sidemenu extends React.Component {
+class Sidebar extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      grouplist: this.props.user.grouplist
-    }
+      currentUser: this.props.currentUser,
+    };
   }
   render() {
     const menulist = [
@@ -79,12 +81,18 @@ class Sidemenu extends React.Component {
             <Row className="justify-content-md-center">
               <Col xs={8} className="horizontal-line"></Col>
             </Row>
+            <Col md={{size: 8, offset: 1}} className="sidebar-login-text">
+              logged in as
+            </Col>
+            <Col md={{size: 8, offset: 1}} className="sidebar-login-user">
+              {createDisplayName(this.state.currentUser, false)}
+            </Col>
             {createMenu(menulist)}
             <Row className="justify-content-md-center">
               <Col xs={8} className="horizontal-line"></Col>
             </Row>
             <Row className="sub-menu">GROUPS</Row>
-            {createSubMenu(this.state.grouplist)}
+            {createSubMenu(this.state.currentUser.grouplist)}
             <Link to={"/groups"} style={{textDecoration: "none"}}>
                 <Row className="show-more">show more..</Row>
             </Link>
@@ -94,4 +102,4 @@ class Sidemenu extends React.Component {
   }
 }
 
-export default Sidemenu;
+export default Sidebar;

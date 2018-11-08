@@ -1,18 +1,18 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
+import { createDisplayName } from '../helper/helper.js'
 import '../scss/userboard.scss';
 
 class Profile extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      user: this.props.user
+      owner: this.props.user //TODO: <mockup> to be changed to board.owner when board info is ready
     };
   }
 
   render(){
-    const middleName = this.state.user.mname? " " + this.state.user.mname.charAt(0) + '. ':" ";
-    const displayName = this.state.user.fname + middleName + this.state.user.lname;
+    const displayName = createDisplayName(this.state.owner)
     return(
         <Row>
           <Col xs={3}>
