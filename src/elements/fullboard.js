@@ -9,7 +9,7 @@ class FullBoard extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      user: this.props.user,
+      currentUser: this.props.currentUser,
       board: this.props.board,
     };
   }
@@ -17,9 +17,9 @@ class FullBoard extends React.Component {
     return(
       <div>
         <Row>
-          <Col md={6} className="wrap" id="profile"><Profile user={this.state.user}/></Col>
-          <Col md={6} style={{paddingRight:'0', paddingLeft:'25px'}}>
-            <Col md={12} className="wrap" id="trophy" style={{padding: '0'}}><Trophy /></Col>
+          <Col xs={12} md={6}><Profile user={this.state.currentUser}/></Col>
+          <Col xs={12} md={6}>
+            <Col className="wrap" id="trophy" style={{padding: '0'}}><Trophy /></Col>
           </Col>
         </Row>
         <Row><Board board={this.state.board}/></Row>

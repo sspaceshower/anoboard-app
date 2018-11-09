@@ -3,9 +3,12 @@ Please read the instruction on this file before working on the project.
 <br>
 This repository has been created for front-end part of **ANOBOARD** using mainly ReactJS and SCSS
 
-quick link:
-- [trello](https://trello.com/b/ELM3AR0h/anoboard)
-- if you cannot access the link above, first accept the invitation [here](https://trello.com/invite/b/ELM3AR0h/0b1536c363948e3daea6a7fcf56aaa5c/anoboard)
+Update:
+* 18/11/07 remove reactstrap & change react-bootstrap version
+* 18/11/08
+  * update to remove trello & migrating to GitHub project board, set automation
+  * use pull request instead of pushing to master.
+  * use `npm ci` instead of `npm install`
 
 ## Index
 1. Instruction on how to work on this repository
@@ -19,11 +22,13 @@ quick link:
 ~~aka my effort to keep this organized~~<br>
 Here, we are using **ReactJS** and **CSS/SCSS** stylesheet.
 
-1. To start working, first clone the repository, then go to the project folder (where package.json is) and then run `npm install` and `npm start`. After the first pull, you can run project only with `npm start`.You also have to install sass package for scss reference, so run the command the npm prompt you when trying to run the project
+1. To start working, first clone the repository, then go to the project folder (where package.json is) and then run `npm ci` and `npm start`. note that we are using `npm ci` instead of `npm install` because it will install package according to the package-lock file and will not rewrite it. After the first pull, you can run project only with `npm start`.You also have to install sass package for scss reference, so run the command the npm prompt you when trying to run the project
 2. The directory we'll be working on is `src` and `public`. React and JavaScript files are kept in `/src`, and stylesheets are kept in `/src/scss`. Downloaded Fonts and assets should be kept in `public`. Creating a new folder in the dir is fine if you need it. Just try to be as organized as possible.
-3. During working, if you found a part that someone else should be working on, please mark it with `TODO:` and add it to TODO section *(refer to TO-DO LIST section for more information)*
-4. If you want to use any library that is not yet included in the work, please install it using`npm install` and add the name of the library to *React Library* Section. Including css file and stuffs using linking are fine, but please see if there exists a react plugin to be installed (just because it is easier)<br>
-5. **In the last, all the files in this repository will be packed using webpack to get `bundle.js` and `bundle.css`**, but we will wait until front-end and API are finished before packing.
+3. Before pulling and start working for the day, please review any pull request that is still pending and merge them if you think there is no problem. This is just to make sure that we will be as much as possible on the same version on each branch and have to solve less conflict.
+4. During working, if you found a part that someone else should be working on, please mark it with `TODO:` and add it to TODO section *(refer to TO-DO LIST section for more information)*
+5. If you want to use any library that is not yet included in the work, please install it using`npm install` and add the name of the library to *React Library* Section. Including css file and stuffs using linking are fine, but please see if there exists a react plugin to be installed (just because it is easier)<br>
+6. Please create your own branch and use git PULL REQUEST instead of pushing to master. You can decide to merge it yourself if you have already test the code or are confident, but please keep buggy/unfinished to pull request until they are reviewed.
+7. **In the last, all the files in this repository will be packed using webpack to get `bundle.js` and `bundle.css`**, but we will wait until front-end and API are finished before packing.
 
 please **DO NOT** copy assets from the old repository to here if you are not using it. there're too many unused files there, and I am not sure which one are actually used, so this way (ideally) we could delete everything there after we finish with this one.
 
@@ -31,9 +36,9 @@ please **DO NOT** copy assets from the old repository to here if you are not usi
 ### Guide
 - Please add the comment with keyword `TODO:` and include a short tag/category in <> before describing the task. For example:
 `TODO: <API> request ___ from the server`
-- Please also list it in the [trello](https://trello.com/b/ELM3AR0h/anoboard) with location(filename) in the description if possible. you can freely create a new tag/label if you want to
-- When working on something, please move the task to DOING section on trello; comment your name on it if possible.
-- If you are done with the task, delete the comment `TODO:` from the source code, move the task into DONE section on trello
+- Please also add new git issue with labels and add to corresponding project board + Anoboard App Board. The issue will automatically move into To Do section of the project board. Please write the description and location(filename) too if you see it necessary. you can freely create a new tag/label if you want to.
+- When working on something, please move the task to DOING section on project board; also assign your name to the issue if possible. This is the only column with no automation
+- If you are done with the task, delete the comment `TODO:` from the source code, close the issue on git and the automation will bring the corresponding card to DONE section
 <br>
 
 
@@ -42,11 +47,9 @@ please **DO NOT** copy assets from the old repository to here if you are not usi
 - `mockup`: fake information used to preview the website, to be changed/deleted
 when the corresponding API part is finished.
 - `frontend`: interface/design
-
-### Trello
-- [trello](https://trello.com/b/ELM3AR0h/anoboard)
-- again, if you cannot access the link above, first accept the invitation [here](https://trello.com/invite/b/ELM3AR0h/0b1536c363948e3daea6a7fcf56aaa5c/anoboard) *will update to delete the link once everyone has joined*
-
+- `general`
+- `optional`
+- `unidentified` : priority to be decided.
 
 ## INSTALLED REACT LIBRARY
 

@@ -11,9 +11,8 @@
   font-family: $defaultfont;
 }
 
-#profile {
-  float:left;
-  display: inline-flex;
+#profile-wrap {
+  position: relative;
 }
 
 #trophy {
@@ -26,9 +25,11 @@
   border-radius: 5px;
   background-color: white;
   margin: 25px 0 15px 0;
-  padding: 21px 0 21px 0;
 }
 
+.valign-middle {
+  margin-top: 21px;
+}
 
 .profile-img-container {
   height: 78px;
@@ -36,28 +37,27 @@
   border-radius: 78px;
   margin-left: auto;
   margin-right: auto;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: $lightgray;
 }
 
-.profile-name {
+#profile-name {
   color: $darkgray;
   font-size: 26px;
   font-family: $boldfont;
 }
 
-.biography {
-  color: $lightgray;
-  margin-right: 21px;
+#biography {
+  color: $fadegray;
   font-size: 15px;
-  line-height: 15px;
+  line-height: 16px;
   font-family: $defaultfont;
 }
 
-.trophy-title-wrap {
+#trophy-title-wrap {
   height: 120px;
-  float: left;
   border-radius: 5px 0 0 5px;
   color: white;
   background-color: $board;
@@ -69,7 +69,6 @@
   border-radius: 64px;
   margin-left: auto;
   margin-right: auto;
-  align-items: center;
   justify-content: center;
   background-color: $lightgray;
 }
@@ -82,57 +81,70 @@
   margin-right: auto;
   margin-top: 30px;
   background-color: white;
+  position: relative;
 }
 
-.postbox-author {
+#postbox-author {
   font-family: $boldfont;
   font-size: 22px;
   color: $blue-title;
   float: left;
-  display: inline-flex;
-  margin: 0;
-  padding: 0;
 }
 
-.postbox-tag {
+#postbox-author-match {
+  font-family: $boldfont;
+  font-size: 22px;
+  color: $blue-title;
+  float: left;
+}
+
+#postbox-tag {
   font-family: $defaultfont;
   font-size: 18px;
+  text-align: right;
+  line-height: 32px;
+  vertical-align: middle;
   color: $brown-tag;
   float: right;
-  display: inline-flex;
-  margin: 0;
-  padding: 0;
+
 }
 
-.postbox-content {
-  height: 135px;
+#postbox-content {
   font-family: $defaultfont;
   font-size: 20px;
   color: $blue-content;
-  margin: 0;
-  padding: 0;
 }
 
-.postbox-reply {
+#postbox-reply {
   color: $fadegray;
-  float: left;
-  display: inline-flex;
 }
 
-.postbox-timestamp {
+#postbox-timestamp {
+  color: $fadegray;
   font-family: $defaultfont;
+  text-align: right;
   font-size: 18px;
-  float: right;
-  color: $fadegray
 }
 
-.postbox-new-icon {
+#postbox-menu {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+}
+
+#postbox-new-icon {
   font-size: 64px;
   color: $fadegray;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 60px;
 }
 
-.postbox-new-text {
+#postbox-new-text {
   color: $fadegray;
   font-size: 20px;
   font-family: $semiboldfont;
+  text-align: center;
+  margin-top: 5px;
 }

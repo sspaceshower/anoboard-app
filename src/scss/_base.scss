@@ -4,15 +4,19 @@ $brown-text: #A19797;
 $brown-tag: #A2795A;
 $orange: #FFD185;
 
+$redalert: #E98687;
+
 $board: #3D4751;
 $blue-title: #4A4F54;
 $blue-content: #5A6978;
 
 $lightgray: #AFBACA;
 $fadegray: #D3D4D6;
-$linegray: #D7D2D2;
+$bgray: #D7D2D2;
 $darkgray: #3D4434;
 
+//grid breakpoints
+$grid-breakpoints-sm: 480px;
 
 //fontbook
 $defaultfont: SourceSansPro;
@@ -31,14 +35,14 @@ body {
 	height: 1px;
   margin-top: 15px;
   margin-bottom: 15px;
-	background: $linegray;
+	background: $lightgray;
 }
 
 .breakline {
   height: 1px;
   margin-top: 5px;
   margin-bottom: 5px;
-	background: $fadegray;
+	background: $bgray;
 }
 
 :hover{

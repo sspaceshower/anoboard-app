@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { fetchUserData, fetchBoardData } from './helper/fetchdata.js'
 import FullBoard from './elements/fullboard.js';
-import Sidemenu from './elements/sidemenu.js';
+import Sidebar from './elements/sidebar.js';
 
 const paddingSet = {
   paddingLeft: '40px',
@@ -22,9 +22,9 @@ class Myboard extends React.Component {
     return (
       <Container fluid>
         <Row className="wrapper">
-            <Sidemenu user={this.state.currentUser}/>
+            <Sidebar currentUser={this.state.currentUser}/>
             <Col md={{size:10, offset: 2}} style={paddingSet}>
-              <FullBoard user={this.state.currentUser} board={this.state.board}/>
+              <FullBoard currentUser={this.state.currentUser} board={this.state.board}/>
             </Col>
         </Row>
       </Container>
