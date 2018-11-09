@@ -1,7 +1,6 @@
 import React from 'react'
 import { object } from 'prop-types'
 import { Route, Switch } from 'react-router-dom'
-
 import Login from './elements/login.js';
 import Signup from './elements/signup.js';
 import Myboard from './myboard.js';
@@ -37,13 +36,12 @@ class ModalSwitch extends React.PureComponent {
     )
 
     return (
-      // TODO: add path for notification,messages
+      // TODO: <frontend> resolve path, to be done after everything elese is finished
       <React.Fragment>
-        <Switch location={isModal ? this.previousLocation : location}>     
-          <Route exact path='/' component={Login} />     
+        <Switch location={isModal ? this.previousLocation : location}>
+          <Route exact path='/' component={Myboard} />
           <Route path='/login' component={Login} />
           <Route path='/signup' component={Signup} />
-          <Route path='/myboard' component={Myboard} />
         </Switch>
       </React.Fragment>
     )

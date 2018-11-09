@@ -9,9 +9,7 @@ import ModalSwitch from './modal-switch'
 class App extends Component {
   render() {
     return (
-      <Login>
-        <Route component={ModalSwitch} />
-      </Login>
+      <Login />
     );
   }
 }
