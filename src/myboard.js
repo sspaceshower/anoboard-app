@@ -14,7 +14,8 @@ class Myboard extends React.Component {
     super(props);
     this.state = {
       //TODO: <mockup> to be changed when fetchUserData and fetchBoardData is complemented
-      currentUser: fetchUserData("<mockup>"),
+      // need to have id (20160000) of someone as argument
+      currentUser: fetchUserData("20160843"),
       board: fetchBoardData("<mockup>")
     }
   }
