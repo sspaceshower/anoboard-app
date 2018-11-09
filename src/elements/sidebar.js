@@ -67,7 +67,8 @@ class Sidebar extends React.Component {
   }
   render() {
     const menulist = [
-      {icon: "home", label: "myboard", url: "/"},
+      // change url to myboard
+      {icon: "home", label: "myboard", url: "/myboard"},
       {icon: "bell", label: "notifications", url: "/notifications"},
       {icon: "envelope", label: "messages", url: "/messages"}
     ];
