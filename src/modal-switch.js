@@ -4,7 +4,7 @@ import { Route, Switch } from 'react-router-dom'
 
 import Login from './elements/login.js';
 import Signup from './elements/signup.js';
-import Myboard from './myboard';
+import Myboard from './myboard.js';
 
 
 
