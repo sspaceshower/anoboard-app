@@ -1,4 +1,5 @@
 import React from 'react';
+import Firebase from '../firebase/main.js'
 
 //TODO: <API> fetch login status
 export const loginStatus = () => {
@@ -6,50 +7,50 @@ export const loginStatus = () => {
 }
 
 //TODO: <API> fetch user data
-export const fetchUserData = (username) => {
-  /*TODO: fill in these parts
-    const userdata = {
-    username: null,
-    fname: null,
-    mname: null,
-    lname: null,
-    biography: null,
-    grouplist: null,
-    trophy: null,
-    setTrophyList: null,
-  };*/
-
+export const fetchUserData = (userid) => {
+  
+  const rootRef = Firebase.database().ref().child('anoboard')
+  const usersRef = rootRef.child('student')
+  var userdata
+  usersRef.child(userid).on('value', snap => {
+    userdata = snap.val()
+  })
   //TODO: <mockup> To be deleted after the request to user information has been completed
-  const userdata = {
-      username: "johnweasly",
-      fname: "John",
-      mname: "Michael",
-      lname: "Weasly",
-      biography: "this is a short biography that I type just because I can't think of anything else\
-      and yeah it have to be loooooong, for testing",
-      grouplist: ["CS473", "CS555", "CS250", "CS101"],
-      trophy: ["A","B","C","D","E"],
-      setTrophyList: ["A", "B", "C"]
-  };
+  // const userdata = {
+  //     username: "johnweasly",
+  //     fname: "John",
+  //     mname: "Michael",
+  //     lname: "Weasly",
+  //     biography: "this is a short biography that I type just because I can't think of anything else\
+  //     and yeah it have to be loooooong, for testing",
+  //     grouplist: ["CS473", "CS555", "CS250", "CS101"],
+  //     trophy: ["A","B","C","D","E"],
+  //     setTrophyList: ["A", "B", "C"]
+  // };
 
   return(userdata);
 }
 
 //TODO: <API> fetch board data
-export const fetchBoardData = (username) => {
+export const fetchBoardData = (userid) => {
   /*TODO: fill in these part
   const boarddata = {
     owner: null;
     posts: null;
   }
   */
+  //TODO: create mock board data in firebase!!
+
+
+
+
 
   //TODO: <mockup> to be deleted after implementation of fetchBoardData()
   const boarddata = {
     owner: fetchUserData(), //I am just too lazy to think of more userdata
     posts: [
       {
-        author: fetchUserData(),
+        author: fetchUserData("20160843"),
         content: "Hello",
         tag: ["CS473", "CS555"],
         isAnonymous: true,
@@ -59,7 +60,7 @@ export const fetchBoardData = (username) => {
         be implemented before adding timestamp to posts*/
       },
       {
-        author: fetchUserData(),
+        author: fetchUserData("20160843"),
         content: "Hello",
         tag: ["CS473", "CS555"],
         isAnonymous: true,
@@ -69,7 +70,7 @@ export const fetchBoardData = (username) => {
         be implemented before adding timestamp to posts*/
       },
       {
-        author: fetchUserData(),
+        author: fetchUserData("20160843"),
         content: "Hello",
         tag: ["CS473", "CS555"],
         isAnonymous: true,
