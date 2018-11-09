@@ -32,12 +32,16 @@ class Board extends React.Component {
 const newPostButton = () => {
   return(
     <Col xs={12} md={4}>
-      <div className="postbox-wrap" style={{paddingTop: '65px'}}>
-        <Row className="justify-content-md-center">
-            <FontAwesomeIcon icon="plus-circle" className="postbox-new-icon"/>
+      <div className="postbox-wrap">
+        <Row>
+            <Col id="postbox-new-icon">
+              <FontAwesomeIcon icon="plus-circle" />
+            </Col>
         </Row>
-        <Row className="justify-content-md-center">
-            <div className="postbox-new-text">write a new post</div>
+        <Row>
+            <Col id="postbox-new-text">
+              write a new post
+            </Col>
         </Row>
       </div>
     </Col>

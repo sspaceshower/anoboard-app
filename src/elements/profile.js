@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import { createDisplayName } from '../helper/helper.js'
 import '../scss/userboard.scss';
 
@@ -14,15 +14,21 @@ class Profile extends React.Component {
   render(){
     const displayName = createDisplayName(this.state.owner)
     return(
-        <Row>
-          <Col xs={3}>
-            <div className="profile-img-container"></div>
+      <div>
+        <Row className="wrap" id="profile-wrap">
+          <Col xs={2}>
+            <Container fluid className="valign-middle">
+              <div className="profile-img-container"></div>
+            </Container>
           </Col>
-          <Col xs={9} style={{paddingLeft: '0'}}>
-            <Row className="profile-name">{displayName}</Row>
-            <Row className="biography">{this.props.user.biography}</Row>
+          <Col xs={10}>
+            <Container fluid className="valign-middle" style={{paddingLeft: "20px"}}>
+              <Row><Col><div id="profile-name">{displayName}</div></Col></Row>
+              <Row><Col><div id="biography">{this.props.user.biography}</div></Col></Row>
+            </Container>
           </Col>
         </Row>
+      </div>
     )
   }
 }

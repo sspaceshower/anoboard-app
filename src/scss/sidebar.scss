@@ -8,7 +8,7 @@
   font-family: $semiboldfont;
 }
 
-.sidebar-logo {
+#sidebar-logo {
   padding: 15px;
   vertical-align: center;
   text-align: center;
@@ -16,13 +16,13 @@
   color: white;
 }
 
-.sidebar-login-text {
+#sidebar-login-text {
   color: $bgray;
   font-size: 14px;
   font-family: $defaultfont;
 }
 
-.sidebar-login-user {
+#sidebar-login-user {
   color: $blue-title;
   font-family: $boldfont;
   font-size: 21px;
@@ -83,7 +83,7 @@
   }
 }
 
-.show-more{
+#show-more {
   font-size: 12px;
   font-family: $defaultfont;
   color: $brown-tag;
