@@ -39,6 +39,12 @@ class Signup extends React.Component {
     this.setState({ uid: e.target.value });
   }
 
+  
+
+  createUserInFirebase = user => () => {
+    createUser({ user })
+  }
+
   render(){
     // TODO: change /myboard Link to /myboard/{student_id}
     return(
@@ -55,14 +61,13 @@ class Signup extends React.Component {
             User Name
             <input type="text" onChange={this.username_handle.bind(this)}/>
             Password
-            <input type="text" onChange={this.pwd_handle.bind(this)}/>
+            <input type="password" onChange={this.pwd_handle.bind(this)}/>
 
-            {createUser(this.state)}
+            
             <Link to={"/myboard"} style={{textDecoration: "none"}}>                                
-                <input
-                type="button"
-                value="Sign in"                    
-                />
+                <button onClick={this.createUserInFirebase(this.state)}>
+                    Sign up
+                </button>
             </Link>            
         </div>
     </Router>

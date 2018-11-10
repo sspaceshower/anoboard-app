@@ -1,16 +1,18 @@
 import Firebase from '../firebase/main.js'
 
 export const createUser = ({ user }) => {
-  // const rootRef = Firebase.database().ref().child('anoboard')
-  // const usersRef = rootRef.child('student')
+  const rootRef = Firebase.database.ref()
+  const usersRef = rootRef.child('student')
+  console.log(user)
   if (user) {
     // usersRef.child(user.uid)
-    Firebase.database.ref(`anoboard/users/${user.uid}`).set({
+    console.log(user)
+    usersRef.child(user.uid).set({
       fname: user.fname,
       mname: user.mname,
       lname: user.lname,
       username: user.username,
-      password: user.pwd,
+      password: user.password,
       uid: user.uid
     })
   }
