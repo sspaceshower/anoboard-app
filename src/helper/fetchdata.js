@@ -9,11 +9,15 @@ export const loginStatus = () => {
 //TODO: <API> fetch user data
 export const fetchUserData = (userid) => {
   
-  const rootRef = Firebase.database().ref().child('anoboard')
-  const usersRef = rootRef.child('student')
-  var userdata
-  usersRef.child(userid).on('value', snap => {
-    userdata = snap.val()
+  var rootRef = Firebase.database.ref()
+  var usersRef = rootRef.child('student').child(String(userid))
+  
+  // ERROR~~ cannot return userdata and use it outside .once function
+  return usersRef.once('value').then(function(snap){
+    const userdata = snap.val()
+    console.log(userdata)
+    // console.log(userdata.fname)
+    return userdata 
   })
   //TODO: <mockup> To be deleted after the request to user information has been completed
   // const userdata = {
@@ -27,8 +31,8 @@ export const fetchUserData = (userid) => {
   //     trophy: ["A","B","C","D","E"],
   //     setTrophyList: ["A", "B", "C"]
   // };
-
-  return(userdata);
+  
+  
 }
 
 //TODO: <API> fetch board data

@@ -15,6 +15,7 @@ class Firebase {
   constructor () {
     if (typeof window !== 'undefined') {
       firebase.initializeApp(config)
+      console.log("test firebase")
       this.auth = firebase.auth()
       this.database = firebase.database()
     }

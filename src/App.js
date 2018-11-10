@@ -5,13 +5,14 @@ import Login from './elements/login.js';
 import { Route } from 'react-router-dom'
 import './App.css';
 import ModalSwitch from './modal-switch'
+import Signup from './elements/signup';
 
 class App extends Component {
   render() {
     return (
-      <Login>
+      <Myboard>
         <Route component={ModalSwitch} />
-      </Login>
+      </Myboard>
     );
   }
 }

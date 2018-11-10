@@ -11,25 +11,69 @@ const paddingSet = {
 
 class Myboard extends React.Component {
   constructor(props){
-    super(props);
+    super(props);    
     this.state = {
-      //TODO: <mockup> to be changed when fetchUserData and fetchBoardData is complemented
-      // need to have id (20160000) of someone as argument
-      currentUser: fetchUserData("20160843"),
+      //TODO: delete here later after fetchBoardData is done
+      //user function like fetchUserInFirebase instead of state for board
+      currentUser: null,      
       board: fetchBoardData("<mockup>")
     }
   }
-  render() {
-    return (
-      <Container fluid>
-        <Row className="wrapper">
-            <Sidebar currentUser={this.state.currentUser}/>
-            <Col md={{size:10, offset: 2}} style={paddingSet}>
-              <FullBoard currentUser={this.state.currentUser} board={this.state.board}/>
-            </Col>
-        </Row>
-      </Container>
+  
+  //Async part for fetching firebase
+  state = {
+    currentUser: null,
+  };
+
+  componentDidMount() {
+    this._asyncRequest = this.fetchUserInFirebase().then(
+      currentUser => {
+        this._asyncRequest = null;
+        this.setState({currentUser});
+      }
     );
+  }
+
+  componentWillUnmount() {
+    if (this._asyncRequest) {
+      this._asyncRequest.cancel();
+    }
+  }
+  
+  fetchUserInFirebase(user) {
+    var a = fetchUserData(user)
+    console.log("AAAAAAAAAAAAAAAAAAA")
+    console.log(a)
+    a.then(function(result) {
+      console.log("HOHOHOOHHOO")
+      console.log(result) //will log results.
+    })
+    return a
+  }
+  render() {
+    if (this.state.currentUser === null) {
+      // Render loading state ...
+      return (
+        <Container fluid>
+          <Row className="wrapper">
+              LOADING!!!!
+          </Row>
+        </Container>
+      );
+    } else {
+      // Render real UI ...
+      return (
+        <Container fluid>
+          <Row className="wrapper">
+              <Sidebar currentUser={this.fetchUserInFirebase("20160843")}/>            
+              <Col md={{size:10, offset: 2}} style={paddingSet}>
+                <FullBoard currentUser={this.fetchUserInFirebase("20160843")} board={this.state.board}/>
+              </Col>
+          </Row>
+        </Container>
+      );
+    }
+    
   }
 }
 
