@@ -7,7 +7,7 @@ import Postbox from './postbox.js';
 import '../scss/userboard.scss';
 import * as routes from '../constants/routes';
 import { auth, db } from '../firebase';
-import AuthUserContext from '../components/Session/AuthUserContext';
+import AuthUserContext from '../session/authUserContext.js';
 
 const INITIAL_STATE = {
   username: '',
@@ -23,9 +23,9 @@ class Board extends React.Component {
     super(props);
     this.state = {
       posts : this.props.board.posts
-      
+
     }
-    
+
   }
 
   addPost() {
@@ -37,8 +37,8 @@ class Board extends React.Component {
     var username = 'bun'
     var content = 'hi'
     var isAnonymous = true
-    // assume i have those data from frontend    
-    const { history } = this.props;  
+    // assume i have those data from frontend
+    const { history } = this.props;
     var user = auth.currentUser
     // username = user.username
     // TODO: user is still null even after Signing in WHY???
@@ -50,7 +50,7 @@ class Board extends React.Component {
     .catch(error => {
       this.setState({ error });
     });
-    
+
     // const CreatePost = () =>
     //   <AuthUserContext.Consumer>
     //   {authUser => authUser

@@ -4,15 +4,15 @@ import {
   Route,
 } from 'react-router-dom';
 
-import Navigation from '../Navigation';
-import LandingPage from '../Landing';
-import SignUpPage from '../SignUp';
-import SignInPage from '../SignIn';
-import PasswordForgetPage from '../PasswordForget';
-import HomePage from '../Home';
-import AccountPage from '../Account';
-import withAuthentication from '../Session/withAuthentication';
-import * as routes from '../../constants/routes';
+import Navigation from './components/navigation.js';
+import LandingPage from './components/landingpage.js';
+import SignUpPage from './components/signup.js';
+import SignInPage from './components/signin.js';
+import PasswordForgetPage from './components/passwordForget.js';
+import HomePage from './homepage.js';
+import AccountPage from './components/account.js';
+import withAuthentication from './session/withAuthentication.js';
+import * as routes from './constants/routes';
 
 import './index.css';
 
