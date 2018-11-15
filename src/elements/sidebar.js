@@ -42,16 +42,18 @@ const createMenu = (menulist) => {
 
 const createSubMenu = (grouplist) => {
   var submenu = [];
-  for(let i=0; i<grouplist.length; i++){
-    const groupUrl = '/groups/' + grouplist[i].replace(" ","-");
-    submenu.push(
-      <Link to={groupUrl} style={{textDecoration: "none"}}>
-        <Row className="sub-menu-button">
-          # {grouplist[i]}
-        </Row>
-      </Link>
-    );
-  }
+  if(grouplist!=null){
+    for(let i=0; i<grouplist.length; i++){
+      const groupUrl = '/groups/' + grouplist[i].replace(" ","-");
+      submenu.push(
+        <Link to={groupUrl} style={{textDecoration: "none"}}>
+          <Row className="sub-menu-button">
+            # {grouplist[i]}
+          </Row>
+        </Link>
+      );
+    }
+}
   return (
     submenu
   );
