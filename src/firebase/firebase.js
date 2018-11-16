@@ -30,8 +30,10 @@ const config = {
 
 const db = firebase.database();
 const auth = firebase.auth();
+const classRef = db.ref("class")
 
 export {
   db,
   auth,
+  classRef
 };

@@ -11,6 +11,7 @@ import SignInPage from './components/signin.js';
 import PasswordForgetPage from './components/passwordForget.js';
 import HomePage from './homepage.js';
 import AccountPage from './components/account.js';
+import Class from './components/class.js'
 import withAuthentication from './session/withAuthentication.js';
 import * as routes from './constants/routes';
 
@@ -29,6 +30,7 @@ const App = () =>
       <Route exact path={routes.PASSWORD_FORGET} component={PasswordForgetPage} />
       <Route exact path={routes.HOME} component={HomePage} />
       <Route exact path={routes.ACCOUNT} component={AccountPage} />
+      <Route exact path={routes.GROUPS} component={Class} />
 
       <hr/>
 
