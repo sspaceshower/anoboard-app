@@ -12,7 +12,7 @@ const paddingSet = {
   paddingRight: '40px'
 }
 
-class HomePage extends Component {
+class Homepage extends Component {
   constructor(props) {
     super(props);
 
@@ -38,7 +38,7 @@ class HomePage extends Component {
       <Container fluid>
           <Row className="wrapper">
               <Sidebar currentUser={users}/>
-              <Col md={{size:10, offset: 2}} style={paddingSet}>
+              <Col md={{span:10, offset: 2}} style={paddingSet}>
                 <FullBoard currentUser={users} board={boards}/>
               </Col>
           </Row>
@@ -49,4 +49,4 @@ class HomePage extends Component {
 
 const authCondition = (authUser) => !!authUser;
 
-export default withAuthorization(authCondition)(HomePage);
+export default withAuthorization(authCondition)(Homepage);
