@@ -13,6 +13,10 @@ const SignUpPage = ({ history }) => (
 
 const INITIAL_STATE = {
   username: '',
+  fname: '',
+  mname: '',
+  lname: '',
+  biography: '',
   email: '',
   passwordOne: '',
   passwordTwo: '',
@@ -27,7 +31,7 @@ class SignUpForm extends Component {
   }
 
   onSubmit = event => {
-    const { username, email, passwordOne } = this.state;
+    const { username,fname,mname,lname,biography, email, passwordOne } = this.state;
 
     const { history } = this.props;
 
@@ -35,7 +39,7 @@ class SignUpForm extends Component {
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
         // Create a user in your own accessible Firebase Database too
-        db.doCreateUser(authUser.user.uid, username, email)
+        db.doCreateUser(authUser.user.uid, username,fname,mname,lname,biography, email)
           .then(() => {
             this.setState(() => ({ ...INITIAL_STATE }));
             history.push(routes.HOME);
@@ -58,6 +62,10 @@ class SignUpForm extends Component {
   render() {
     const {
       username,
+      fname,
+      mname,
+      lname,
+      biography,
       email,
       passwordOne,
       passwordTwo,
@@ -68,6 +76,10 @@ class SignUpForm extends Component {
       passwordOne !== passwordTwo ||
       passwordOne === '' ||
       username === '' ||
+      fname === '' ||
+      mname === '' ||
+      lname === '' ||
+      biography === '' ||
       email === '';
 
     return (
@@ -77,7 +89,35 @@ class SignUpForm extends Component {
           value={username}
           onChange={this.onChange}
           type="text"
-          placeholder="Full Name"
+          placeholder="user Name"
+        />
+        <input
+          name="fname"
+          value={fname}
+          onChange={this.onChange}
+          type="text"
+          placeholder="First Name"
+        />
+        <input
+          name="mname"
+          value={mname}
+          onChange={this.onChange}
+          type="text"
+          placeholder="Middle Name"
+        />
+        <input
+          name="lname"
+          value={lname}
+          onChange={this.onChange}
+          type="text"
+          placeholder="Last Name"
+        />
+        <input
+          name="biography"
+          value={biography}
+          onChange={this.onChange}
+          type="text"
+          placeholder="biography"
         />
         <input
           name="email"
