@@ -8,7 +8,6 @@ import Postbox from './postbox.js';
 import * as routes from '../constants/routes';
 import { auth, db } from '../firebase';
 import AuthUserContext from '../session/authUserContext.js';
-import '../public/css/iziModal.min.css'
 import '../scss/userboard.scss';
 
 const INITIAL_STATE = {
