@@ -67,6 +67,12 @@ class Sidebar extends React.Component {
       currentUser: this.props.currentUser,
     };
   }
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.currentUser !== prevProps.currentUser) {
+      this.setState(() => ({ currentUser: this.props.currentUser }))
+    }
+  }
   render() {
     const menulist = [
       {icon: "home", label: "myboard", url: "/"},
@@ -85,7 +91,7 @@ class Sidebar extends React.Component {
             </Row>
             <Col md={{size: 8, offset: 1}} id="sidebar-login-text">
               logged in as
-            </Col>
+            </Col>            
             <Col md={{size: 8, offset: 1}} id="sidebar-login-user">
               {createDisplayName(this.state.currentUser, false)}
             </Col>
