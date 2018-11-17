@@ -43,6 +43,43 @@
   background-color: $lightgray;
 }
 
+.selector {
+  background-color: $blue-title;
+  border: 2px solid $blue-title;
+  border-radius: 100%;
+  width: 15px;
+  height: 15px;
+}
+
+.selector-text {
+  color: $lightgray;
+  font-family: $lato;
+  font-size: 14px;
+  vertical-align: middle;
+  text-align: left;
+}
+
+.selector-label {
+  color: $lightgray;
+  font-family: $lato;
+  font-size: 16px;
+  margin: 0 5px 3px 0;
+  vertical-align: middle;
+  text-align: left;
+  transition: all 0.2s ease-in-out;
+}
+
+.selector-label-checked {
+  color: $blue-form;
+  font-family: $lato;
+  box-sizing: border-box;
+  font-size: 16px;
+  margin: 0 5px 3px 0;
+  vertical-align: middle;
+  text-align: left;
+  transition: all 0.2s ease-in-out;
+}
+
 #profile-name {
   color: $darkgray;
   font-size: 26px;
@@ -132,19 +169,55 @@
   left: 0;
 }
 
-#postbox-new-icon {
-  font-size: 64px;
-  color: $fadegray;
+#postbox-icon-wrap{
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 60px;
+  margin: 50px 0 0px 0;
+}
+
+.postbox-new-icon {
+  font-size: 64px;
+  color: $fadegray;
+  margin: 0;
+}
+
+.custom-area-new-button {
+  background-color: transparent;
+  border: none;
+  width: 64px;
+  height: 64px;
+  border-radius: 100%;
+  padding: 0;
+  cursor: pointer;
 }
 
 #postbox-new-text {
   color: $fadegray;
   font-size: 20px;
-  font-family: $semiboldfont;
+  font-family: $latobold;
   text-align: center;
   margin-top: 5px;
+}
+
+.custom-modal {
+  top: 5%;
+}
+
+.custom-modal-header {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.submit-button {
+  background-color: $blue-form;
+  border: none;
+  border-radius: 25px;
+  text-align: center;
+  color: white;
+  font-family: $latobold;
+  font-size: 18px;
+  width: 105px;
+  height: 50px;
+  cursor: pointer;
 }
