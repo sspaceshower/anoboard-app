@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import Board from './board.js';
 import Profile from './profile.js';
 import Trophy from './trophy.js';
@@ -38,15 +38,15 @@ class FullBoard extends React.Component {
   }
   render(){
     return(
-      <div>
-        <Row>        
-          <Col xs={12} md={6}><Profile user={this.state.currentUser}/></Col>
-          <Col xs={12} md={6}>
-            <Col className="wrap" id="trophy" style={{padding: '0'}}><Trophy /></Col>
-          </Col>
-        </Row>
-        <Row><Board board={this.state.board}/></Row>
-      </div>
+      <Container fluid>
+          <Row>
+            <Col xs={12} md={6}><Profile user={this.state.currentUser}/></Col>
+            <Col xs={12} md={6}>
+              <Col className="wrap" id="trophy" style={{padding: '0'}}><Trophy /></Col>
+            </Col>
+          </Row>
+          <Row><Board board={this.state.board} currentUser = {this.state.currentUser} /></Row>
+      </Container>
     );
   }
 }

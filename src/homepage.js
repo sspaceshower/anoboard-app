@@ -13,7 +13,7 @@ const paddingSet = {
   paddingRight: '40px'
 }
 
-class HomePage extends Component {
+class Homepage extends Component {
   constructor(props) {
     super(props);
 
@@ -36,25 +36,24 @@ class HomePage extends Component {
     const { users,boards } = this.state;
 
     return (
-      
-        <AuthUserContext.Consumer>
-          {authUser =>        
-          
-          <Container fluid>
-            <Row className="wrapper">
-                <Sidebar currentUser={authUser} users = {users}/>
-                <Col md={{size:10, offset: 2}} style={paddingSet}>
-                  <FullBoard currentUser={authUser} board={boards} users = {users}/>
-                </Col>
-            </Row>
-          </Container>
-          
+
+      <AuthUserContext.Consumer>
+          {authUser =>                  
+            <Container fluid>
+              <Row className="wrapper">
+                  <Sidebar currentUser={authUser} users = {users}/>
+                  <Col md={{span:10, offset: 2}} style={paddingSet}>
+                    <FullBoard currentUser={authUser} board={boards} users = {users}/>
+                  </Col>
+              </Row>
+            </Container>
           }
-        </AuthUserContext.Consumer>
+      </AuthUserContext.Consumer>
+
     );
   }
 }
 
 const authCondition = (authUser) => !!authUser;
 
-export default withAuthorization(authCondition)(HomePage);
+export default withAuthorization(authCondition)(Homepage);

@@ -9,6 +9,7 @@ $redalert: #E98687;
 $board: #3D4751;
 $blue-title: #4A4F54;
 $blue-content: #5A6978;
+$blue-form: #47525E;
 
 $lightgray: #AFBACA;
 $fadegray: #D3D4D6;
@@ -22,6 +23,21 @@ $grid-breakpoints-sm: 480px;
 $defaultfont: SourceSansPro;
 $boldfont: SourceSansPro-Bold;
 $semiboldfont: SourceSansPro-SemiBold;
+$lato: Lato;
+$latobold: Lato-Bold;
+
+//include
+@mixin placeholder {
+  ::-webkit-input-placeholder {@content}
+  :-moz-placeholder           {@content}
+  ::-moz-placeholder          {@content}
+  :-ms-input-placeholder      {@content}
+}
+
+@include placeholder {
+  font-family: $defaultfont;
+  font-style: italic;
+}
 
 body {
   background-color: $brown-bg;
