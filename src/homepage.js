@@ -38,7 +38,7 @@ class Homepage extends Component {
     return (
 
       <AuthUserContext.Consumer>
-          {authUser =>                  
+          {authUser =>
             <Container fluid>
               <Row className="wrapper">
                   <Sidebar currentUser={authUser} users = {users}/>
