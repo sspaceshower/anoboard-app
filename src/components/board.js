@@ -27,6 +27,7 @@ class Board extends React.Component {
     super(props);
     this.state = {
       currentUser: this.props.currentUser,
+      board: this.props.board,
       posts : this.props.currentUser.posts,
       modalShow: false,
     }    
@@ -36,49 +37,13 @@ class Board extends React.Component {
     if (this.props.currentUser !== prevProps.currentUser) {      
       this.setState(() => ({ 
         currentUser: this.props.currentUser,
-        posts: this.props.currentUser.posts }))   
+        }))   
     }    
-  }
-  addPost() {
-    // this.setState({ posts: ... });
-    // Create a user in your own accessible Firebase Database too
-    // TODO: what's autUser? get it from Folder Session
-    console.log("WUTTTTTTTTTT")
-    // MOCK DATA
-    var username = 'bun'
-    var content = 'hi'
-    var isAnonymous = true
-    // assume i have those data from frontend
-    const { history } = this.props;
-    var user = auth.currentUser
-    // username = user.username
-    // TODO: user is still null even after Signing in WHY???
-    db.doCreateBoard(user, username, content, isAnonymous)
-    .then(() => {
-      this.setState(() => ({ ...INITIAL_STATE }));
-      history.push(routes.HOME);
-    })
-    .catch(error => {
-      this.setState({ error });
-    });
-
-    // const CreatePost = () =>
-    //   <AuthUserContext.Consumer>
-    //   {authUser => authUser
-    //     ? this.addPostHelper(authUser,username,content,isAnonymous)
-    //     : null
-    //   }
-    // </AuthUserContext.Consumer>
-
-    // return CreatePost
-    // db.doCreateBoard(authUser.user.uid, username, content, isAnonymous)
-    // .then(() => {
-    //   this.setState(() => ({ ...INITIAL_STATE }));
-    //   history.push(routes.HOME);
-    // })
-    // .catch(error => {
-    //   this.setState({ error });
-    // });
+    if (this.props.board !== prevProps.board) {      
+      this.setState(() => ({ 
+        board: this.props.board,
+        posts: this.props.board.posts }))   
+    }  
   }
 
   render(){
@@ -181,17 +146,19 @@ class Postmodal extends React.Component {
   handleSubmit(event){
     console.log("this.state.post.author")
     console.log(this.state.post.author.uid)
-    console.log(this.state.post.content)
-    var user = this.state.post.author.uid
+    console.log(this.state.post)
+    // still not owner of the board but author of the board
+    var boardOwner = this.state.post.author.uid
     // TODO: these values still null, fix this
-    var username = this.state.post.author.username
+    var username = this.state.post.author.email
     var content = this.state.post.content
     var isAnonymous = this.state.post.isAnonymous
     const { history } = this.props;
     username = "mock"
     content = "mock"
     isAnonymous = "mock"
-    db.doCreateBoard(user, username, content, isAnonymous)
+    
+    db.doCreatePost(boardOwner, username, content, isAnonymous)
     .then(() => {
       this.setState(() => ({ 
         post: {

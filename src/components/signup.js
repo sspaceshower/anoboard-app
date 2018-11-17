@@ -47,6 +47,15 @@ class SignUpForm extends Component {
           .catch(error => {
             this.setState({ error });
           });
+        
+        db.doCreateBoard(authUser.user.uid, username,fname,mname,lname,biography, email)
+          .then(() => {
+            this.setState(() => ({ ...INITIAL_STATE }));
+            history.push(routes.HOME);
+          })
+          .catch(error => {
+            this.setState({ error });
+          });
       })
       .catch(error => {
         this.setState({ error });

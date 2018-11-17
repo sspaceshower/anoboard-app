@@ -13,8 +13,19 @@ export const doCreateUser = (uid, username,fname,mname,lname,biography, email) =
     email,
   });
 
-export const doCreateBoard = (uid, username, content, isAnonymous) =>  
-  db.ref(`users/${uid}/posts`).push().set({
+export const doCreateBoard = (uid, username,fname,mname,lname,biography, email) =>  
+  db.ref(`boards/${uid}`).push().set({
+    uid,
+    username,
+    fname,
+    mname,
+    lname,
+    biography,
+    email,
+  });
+
+export const doCreatePost = (uid, username, content, isAnonymous) =>  
+  db.ref(`boards/${uid}/posts`).push().set({
     uid,
     username,
     content,
