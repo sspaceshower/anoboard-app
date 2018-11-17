@@ -62,7 +62,7 @@ class Sidebar extends React.Component {
     super(props);
     this.state = {
       currentUser: this.props.currentUser,
-      users: this.props.users
+      users: this.props.users,
       classNames: [],
     };
   }
