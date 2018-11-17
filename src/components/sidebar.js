@@ -1,13 +1,15 @@
 import React from 'react';
-import { BrowserRouter as Router, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Row, Col } from 'react-bootstrap';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faBell, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { createDisplayName } from '../helper/helper.js'
 import { db } from '../firebase';
-import '../scss/sidebar.scss';
 import {classRef} from "../firebase/firebase";
+import withAuthorization from '../session/withAuthorization.js';
+import AuthUserContext from '../session/authUserContext.js';
+import '../scss/sidebar.scss';
 
 
 library.add(faHome);
@@ -75,11 +77,10 @@ class Sidebar extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      currentUser: this.props.currentUser,
-      users: this.props.users,
       classNames: [],
     };
   }
+  /*
   componentDidUpdate(prevProps) {
     // Typical usage (don't forget to compare props):
     if (this.props.currentUser !== prevProps.currentUser) {
@@ -98,10 +99,11 @@ class Sidebar extends React.Component {
         // console.log(key, value);
       }
     }
-  }
+  }*/
   componentDidMount() {
 
     var data_list = []
+
     classRef.once("value").then((snapshot) => {
       snapshot.forEach(function(childSnapshot) {
         var key = childSnapshot.key;
@@ -117,39 +119,44 @@ class Sidebar extends React.Component {
 
   render() {
     const menulist = [
-      {icon: "home", label: "myboard", url: "/"},
+      {icon: "home", label: "myboard", url: "/home"},
       {icon: "bell", label: "notifications", url: "/notifications"},
       {icon: "envelope", label: "messages", url: "/messages"}
     ];
 
     return(
-      <Router>
-        <Col md={2} id="sidebar">
-          <Row className="justify-content-md-center">
-            <Col xs={8} id="sidebar-logo">logo</Col>
-          </Row>
-          <Row className="justify-content-md-center">
-            <Col xs={8} className="horizontal-line"></Col>
-          </Row>
-          <Col md={{size: 8, offset: 1}} id="sidebar-login-text">
-            logged in as
+      <AuthUserContext.Consumer>{ authUser =>
+
+          <Col md={2} id="sidebar">
+            <Row className="justify-content-md-center">
+              <Col xs={8} id="sidebar-logo">logo</Col>
+            </Row>
+            <Row className="justify-content-md-center">
+              <Col xs={8} className="horizontal-line"></Col>
+            </Row>
+            <Col md={{size: 8, offset: 1}} id="sidebar-login-text">
+              logged in as
+            </Col>
+            <Col md={{size: 8, offset: 1}} id="sidebar-login-user">
+              {createDisplayName(authUser, false)}
+            </Col>
+            {createMenu(menulist)}
+            <Row className="justify-content-md-center">
+              <Col xs={8} className="horizontal-line"></Col>
+            </Row>
+            <Row className="sub-menu">GROUPS</Row>
+            {createSubMenu(this.state.classNames)}
+            <NavLink to={"/groups"} style={{textDecoration: "none"}}>
+              <Row id="show-more">show more..</Row>
+            </NavLink>
           </Col>
-          <Col md={{size: 8, offset: 1}} id="sidebar-login-user">
-            {createDisplayName(this.state.currentUser, false)}
-          </Col>
-          {createMenu(menulist)}
-          <Row className="justify-content-md-center">
-            <Col xs={8} className="horizontal-line"></Col>
-          </Row>
-          <Row className="sub-menu">GROUPS</Row>
-          {createSubMenu(this.state.classNames)}
-          <NavLink to={"/groups"} style={{textDecoration: "none"}}>
-            <Row id="show-more">show more..</Row>
-          </NavLink>
-        </Col>
-      </Router>
+
+      }
+      </AuthUserContext.Consumer>
     );
   }
 }
 
-export default Sidebar;
+const authCondition = (authUser) => !!authUser;
+
+export default withAuthorization(authCondition)(Sidebar);

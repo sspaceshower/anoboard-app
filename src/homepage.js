@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 
 import withAuthorization from './session/withAuthorization.js';
+import AuthUserContext from './session/authUserContext.js';
 import { db } from './firebase';
 import { Container, Row, Col } from 'react-bootstrap';
 import FullBoard from './components/fullboard.js';
 import Sidebar from './components/sidebar.js';
-import AuthUserContext from './session/authUserContext.js';
+
 // import { fetchUserData, fetchBoardData } from '../../helper/fetchdata.js'
 
 const paddingSet = {
@@ -41,7 +42,6 @@ class Homepage extends Component {
           {authUser =>
             <Container fluid>
               <Row className="wrapper">
-                  <Sidebar currentUser={authUser} users = {users}/>
                   <Col md={{span:10, offset: 2}} style={paddingSet}>
                     <FullBoard currentUser={authUser} allBoardList={boards} users = {users}/>
                   </Col>
