@@ -5,6 +5,7 @@ import { db } from './firebase';
 import { Container, Row, Col } from 'react-bootstrap';
 import FullBoard from './components/fullboard.js';
 import Sidebar from './components/sidebar.js';
+import AuthUserContext from './session/authUserContext.js';
 // import { fetchUserData, fetchBoardData } from '../../helper/fetchdata.js'
 
 const paddingSet = {
@@ -35,14 +36,21 @@ class HomePage extends Component {
     const { users,boards } = this.state;
 
     return (
-      <Container fluid>
-          <Row className="wrapper">
-              <Sidebar currentUser={users}/>
-              <Col md={{size:10, offset: 2}} style={paddingSet}>
-                <FullBoard currentUser={users} board={boards}/>
-              </Col>
-          </Row>
-        </Container>
+      
+        <AuthUserContext.Consumer>
+          {authUser =>        
+          
+          <Container fluid>
+            <Row className="wrapper">
+                <Sidebar currentUser={authUser} users = {users}/>
+                <Col md={{size:10, offset: 2}} style={paddingSet}>
+                  <FullBoard currentUser={authUser} board={boards} users = {users}/>
+                </Col>
+            </Row>
+          </Container>
+          
+          }
+        </AuthUserContext.Consumer>
     );
   }
 }

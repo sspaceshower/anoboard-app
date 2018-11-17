@@ -24,4 +24,7 @@ export const onceGetUsers = () =>
 
 export const onceGetBoards = () =>
   db.ref('boards').once('value');
+
+export const onceGetOneUser = (uid) =>
+  db.ref(`users/${uid}`).once('value');
 // Other db APIs ...
