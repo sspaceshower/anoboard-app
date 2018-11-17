@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, NavLink } from "react-router-dom";
 import { Row, Col } from 'react-bootstrap';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -29,12 +29,17 @@ const createMenu = (menulist) => {
   var menu = [];
   for(let i=0; i< menulist.length; i++){
     menu.push(
-      <Link to={menulist[i].url} style={{textDecoration: "none"}}>
-        <Row className="sidebar-button">
+      <Row>
+        <NavLink
+          exact to={menulist[i].url}
+          className="sidebar-button"
+          activeClassName="active-sidebar-button"
+          style={{textDecoration: "none"}}
+        >
           <Col xs={2} style={iconStyle}><FontAwesomeIcon icon={menulist[i].icon} /></Col>
           <Col xs={10} style={labelStyle}>{menulist[i].label}</Col>
-        </Row>
-      </Link>
+        </NavLink>
+      </Row>
     );
   }
   return (
@@ -47,7 +52,16 @@ const createSubMenu = (grouplist) => {
   submenu.push(
     <div>
       {grouplist.map((name) => {
-        return <Link to={'/groups/' + name} style={{textDecoration: "none"}}><Row className="sub-menu-button">{name}</Row></Link>
+        return(
+        <Row>
+          <NavLink to={'/groups/' + name}
+            style={{textDecoration: "none"}}
+            className="sub-menu-button"
+            activeClassName="sub-menu-active">
+            {name}
+          </NavLink>
+        </Row>
+      )
       })}
     </div>
   )
@@ -70,7 +84,7 @@ class Sidebar extends React.Component {
     // Typical usage (don't forget to compare props):
     if (this.props.currentUser !== prevProps.currentUser) {
       this.setState(() => ({ currentUser: this.props.currentUser }))
-    }    
+    }
     if (this.props.users !== prevProps.users) {
       this.setState(() => ({ users: this.props.users }))
       // console.log("key, value");
@@ -129,9 +143,9 @@ class Sidebar extends React.Component {
           </Row>
           <Row className="sub-menu">GROUPS</Row>
           {createSubMenu(this.state.classNames)}
-          <Link to={"/groups"} style={{textDecoration: "none"}}>
+          <NavLink to={"/groups"} style={{textDecoration: "none"}}>
             <Row id="show-more">show more..</Row>
-          </Link>
+          </NavLink>
         </Col>
       </Router>
     );
