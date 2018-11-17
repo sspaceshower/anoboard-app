@@ -43,7 +43,7 @@ class Homepage extends Component {
               <Row className="wrapper">
                   <Sidebar currentUser={authUser} users = {users}/>
                   <Col md={{span:10, offset: 2}} style={paddingSet}>
-                    <FullBoard currentUser={authUser} boards={boards} users = {users}/>
+                    <FullBoard currentUser={authUser} allBoardList={boards} users = {users}/>
                   </Col>
               </Row>
             </Container>

@@ -11,7 +11,7 @@ class FullBoard extends React.Component {
     this.state = {
       currentUser: this.props.currentUser,
       users: this.props.users,
-      boards: this.props.boards,
+      allBoardList: this.props.allBoardList,
       board: null
     };
   }
@@ -20,10 +20,10 @@ class FullBoard extends React.Component {
     if (this.props.currentUser !== prevProps.currentUser) {
       this.setState(() => ({ currentUser: this.props.currentUser }))
     }
-    if (this.props.boards !== prevProps.boards) {
-      this.setState(() => ({ boards: this.props.boards }))      
+    if (this.props.allBoardList !== prevProps.allBoardList) {
+      this.setState(() => ({ allBoardList: this.props.allBoardList }))      
       // console.log("key, value");
-      for (const [key, value] of Object.entries(this.props.boards)) {
+      for (const [key, value] of Object.entries(this.props.allBoardList)) {
         if (this.state.currentUser.uid === key){          
           this.setState(() => ({ board: value }))
         }
