@@ -27,7 +27,7 @@ class Homepage extends Component {
     db.onceGetUsers().then(snapshot =>
       this.setState(() => ({ users: snapshot.val() }))
     );
-    db.onceGetUsers().then(snapshot =>
+    db.onceGetBoards().then(snapshot =>
       this.setState(() => ({ boards: snapshot.val() }))
     );
   }
@@ -43,7 +43,7 @@ class Homepage extends Component {
               <Row className="wrapper">
                   <Sidebar currentUser={authUser} users = {users}/>
                   <Col md={{span:10, offset: 2}} style={paddingSet}>
-                    <FullBoard currentUser={authUser} board={boards} users = {users}/>
+                    <FullBoard currentUser={authUser} boards={boards} users = {users}/>
                   </Col>
               </Row>
             </Container>

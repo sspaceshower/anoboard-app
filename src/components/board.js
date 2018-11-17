@@ -26,12 +26,23 @@ class Board extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      posts : this.props.board.posts,
+      currentUser: this.props.currentUser,
+      posts : this.props.currentUser.posts,
       modalShow: false,
     }
-
+    console.log("this.state.posts")
+    console.log(this.props.currentUser)
   }
-
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.currentUser !== prevProps.currentUser) {
+      console.log("HEREEEEEEEEEEEEE!");
+          console.log(this.props.currentUser);
+      this.setState(() => ({ 
+        currentUser: this.props.currentUser,
+        posts: this.props.currentUser.posts }))   
+    }    
+  }
   addPost() {
     // this.setState({ posts: ... });
     // Create a user in your own accessible Firebase Database too
@@ -87,10 +98,10 @@ class Board extends React.Component {
                       <Col id="postbox-icon-wrap">
                         <Button bsPrefix="custom-area-new-button" onClick={() => this.setState({modalShow: true})}>
                           <FontAwesomeIcon className="postbox-new-icon" icon="plus-circle" />
-                        </Button>
+                        </Button>                        
                         <Postmodal
                           show = {this.state.modalShow}
-                          onHide = {modalClose}
+                          onHide = {modalClose}                          
                           currentUser = {this.props.currentUser}
                         />
                       </Col>
@@ -307,13 +318,26 @@ class Replymodal extends React.Component {
 
 const createPostStack = (posts) => {
     var stack = [];
+    console.log("HOORAYYY!");
+    console.log(posts);
     if(posts!=null){
-      for(let i=0; i<posts.length;i++){
+      for (const [key, value] of Object.entries(posts)) {
+        console.log("HOORAYYY!");
+          console.log(key, value);
         stack.push(
-          <Postbox post={posts[i]} />
+          <Postbox post={value} />
         );
+        // console.log("key, value");
+        // console.log(key, value);
       }
     }
+    // if(posts!=null){
+    //   for(let i=0; i<posts.length;i++){
+    //     stack.push(
+    //       <Postbox post={posts[i]} />
+    //     );
+    //   }
+    // }
     return(stack);
 }
 

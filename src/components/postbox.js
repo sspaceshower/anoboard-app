@@ -25,7 +25,7 @@ class Postbox extends React.Component {
 
 //TODO: <frontend> solve padding problems
 const createPostBox = (post) => {
-  const author = post.isAnonymous? 'anonymous':createDisplayName(post.user);
+  const author = post.isAnonymous? 'anonymous':createDisplayName(post.username);
   return(
     <Col xs={12} sm={6} md={4}>
       <div className="postbox-wrap">
