@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faBell, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { createDisplayName } from '../helper/helper.js'
 import '../scss/sidebar.scss';
+import {classRef} from "../firebase/firebase";
+
 
 library.add(faHome);
 library.add(faBell);
@@ -39,21 +41,15 @@ const createMenu = (menulist) => {
   );
 };
 
-
 const createSubMenu = (grouplist) => {
   var submenu = [];
-  if(grouplist!=null){
-    for(let i=0; i<grouplist.length; i++){
-      const groupUrl = '/groups/' + grouplist[i].replace(" ","-");
-      submenu.push(
-        <Link to={groupUrl} style={{textDecoration: "none"}}>
-          <Row className="sub-menu-button">
-            # {grouplist[i]}
-          </Row>
-        </Link>
-      );
-    }
-}
+  submenu.push(
+    <div>
+      {grouplist.map((name) => {
+        return <Link to={'/groups/' + name} style={{textDecoration: "none"}}><Row className="sub-menu-button">{name}</Row></Link>
+      })}
+    </div>
+  )
   return (
     submenu
   );
@@ -65,8 +61,26 @@ class Sidebar extends React.Component {
     super(props);
     this.state = {
       currentUser: this.props.currentUser,
+      classNames: [],
     };
   }
+
+  componentDidMount() {
+
+    var data_list = []
+    classRef.once("value").then((snapshot) => {
+      snapshot.forEach(function(childSnapshot) {
+        var key = childSnapshot.key;
+        var childData = childSnapshot.val().name;
+        data_list.push(childData);
+      });
+      console.log(data_list, data_list.length);
+      this.setState({
+        classNames: data_list
+      });
+    });
+  }
+
   render() {
     const menulist = [
       {icon: "home", label: "myboard", url: "/"},
@@ -94,7 +108,7 @@ class Sidebar extends React.Component {
               <Col xs={8} className="horizontal-line"></Col>
             </Row>
             <Row className="sub-menu">GROUPS</Row>
-            {createSubMenu(this.state.currentUser.grouplist)}
+            {createSubMenu(this.state.classNames)}
             <Link to={"/groups"} style={{textDecoration: "none"}}>
                 <Row id="show-more">show more..</Row>
             </Link>
