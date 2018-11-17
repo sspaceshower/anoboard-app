@@ -5,6 +5,7 @@ import { db } from './firebase';
 import { Container, Row, Col } from 'react-bootstrap';
 import FullBoard from './components/fullboard.js';
 import Sidebar from './components/sidebar.js';
+import AuthUserContext from './session/authUserContext.js';
 // import { fetchUserData, fetchBoardData } from '../../helper/fetchdata.js'
 
 const paddingSet = {
@@ -26,7 +27,7 @@ class Homepage extends Component {
     db.onceGetUsers().then(snapshot =>
       this.setState(() => ({ users: snapshot.val() }))
     );
-    db.onceGetUsers().then(snapshot =>
+    db.onceGetBoards().then(snapshot =>
       this.setState(() => ({ boards: snapshot.val() }))
     );
   }
@@ -35,14 +36,20 @@ class Homepage extends Component {
     const { users,boards } = this.state;
 
     return (
-      <Container fluid>
-          <Row className="wrapper">
-              <Sidebar currentUser={users}/>
-              <Col md={{span:10, offset: 2}} style={paddingSet}>
-                <FullBoard currentUser={users} board={boards}/>
-              </Col>
-          </Row>
-        </Container>
+
+      <AuthUserContext.Consumer>
+          {authUser =>                  
+            <Container fluid>
+              <Row className="wrapper">
+                  <Sidebar currentUser={authUser} users = {users}/>
+                  <Col md={{span:10, offset: 2}} style={paddingSet}>
+                    <FullBoard currentUser={authUser} allBoardList={boards} users = {users}/>
+                  </Col>
+              </Row>
+            </Container>
+          }
+      </AuthUserContext.Consumer>
+
     );
   }
 }

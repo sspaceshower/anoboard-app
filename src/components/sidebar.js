@@ -5,6 +5,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faBell, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { createDisplayName } from '../helper/helper.js'
+import { db } from '../firebase';
 import '../scss/sidebar.scss';
 import {classRef} from "../firebase/firebase";
 
@@ -61,10 +62,29 @@ class Sidebar extends React.Component {
     super(props);
     this.state = {
       currentUser: this.props.currentUser,
+      users: this.props.users
       classNames: [],
     };
   }
-
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.currentUser !== prevProps.currentUser) {
+      this.setState(() => ({ currentUser: this.props.currentUser }))
+    }    
+    if (this.props.users !== prevProps.users) {
+      this.setState(() => ({ users: this.props.users }))
+      // console.log("key, value");
+      for (const [key, value] of Object.entries(this.props.users)) {
+        if (this.state.currentUser.uid === key){
+          console.log("PASSSSS!");
+          console.log(key, value);
+          this.setState(() => ({ currentUser: value }))
+        }
+        // console.log("key, value");
+        // console.log(key, value);
+      }
+    }
+  }
   componentDidMount() {
 
     var data_list = []

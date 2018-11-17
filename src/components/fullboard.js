@@ -10,8 +10,40 @@ class FullBoard extends React.Component {
     super(props);
     this.state = {
       currentUser: this.props.currentUser,
-      board: this.props.board,
+      users: this.props.users,
+      allBoardList: this.props.allBoardList,
+      board: null
     };
+  }
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.currentUser !== prevProps.currentUser) {
+      this.setState(() => ({ currentUser: this.props.currentUser }))
+    }
+    if (this.props.allBoardList !== prevProps.allBoardList) {
+      this.setState(() => ({ allBoardList: this.props.allBoardList }))      
+      // console.log("key, value");
+      for (const [key, value] of Object.entries(this.props.allBoardList)) {
+        if (this.state.currentUser.uid === key){          
+          this.setState(() => ({ board: value }))
+        }
+        // console.log("key, value");
+        // console.log(key, value);
+      }
+    }
+    if (this.props.users !== prevProps.users) {
+      this.setState(() => ({ users: this.props.users }))
+      // console.log("key, value");
+      for (const [key, value] of Object.entries(this.props.users)) {
+        if (this.state.currentUser.uid === key){
+          console.log("PASSSSS!");
+          console.log(key, value);
+          this.setState(() => ({ currentUser: value }))
+        }
+        // console.log("key, value");
+        // console.log(key, value);
+      }
+    }
   }
   render(){
     return(
@@ -21,8 +53,8 @@ class FullBoard extends React.Component {
             <Col xs={12} md={6}>
               <Col className="wrap" id="trophy" style={{padding: '0'}}><Trophy /></Col>
             </Col>
-          </Row>
-          <Row><Board board={this.state.board} currentUser = {this.state.currentUser} /></Row>
+          </Row>          
+          <Row><Board currentUser = {this.state.currentUser} board = {this.state.board}/></Row>
       </Container>
     );
   }
