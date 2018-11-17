@@ -7,6 +7,8 @@ import { faHome, faBell, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { createDisplayName } from '../helper/helper.js'
 import { db } from '../firebase';
 import '../scss/sidebar.scss';
+import {classRef} from "../firebase/firebase";
+
 
 library.add(faHome);
 library.add(faBell);
@@ -40,21 +42,15 @@ const createMenu = (menulist) => {
   );
 };
 
-
 const createSubMenu = (grouplist) => {
   var submenu = [];
-  if(grouplist!=null){
-    for(let i=0; i<grouplist.length; i++){
-      const groupUrl = '/groups/' + grouplist[i].replace(" ","-");
-      submenu.push(
-        <Link to={groupUrl} style={{textDecoration: "none"}}>
-          <Row className="sub-menu-button">
-            # {grouplist[i]}
-          </Row>
-        </Link>
-      );
-    }
-}
+  submenu.push(
+    <div>
+      {grouplist.map((name) => {
+        return <Link to={'/groups/' + name} style={{textDecoration: "none"}}><Row className="sub-menu-button">{name}</Row></Link>
+      })}
+    </div>
+  )
   return (
     submenu
   );
@@ -67,6 +63,7 @@ class Sidebar extends React.Component {
     this.state = {
       currentUser: this.props.currentUser,
       users: this.props.users
+      classNames: [],
     };
   }
   componentDidUpdate(prevProps) {
@@ -88,6 +85,21 @@ class Sidebar extends React.Component {
       }
     }
   }
+  componentDidMount() {
+
+    var data_list = []
+    classRef.once("value").then((snapshot) => {
+      snapshot.forEach(function(childSnapshot) {
+        var key = childSnapshot.key;
+        var childData = childSnapshot.val().name;
+        data_list.push(childData);
+      });
+      console.log(data_list, data_list.length);
+      this.setState({
+        classNames: data_list
+      });
+    });
+  }
 
   render() {
     const menulist = [
@@ -99,27 +111,27 @@ class Sidebar extends React.Component {
     return(
       <Router>
         <Col md={2} id="sidebar">
-            <Row className="justify-content-md-center">
-              <Col xs={8} id="sidebar-logo">logo</Col>
-            </Row>
-            <Row className="justify-content-md-center">
-              <Col xs={8} className="horizontal-line"></Col>
-            </Row>
-            <Col md={{size: 8, offset: 1}} id="sidebar-login-text">
-              logged in as
-            </Col>            
-            <Col md={{size: 8, offset: 1}} id="sidebar-login-user">            
-              {createDisplayName(this.state.currentUser, false)}
-            </Col>
-            {createMenu(menulist)}
-            <Row className="justify-content-md-center">
-              <Col xs={8} className="horizontal-line"></Col>
-            </Row>
-            <Row className="sub-menu">GROUPS</Row>
-            {createSubMenu(this.state.currentUser.grouplist)}
-            <Link to={"/groups"} style={{textDecoration: "none"}}>
-                <Row id="show-more">show more..</Row>
-            </Link>
+          <Row className="justify-content-md-center">
+            <Col xs={8} id="sidebar-logo">logo</Col>
+          </Row>
+          <Row className="justify-content-md-center">
+            <Col xs={8} className="horizontal-line"></Col>
+          </Row>
+          <Col md={{size: 8, offset: 1}} id="sidebar-login-text">
+            logged in as
+          </Col>
+          <Col md={{size: 8, offset: 1}} id="sidebar-login-user">
+            {createDisplayName(this.state.currentUser, false)}
+          </Col>
+          {createMenu(menulist)}
+          <Row className="justify-content-md-center">
+            <Col xs={8} className="horizontal-line"></Col>
+          </Row>
+          <Row className="sub-menu">GROUPS</Row>
+          {createSubMenu(this.state.classNames)}
+          <Link to={"/groups"} style={{textDecoration: "none"}}>
+            <Row id="show-more">show more..</Row>
+          </Link>
         </Col>
       </Router>
     );
