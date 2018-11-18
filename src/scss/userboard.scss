@@ -152,6 +152,16 @@
   color: $blue-content;
 }
 
+.postbox-reply-button{
+  color: $fadegray;
+  background-color: transparent;
+  box-sizing: content-box;
+  border: none;
+  padding: 0;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
 #postbox-reply {
   color: $fadegray;
 }

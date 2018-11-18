@@ -43,12 +43,14 @@
   &:hover{
     color: $orange;
   }
-  &:active{
-    color: white;
-    background-color: $brown-bg;
-  }
-  &:active:hover{
-    background-color: $orange;
+}
+
+.active-sidebar-button {
+  color: white;
+  background-color: $brown-bg;
+
+  &:hover{
+    color: $lightorange;
   }
 }
 
@@ -74,12 +76,14 @@
   &:hover {
     color: $orange;
   }
-  &:active{
-    color: white;
-    background-color: $brown-bg;
-  }
-  &:active:hover{
-    background-color: $orange;
+}
+
+.sub-menu-active {
+  color: white;
+  background-color: $brown-bg;
+
+  &:hover{
+    color: $lightorange;
   }
 }
 
