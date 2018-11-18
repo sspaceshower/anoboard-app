@@ -13,8 +13,9 @@ class Group extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      groupInfo : [],
       groupNames: [],
-      students: [],
+      studentInfo: [],
 
     };
   }
@@ -24,6 +25,7 @@ class Group extends React.Component {
 
 
     db.ref("groups/").on('value', snap =>  {
+
       var data = [];
       var groupNames = [];
       var students = [];
@@ -33,8 +35,10 @@ class Group extends React.Component {
         students.push(ss.child('students').val());
       });
       this.setState({
+        // in the groupInfo is stored all the information
+        groupInfo: data,
         groupNames: groupNames,
-        students: students
+        studentInfo: students
       });
 
       console.log(students);
@@ -49,7 +53,7 @@ class Group extends React.Component {
             <p>ioasdjoaisdj</p>
             <div>
               <ul>
-              {this.state.students.map((item) => {
+              {this.state.studentInfo.map((item) => {
                 return(<li>{item.name}</li>)
 
               })}
