@@ -30,10 +30,12 @@ const config = {
 
 const db = firebase.database();
 const auth = firebase.auth();
-const classRef = db.ref("class")
+const groupRef = db.ref("groups")
+const studentsOfGroupRef = db.ref("groups/CS101")
 
 export {
   db,
   auth,
-  classRef,
+  groupRef,
+  studentsOfGroupRef,
 };

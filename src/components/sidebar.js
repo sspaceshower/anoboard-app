@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faBell, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { createDisplayName } from '../helper/helper.js'
 import { db } from '../firebase';
-import {classRef} from "../firebase/firebase";
+import {groupRef, studentsOfGroupRef} from "../firebase/firebase";
 import withAuthorization from '../session/withAuthorization.js';
 import AuthUserContext from '../session/authUserContext.js';
 import '../scss/sidebar.scss';
@@ -77,7 +77,7 @@ class Sidebar extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      classNames: [],
+      groupNames: [],
     };
   }
   /*
@@ -104,17 +104,20 @@ class Sidebar extends React.Component {
 
     var data_list = []
 
-    classRef.once("value").then((snapshot) => {
+    groupRef.once("value").then((snapshot) => {
       snapshot.forEach(function(childSnapshot) {
         var key = childSnapshot.key;
         var childData = childSnapshot.val().name;
         data_list.push(childData);
       });
-      console.log(data_list, data_list.length);
+      // console.log(data_list, data_list.length);
       this.setState({
-        classNames: data_list
+        groupNames: data_list
       });
     });
+
+
+
   }
 
   render() {
@@ -145,7 +148,7 @@ class Sidebar extends React.Component {
               <Col xs={8} className="horizontal-line"></Col>
             </Row>
             <Row className="sub-menu">GROUPS</Row>
-            {createSubMenu(this.state.classNames)}
+            {createSubMenu(this.state.groupNames)}
             <NavLink to={"/groups"} style={{textDecoration: "none"}}>
               <Row id="show-more">show more..</Row>
             </NavLink>
