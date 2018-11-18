@@ -2,9 +2,8 @@ import React from 'react';
 import { Container, Row, Col, Modal, Form, Button } from 'react-bootstrap';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle, faPlus, faReply } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle, faPlus, faReply, faComments } from '@fortawesome/free-solid-svg-icons';
 import { createDisplayName } from '../helper/helper.js'
-import Postbox from './postbox.js';
 import * as routes from '../constants/routes';
 import { auth, db } from '../firebase';
 import AuthUserContext from '../session/authUserContext.js';
@@ -21,6 +20,7 @@ const INITIAL_STATE = {
 library.add(faPlusCircle);
 library.add(faPlus);
 library.add(faReply);
+library.add(faComments);
 
 class Board extends React.Component {
   constructor(props){
@@ -30,20 +30,20 @@ class Board extends React.Component {
       board: this.props.board,
       posts : this.props.currentUser.posts,
       modalShow: false,
-    }    
+    }
   }
   componentDidUpdate(prevProps) {
     // Typical usage (don't forget to compare props):
-    if (this.props.currentUser !== prevProps.currentUser) {      
-      this.setState(() => ({ 
+    if (this.props.currentUser !== prevProps.currentUser) {
+      this.setState(() => ({
         currentUser: this.props.currentUser,
-        }))   
-    }    
-    if (this.props.board !== prevProps.board) {      
-      this.setState(() => ({ 
+        }))
+    }
+    if (this.props.board !== prevProps.board) {
+      this.setState(() => ({
         board: this.props.board,
-        posts: this.props.board.posts }))   
-    }  
+        posts: this.props.board.posts }))
+    }
   }
 
   render(){
@@ -59,10 +59,10 @@ class Board extends React.Component {
                       <Col id="postbox-icon-wrap">
                         <Button bsPrefix="custom-area-new-button" onClick={() => this.setState({modalShow: true})}>
                           <FontAwesomeIcon className="postbox-new-icon" icon="plus-circle" />
-                        </Button>                        
+                        </Button>
                         <Postmodal
                           show = {this.state.modalShow}
-                          onHide = {modalClose}                          
+                          onHide = {modalClose}
                           currentUser = {this.props.currentUser}
                         />
                       </Col>
@@ -74,7 +74,7 @@ class Board extends React.Component {
                   </Row>
                 </div>
               </Col>
-              {createPostStack(this.state.posts)}
+              {createPostStack(this.state.posts, this.state.currentUser)}
             </Row>
         </Col>
       </Row>
@@ -82,28 +82,6 @@ class Board extends React.Component {
     );
   }
 }
-
-/*
-const newPostButton = () => {
-  return(
-    <Col xs={12} md={4}>
-      <div className="postbox-wrap">
-        <Row>
-            <Col id="postbox-new-icon">
-              <Button onClick={Board.className.addPost.bind(Board.className)}>
-                <FontAwesomeIcon icon="plus-circle" />
-              </Button>
-            </Col>
-        </Row>
-        <Row>
-            <Col id="postbox-new-text">
-              write a new post
-            </Col>
-        </Row>
-      </div>
-    </Col>
-  );
-}*/
 
 class Postmodal extends React.Component {
   constructor(props){
@@ -118,18 +96,17 @@ class Postmodal extends React.Component {
         timestamp: null
       },
     };
-
     this.handleContentChange = this.handleContentChange.bind(this);
     this.handleAnonimity = this.handleAnonimity.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
   componentDidUpdate(prevProps) {
     // Typical usage (don't forget to compare props):
-    if (this.props.currentUser !== prevProps.currentUser) {      
-      this.setState(() => ({ 
+    if (this.props.currentUser !== prevProps.currentUser) {
+      this.setState(() => ({
         currentUser: this.props.currentUser,
-        post: {author: this.props.currentUser }}))   
-    }    
+        post: {author: this.props.currentUser, isAnonymous: true }}))
+    }
   }
   handleContentChange(event){
     var currentPost = this.state.post;
@@ -156,11 +133,11 @@ class Postmodal extends React.Component {
     const { history } = this.props;
     username = "mock"
     content = "mock"
-    isAnonymous = "mock"
-    
+    isAnonymous = true
+
     db.doCreatePost(boardOwner, username, content, isAnonymous)
     .then(() => {
-      this.setState(() => ({ 
+      this.setState(() => ({
         post: {
           author: this.props.currentUser,
           content: "",
@@ -252,24 +229,163 @@ class Postmodal extends React.Component {
   }
 }
 
+class Postbox extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      post: this.props.post
+    }
+  }
+
+  render(){
+    let modalClose = () => this.setState({ modalShow: false})
+    const author = this.state.post.isAnonymous?
+      'anonymous':createDisplayName(this.state.post.username);
+    return(
+      <Col xs={12} sm={6} md={4}>
+        <div className="postbox-wrap">
+          <Row>
+            <Col xs={5}><div id="postbox-author">{author}</div></Col>
+            <Col xs={7}><div id="postbox-tag">{"#mockup" /*TODO: <mockup> change to createTag*/}</div></Col>
+          </Row>
+          <Row><Col><div className="breakline"></div></Col></Row>
+          <Row>
+            <Col>
+              <div id="postbox-content">
+                {this.state.post.content /*TODO: <frontend> handle case where content is too long*/}
+              </div>
+            </Col>
+          </Row>
+          <Container fluid id="postbox-menu">
+            <Row>
+              <Col>
+                <Button bsPrefix="postbox-reply-button" onClick={() => this.setState({modalShow: true})}>
+                  <FontAwesomeIcon className="postbox-reply" icon="comments" />
+                </Button>
+                {console.log("HELLOWORLDSSS")}
+                {console.log(this.props.currentUser)}
+                <Replymodal
+                  post = {this.state.post}
+                  show = {this.state.modalShow}
+                  onHide = {modalClose}
+                  currentUser = {this.props.currentUser}
+                />
+              </Col>
+              <Col>
+                <div id="postbox-timestamp">{"mockup" /*TODO: <mockup> change to createTimeStamp()*/}</div>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+      </Col>
+    );
+  }
+}
+
+
+class Replybox extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      author: this.props.reply.author,
+      content: this.props.reply.content,
+      timestamp: this.props.reply.timestamp,
+      isAnonymous: this.props.reply.isAnonymous,
+    }
+  }
+
+  render(){
+    const author = this.state.isAnonymous?
+      'anonymous':createDisplayName(this.state.reply.author.username);
+    return(
+        <div className="reply-container">
+          <Row>
+            <Col xs={4}><div id="reply-author">{author}</div></Col>
+            <Col xs={8}><div id="reply-tag">{"#mockup" /*TODO: <mockup> change to createTag*/}</div></Col>
+          </Row>
+          <Row>
+            <Col>
+              <div id="reply-content">
+                {this.state.content /*TODO: <frontend> handle case where content is too long*/}
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <div id="reply-timestamp">{"mockup" /*TODO: <mockup> change to createTimeStamp()*/}</div>
+            </Col>
+          </Row>
+          <Row><div className="reply-breakline"></div></Row>
+        </div>
+    );
+  }
+}
+
+
 class Replymodal extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      post: this.props.post,
       reply: {
         author: this.props.currentUser,
         content: "",
+        isAnonymous: true,
         timestamp: null
       },
     };
 
     this.handleContentChange = this.handleContentChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleContentChange(event){
     var currentReply = this.state.reply;
     currentReply.content = event.target.content;
     this.setState({reply: currentReply});
+  }
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.currentUser !== prevProps.currentUser) {
+      this.setState(() => ({
+        currentUser: this.props.currentUser,
+        reply: {author: this.props.currentUser, isAnonymous: true }}))
+    }
+  }
+
+  handleSubmit(event){
+    // console.log("this.state.post.author")
+    // console.log(this.state.post.author.uid)
+    // console.log(this.state.post)
+    //WRONGGGGGGGGGGGGGG VALUEEE!!!!!!!!!!!!!!!!!!!!!
+    // still not owner of the board but author of the board
+    var boardOwner = this.state.reply.author.uid
+    // TODO: these values still null, fix this
+    var username = this.state.reply.author.username
+    var content = this.state.post.content
+    var isAnonymous = this.state.post.isAnonymous
+    var postid = this.state.post.postid
+    const { history } = this.props;
+    // username = "replymock"
+    content = "replymock"
+    isAnonymous = true
+
+    db.doCreateReply(boardOwner, username, content, isAnonymous, postid)
+    .then(() => {
+      this.setState(() => ({
+        reply: {
+          author: this.props.currentUser,
+          content: "",
+          isAnonymous: true,
+          timestamp: null
+        },
+       }));
+      history.push(routes.HOME);
+    })
+    .catch(error => {
+      this.setState({ error });
+    });
+    event.preventDefault();
   }
 
   render() {
@@ -288,28 +404,29 @@ class Replymodal extends React.Component {
       <Modal
         {...this.props}
         aria-labelledby = "reply-modal"
-        dialogClassName = "custom-modal"
+        dialogClassName = "reply-custom-modal"
       >
-        <Modal.Header bsPrefix="custom-modal-header">
-          <Modal.Title style={iconStyle}><FontAwesomeIcon icon="reply" /></Modal.Title>
-          <Modal.Title style={textStyle}>write a reply</Modal.Title>
-        </Modal.Header>
         <Modal.Body>
-          <Container fluid>
+          <Container fluid className="reply-stack-wrap">
+            <div>{createReplyStack(this.state.post)}</div>
+            <div className="custom-modal-header">
+              <div style={iconStyle}><FontAwesomeIcon icon="reply" /></div>
+              <div style={textStyle}>write a reply</div>
+            </div>
             <Form>
               <Form.Group style={{textAlign: "center"}}>
                   <Form.Control
                     as = "textarea"
                     rows = "5"
                     name = "content"
-                    value = {this.state.post.content}
+                    value = {this.state.reply.content}
                     placeholder = "write your reply here"
                     onChange = {this.handleContentChange}
                   />
               </Form.Group>
               <Form.Group>
                 <Row><Col style={{textAlign: "center"}}>
-                  <Button bsPrefix="submit-button" onClick={() => ({/*TODO: fill in*/})}>Reply</Button>
+                  <Button bsPrefix="submit-button" onClick={this.handleSubmit}>Reply</Button>
                 </Col></Row>
               </Form.Group>
             </Form>
@@ -320,12 +437,15 @@ class Replymodal extends React.Component {
   }
 }
 
-const createPostStack = (posts) => {
-    var stack = [];    
+
+const createPostStack = (posts, currentUser) => {
+    var stack = [];
     if(posts!=null){
-      for (const [key, value] of Object.entries(posts)) {        
+      for (const [key, value] of Object.entries(posts)) {
+        console.log("HAYOOOOOOOOOOO");
+        console.log(value);
         stack.push(
-          <Postbox post={value} />
+          <Postbox post={value} currentUser = {currentUser}/>
         );
         // console.log("key, value");
         // console.log(key, value);
@@ -339,6 +459,40 @@ const createPostStack = (posts) => {
     //   }
     // }
     return(stack);
+}
+
+//TODO: <frontend> create timestamp
+const createTimeStamp = (timestamp) => {
+  return(
+    timestamp
+  );
+}
+
+//TODO: <frontend> create and link post tags
+const createTag = (taglist) => {
+  return(
+    taglist
+  );
+}
+
+const createReplyStack = (post) => {
+  var stack = [];
+  stack.push(
+    <Replybox reply={post} />
+  );
+  //TODO: <mockup> change to reply when replies datastructure is finished
+  //post can be sent as a reply because their the structure of reply is a subset of post
+  stack.push(
+    <Replybox reply={post} />
+  );
+  stack.push(
+    <Replybox reply={post} />
+  );
+  stack.push(
+    <Replybox reply={post} />
+  );
+
+  return(stack);
 }
 
 export default Board;
