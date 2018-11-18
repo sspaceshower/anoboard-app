@@ -237,20 +237,6 @@ class Postbox extends React.Component {
     }
   }
 
-  //TODO: <frontend> create timestamp
-  createTimeStamp = (timestamp) => {
-    return(
-      timestamp
-    );
-  }
-
-  //TODO: <frontend> create and link post tags
-  createTag = (taglist) => {
-    return(
-      taglist
-    );
-  }
-
   render(){
     let modalClose = () => this.setState({ modalShow: false})
     const author = this.state.post.isAnonymous?
@@ -277,6 +263,7 @@ class Postbox extends React.Component {
                   <FontAwesomeIcon className="postbox-reply" icon="comments" />
                 </Button>
                 <Replymodal
+                  post = {this.state.post}
                   show = {this.state.modalShow}
                   onHide = {modalClose}
                   currentUser = {this.props.currentUser}
@@ -293,13 +280,55 @@ class Postbox extends React.Component {
   }
 }
 
+
+class Replybox extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      author: this.props.reply.author,
+      content: this.props.reply.content,
+      timestamp: this.props.reply.timestamp,
+      isAnonymous: this.props.reply.isAnonymous,
+    }
+  }
+
+  render(){
+    const author = this.state.isAnonymous?
+      'anonymous':createDisplayName(this.state.reply.author.username);
+    return(
+        <div className="reply-container">
+          <Row>
+            <Col xs={4}><div id="reply-author">{author}</div></Col>
+            <Col xs={8}><div id="reply-tag">{"#mockup" /*TODO: <mockup> change to createTag*/}</div></Col>
+          </Row>
+          <Row>
+            <Col>
+              <div id="reply-content">
+                {this.state.content /*TODO: <frontend> handle case where content is too long*/}
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <div id="reply-timestamp">{"mockup" /*TODO: <mockup> change to createTimeStamp()*/}</div>
+            </Col>
+          </Row>
+          <Row><div className="reply-breakline"></div></Row>
+        </div>
+    );
+  }
+}
+
+
 class Replymodal extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      post: this.props.post,
       reply: {
         author: this.props.currentUser,
         content: "",
+        isAnonymous: true,
         timestamp: null
       },
     };
@@ -329,14 +358,15 @@ class Replymodal extends React.Component {
       <Modal
         {...this.props}
         aria-labelledby = "reply-modal"
-        dialogClassName = "custom-modal"
+        dialogClassName = "reply-custom-modal"
       >
-        <Modal.Header bsPrefix="custom-modal-header">
-          <Modal.Title style={iconStyle}><FontAwesomeIcon icon="reply" /></Modal.Title>
-          <Modal.Title style={textStyle}>write a reply</Modal.Title>
-        </Modal.Header>
         <Modal.Body>
-          <Container fluid>
+          <Container fluid className="reply-stack-wrap">
+            <div>{createReplyStack(this.state.post)}</div>
+            <div className="custom-modal-header">
+              <div style={iconStyle}><FontAwesomeIcon icon="reply" /></div>
+              <div style={textStyle}>write a reply</div>
+            </div>
             <Form>
               <Form.Group style={{textAlign: "center"}}>
                   <Form.Control
@@ -381,6 +411,40 @@ const createPostStack = (posts, currentUser) => {
     //   }
     // }
     return(stack);
+}
+
+//TODO: <frontend> create timestamp
+const createTimeStamp = (timestamp) => {
+  return(
+    timestamp
+  );
+}
+
+//TODO: <frontend> create and link post tags
+const createTag = (taglist) => {
+  return(
+    taglist
+  );
+}
+
+const createReplyStack = (post) => {
+  var stack = [];
+  stack.push(
+    <Replybox reply={post} />
+  );
+  //TODO: <mockup> change to reply when replies datastructure is finished
+  //post can be sent as a reply because their the structure of reply is a subset of post
+  stack.push(
+    <Replybox reply={post} />
+  );
+  stack.push(
+    <Replybox reply={post} />
+  );
+  stack.push(
+    <Replybox reply={post} />
+  );
+
+  return(stack);
 }
 
 export default Board;

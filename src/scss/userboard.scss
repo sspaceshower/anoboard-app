@@ -216,7 +216,7 @@
 
 .custom-modal-header {
   text-align: center;
-  margin-top: 30px;
+  margin: 20px 0 20px 0;
 }
 
 .submit-button {
@@ -230,4 +230,64 @@
   width: 105px;
   height: 50px;
   cursor: pointer;
+}
+
+.reply-stack-containter {
+  background-color: white;
+  border-radius: 5px;
+}
+
+.reply-container {
+  background-color: white;
+  border-radius: 5px;
+  position: relative;
+}
+
+.reply-custom-modal {
+  top: 5%;
+}
+
+#reply-author {
+  font-family: $boldfont;
+  font-size: 18px;
+  color: $blue-title;
+  float: left;
+}
+
+#reply-author-match {
+  font-family: $boldfont;
+  font-size: 18px;
+  color: $blue-title;
+  float: left;
+}
+
+#reply-tag {
+  font-family: $defaultfont;
+  font-size: 14px;
+  text-align: right;
+  line-height: 25px;
+  vertical-align: middle;
+  color: $brown-tag;
+  float: right;
+
+}
+
+#reply-content {
+  font-family: $defaultfont;
+  font-size: 16px;
+  color: $blue-content;
+}
+
+#reply-timestamp {
+  color: $fadegray;
+  font-family: $defaultfont;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.reply-breakline {
+  width:100%;
+  height: 1px;
+  margin: 5px 0 10px 0;
+  background: #F1F1F1;
 }
