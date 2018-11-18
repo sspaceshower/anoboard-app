@@ -275,8 +275,6 @@ class Postbox extends React.Component {
                 <Button bsPrefix="postbox-reply-button" onClick={() => this.setState({modalShow: true})}>
                   <FontAwesomeIcon className="postbox-reply" icon="comments" />
                 </Button>
-                {console.log("HELLOWORLDSSS")}
-                {console.log(this.props.currentUser)}
                 <Replymodal
                   post = {this.state.post}
                   show = {this.state.modalShow}
@@ -348,7 +346,7 @@ class Replymodal extends React.Component {
       reply: {
         author: this.props.currentUser,
         content: "",
-        isAnonymous: null,
+        isAnonymous: true,
         timestamp: null
       },
     };
@@ -460,8 +458,6 @@ const createPostStack = (posts, currentUser) => {
     var stack = [];
     if(posts!=null){
       for (const [key, value] of Object.entries(posts)) {
-        console.log("HAYOOOOOOOOOOO");
-        console.log(value);
         stack.push(
           <Postbox post={value} currentUser = {currentUser}/>
         );
