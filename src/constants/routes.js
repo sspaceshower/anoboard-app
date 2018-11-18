@@ -4,3 +4,6 @@ export const SIGN_IN = '/signin';
 export const PASSWORD_FORGET = '/pw-forget';
 export const HOME = '/home';
 export const ACCOUNT = '/account';
+export const NOTIFICATION = '/notification';
+export const GROUPS = '/groups/';
+export const CS101 = '/group/CS101';
