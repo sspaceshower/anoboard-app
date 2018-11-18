@@ -28,7 +28,7 @@ class Board extends React.Component {
     this.state = {
       currentUser: this.props.currentUser,
       board: this.props.board,
-      posts : this.props.currentUser.posts,
+      // posts : this.props.board.value.posts,
       modalShow: false,
     }
   }
@@ -42,7 +42,7 @@ class Board extends React.Component {
     if (this.props.board !== prevProps.board) {
       this.setState(() => ({
         board: this.props.board,
-        posts: this.props.board.posts }))
+        posts: this.props.board.value.posts }))
     }
   }
 
@@ -63,7 +63,8 @@ class Board extends React.Component {
                         <Postmodal
                           show = {this.state.modalShow}
                           onHide = {modalClose}
-                          currentUser = {this.props.currentUser}
+                          currentUser = {this.state.currentUser}
+                          board = {this.state.board}
                         />
                       </Col>
                   </Row>
@@ -74,7 +75,7 @@ class Board extends React.Component {
                   </Row>
                 </div>
               </Col>
-              {createPostStack(this.state.posts)}
+              {createPostStack(this.state.posts, this.state.currentUser, this.state.board)}
             </Row>
         </Col>
       </Row>
@@ -87,6 +88,8 @@ class Postmodal extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      currentUser: this.props.currentUser,
+      board: this.props.board,
       post: {
         author: this.props.currentUser,
         content: "",
@@ -103,15 +106,29 @@ class Postmodal extends React.Component {
   componentDidUpdate(prevProps) {
     // Typical usage (don't forget to compare props):
     if (this.props.currentUser !== prevProps.currentUser) {
+      var currentPost = this.state.post;
+      currentPost.author = this.props.currentUser;
+      // currentPost.isAnonymous 
+      // console.log("DIDDDDDDDDDDDDDDDDDD")
       this.setState(() => ({
         currentUser: this.props.currentUser,
-        post: {author: this.props.currentUser, isAnonymous: true }}))
+        post: currentPost}))
+    }
+    if (this.props.board !== prevProps.board) {      
+      // currentPost.isAnonymous 
+      // console.log("DIDDDDDDDDDDDDDDDDDD")
+      this.setState(() => ({
+        board: this.props.board,
+        }))
     }
   }
   handleContentChange(event){
     var currentPost = this.state.post;
-    currentPost.content = event.target.content;
+    // console.log(event.target.value)
+    currentPost.content = event.target.value;
+    // console.log(currentPost)
     this.setState({post: currentPost});
+    // console.log("CONTENTTTT")
   }
 
   handleAnonimity(event){
@@ -121,19 +138,19 @@ class Postmodal extends React.Component {
   }
 
   handleSubmit(event){
-    console.log("this.state.post.author")
-    console.log(this.state.post.author.uid)
-    console.log(this.state.post)
-    // still not owner of the board but author of the board
-    var boardOwner = this.state.post.author.uid
+    // console.log("this.state.post.author")
+    // console.log(this.state.post.author.uid)
+    // console.log(this.state.post)
+    
+    var boardOwner = this.state.board.key
     // TODO: these values still null, fix this
-    var username = this.state.post.author.email
+    var username = this.state.post.author.username
     var content = this.state.post.content
     var isAnonymous = this.state.post.isAnonymous
     const { history } = this.props;
-    username = "mock"
-    content = "mock"
-    isAnonymous = true
+    // username = "mock"
+    // content = "mock"
+    // isAnonymous = true
 
     db.doCreatePost(boardOwner, username, content, isAnonymous)
     .then(() => {
@@ -153,6 +170,7 @@ class Postmodal extends React.Component {
       this.setState({ error });
     });
     event.preventDefault();
+    // window.location.reload();
   }
 
   render() {
@@ -233,14 +251,22 @@ class Postbox extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      post: this.props.post
+      post: this.props.post,
+      board: this.props.board
     }
+    var currentPost = this.state.post;
+    // console.log(event.target.value)
+    currentPost.user = {username: this.state.post.username};
+    // console.log(currentPost)
+    this.setState({post: currentPost});
+    console.log("CHECK this.state")
+    console.log(this.state)
   }
 
   render(){
     let modalClose = () => this.setState({ modalShow: false})
     const author = this.state.post.isAnonymous?
-      'anonymous':createDisplayName(this.state.post.username);
+      'anonymous':createDisplayName(this.state.post.user);
     return(
       <Col xs={12} sm={6} md={4}>
         <div className="postbox-wrap">
@@ -267,6 +293,7 @@ class Postbox extends React.Component {
                   show = {this.state.modalShow}
                   onHide = {modalClose}
                   currentUser = {this.props.currentUser}
+                  board = {this.state.board}
                 />
               </Col>
               <Col>
@@ -285,16 +312,21 @@ class Replybox extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      author: this.props.reply.author,
+      author: this.props.reply.username,
       content: this.props.reply.content,
-      timestamp: this.props.reply.timestamp,
+      // timestamp: this.props.reply.timestamp,
       isAnonymous: this.props.reply.isAnonymous,
     }
+    var currentPost = this.state;
+    // console.log(event.target.value)
+    currentPost.user = {username: this.state.author};
+    // console.log(currentPost)
+    this.setState({post: currentPost});
   }
 
   render(){
     const author = this.state.isAnonymous?
-      'anonymous':createDisplayName(this.state.reply.author.username);
+      'anonymous':createDisplayName(this.state.author.username);
     return(
         <div className="reply-container">
           <Row>
@@ -325,6 +357,7 @@ class Replymodal extends React.Component {
     super(props);
     this.state = {
       post: this.props.post,
+      board: this.props.board,
       reply: {
         author: this.props.currentUser,
         content: "",
@@ -334,12 +367,62 @@ class Replymodal extends React.Component {
     };
 
     this.handleContentChange = this.handleContentChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleContentChange(event){
     var currentReply = this.state.reply;
-    currentReply.content = event.target.content;
+    currentReply.content = event.target.value;
     this.setState({reply: currentReply});
+  }
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.currentUser !== prevProps.currentUser) {
+      this.setState(() => ({
+        currentUser: this.props.currentUser,
+        reply: {author: this.props.currentUser}}))
+    }
+    if (this.props.board !== prevProps.board) {
+      this.setState(() => ({
+        board: this.props.board,
+        }))
+    }
+  }
+
+  handleSubmit(event){
+    // console.log("this.state.post.author")
+    // console.log(this.state.post.author.uid)
+    // console.log(this.state.post)
+    //WRONGGGGGGGGGGGGGG VALUEEE!!!!!!!!!!!!!!!!!!!!!
+    // still not owner of the board but author of the board
+    var boardOwner = this.state.board.key
+    // TODO: these values still null, fix this
+    var username = this.state.reply.author.username
+    var content = this.state.reply.content
+    var isAnonymous = this.state.reply.isAnonymous
+    var postid = this.state.post.postid
+    const { history } = this.props;
+    // username = "replymock"
+    // content = "replymock"
+    isAnonymous = true
+
+    db.doCreateReply(boardOwner, username, content, isAnonymous, postid)
+    .then(() => {
+      this.setState(() => ({
+        reply: {
+          author: this.props.currentUser,
+          content: "",
+          isAnonymous: true,
+          timestamp: null
+        },
+       }));
+      history.push(routes.HOME);
+    })
+    .catch(error => {
+      this.setState({ error });
+    });
+    event.preventDefault();
+    // window.location.reload();
   }
 
   render() {
@@ -380,7 +463,7 @@ class Replymodal extends React.Component {
               </Form.Group>
               <Form.Group>
                 <Row><Col style={{textAlign: "center"}}>
-                  <Button bsPrefix="submit-button" onClick={() => ({/*TODO: fill in*/})}>Reply</Button>
+                  <Button bsPrefix="submit-button" onClick={this.handleSubmit}>Reply</Button>
                 </Col></Row>
               </Form.Group>
             </Form>
@@ -392,12 +475,12 @@ class Replymodal extends React.Component {
 }
 
 
-const createPostStack = (posts, currentUser) => {
+const createPostStack = (posts, currentUser, board) => {
     var stack = [];
     if(posts!=null){
       for (const [key, value] of Object.entries(posts)) {
         stack.push(
-          <Postbox post={value} currentUser = {currentUser}/>
+          <Postbox post={value} currentUser = {currentUser} board ={board}/>
         );
         // console.log("key, value");
         // console.log(key, value);
@@ -429,20 +512,18 @@ const createTag = (taglist) => {
 
 const createReplyStack = (post) => {
   var stack = [];
-  stack.push(
-    <Replybox reply={post} />
-  );
-  //TODO: <mockup> change to reply when replies datastructure is finished
-  //post can be sent as a reply because their the structure of reply is a subset of post
-  stack.push(
-    <Replybox reply={post} />
-  );
-  stack.push(
-    <Replybox reply={post} />
-  );
-  stack.push(
-    <Replybox reply={post} />
-  );
+  
+  if(post.replys!=null){
+    for (const [key, value] of Object.entries(post.replys)) {
+      console.log("FROM REPLY");
+      console.log(value);
+      stack.push(
+        <Replybox reply={value}/>
+      );
+      // console.log("key, value");
+      // console.log(key, value);
+    }
+  }
 
   return(stack);
 }
