@@ -10,3 +10,67 @@
   background-color: $board;
   font-family: $defaultfont;
 }
+
+.title {
+  color: white;
+  font-family: $boldfont;
+  font-size: 32px;
+}
+
+.group-display-wrap {
+}
+
+.group-img-wrap {
+  background-color: $fadegray;
+  height: 150px;
+  width: 100%;
+  text-align: center;
+  vertical-align: middle;
+  color: black;
+}
+
+.group-name {
+  color: white;
+  font-family: $semiboldfont;
+  font-size: 24px;
+}
+
+.group-privacy {
+  color: $lightgray;
+  font-family: $defaultfont;
+  font-size: 16px;
+  line-height: 18px;
+  vertical-align: middle;
+  margin-left: 5px;
+}
+
+.group-privacy-icon {
+  width: 20px;
+  height: 20px;
+  color: $lightgray;
+}
+
+.group-description {
+  color: $lightgray;
+  font-family: $defaultfont;
+  margin-top: 2px;
+  font-size: 18px;
+}
+
+.button-wrap {
+  text-align: center;
+}
+
+.button-join {
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 25px;
+  text-align: center;
+  color: white;
+  font-family: $latobold;
+  font-size: 16px;
+  width: 85px;
+  height: 35px;
+  margin-top: 10px;
+  cursor: pointer;
+}
