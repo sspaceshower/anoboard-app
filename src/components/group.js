@@ -48,9 +48,12 @@ class Group extends React.Component {
           <Col md={{span:10, offset: 2}} style={paddingSet}>
             <p>ioasdjoaisdj</p>
             <div>
-              {this.state.students.map((name) => {
-                return(<p>{name.title}</p>)
+              <ul>
+              {this.state.students.map((item) => {
+                return(<li>{item.name}</li>)
+
               })}
+              </ul>
             </div>
 
             <p>oaijdoais</p>
