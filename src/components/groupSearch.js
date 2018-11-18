@@ -1,7 +1,12 @@
 import React from 'react';
 import { Container, Row, Col, Modal, Button } from 'react-bootstrap';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserFriends, faLock } from '@fortawesome/free-solid-svg-icons';
 import '../scss/group.scss';
 
+library.add(faUserFriends);
+library.add(faLock)
 class GroupSearch extends React.Component {
   constructor(props){
     super(props);
@@ -17,9 +22,10 @@ class GroupSearch extends React.Component {
         <Container fluid style={{paddingLeft: "0"}}>
           <Row id="page-wrap">
             <Container fluid>
-              <Row class="title">Join a New Group</Row>
+              <Row className="title">Join a New Group</Row>
+              <Row><div>Searchbar</div></Row>
               <Row>
-                <GroupIcon />
+                <GroupDisplay />
               </Row>
             </Container>
           </Row>
@@ -29,34 +35,58 @@ class GroupSearch extends React.Component {
   }
 }
 
-class GroupIcon extends React.Component {
+class GroupDisplay extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       group: this.props.group
-    }
+    };
+
+    this.getGroupIcon = this.getGroupIcon.bind(this);
+    this.getGroupPrivacy = this.getGroupPrivacy.bind(this);
   }
-    render(){
-      let modalClose = () => this.setState({ modalShow: false})
-      return(
-        <Col xs={12} sm={6} md={4} className="group-icon-wrap">
-          <Row><div>group image</div></Row>
-          <Row><div>group name</div></Row>
-          <Row><div>group public/private</div></Row>
-          <Row><div>group description</div></Row>
+
+  getGroupIcon () {
+    const isPublic = true; /*TODO: replaced by this.state.group.isPublic*/
+    return(isPublic ?
+      <FontAwesomeIcon className="group-privacy-icon" icon="user-friends" /> :
+      <FontAwesomeIcon className="group-privacy-icon" icon="lock" />)
+  }
+
+  getGroupPrivacy () {
+    const isPublic = true; /*TODO: replaced by this.state.group.isPublic*/
+    return(isPublic ? "Public Group":"Closed Group")
+  }
+
+  render(){
+    let modalClose = () => this.setState({ modalShow: false})
+    return(
+      <Col sm={{span: 6, offset: 1}} md={{span: 3, offset: 0}} xs={{span: 10, offset: 1}}  className="group-display-wrap">
+        <Container fluid>
+          <Row><div className="group-img-wrap">group image</div></Row>
+          <Row><div className="group-name">group name</div></Row>
+          <Row>
+            <div>{this.getGroupIcon()}</div>
+            <div className="group-privacy">{this.getGroupPrivacy()}</div>
+          </Row>
+        <Row><div className="group-description">group description</div></Row>
+        <Row className="button-wrap"><Col>
           <Button
-            variant="outline-light"
+            bsPrefix="button-join"
             onClick={() => this.setState({modalShow: true})}>
-            Join Group
+            Join
           </Button>
-          <JoinGroupModal
-            show = {this.state.modalShow}
-            onHide = {modalClose}
-            currentUser = {this.props.currentUser}
-          />
         </Col>
-      );
-    }
+        </Row>
+        <JoinGroupModal
+          show = {this.state.modalShow}
+          onHide = {modalClose}
+          currentUser = {this.props.currentUser}
+        />
+        </Container>
+      </Col>
+    );
+  }
 }
 
 class JoinGroupModal extends React.Component {
