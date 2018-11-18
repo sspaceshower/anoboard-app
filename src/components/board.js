@@ -28,7 +28,7 @@ class Board extends React.Component {
     this.state = {
       currentUser: this.props.currentUser,
       board: this.props.board,
-      posts : this.props.currentUser.posts,
+      // posts : this.props.board.value.posts,
       modalShow: false,
     }
   }
@@ -42,7 +42,7 @@ class Board extends React.Component {
     if (this.props.board !== prevProps.board) {
       this.setState(() => ({
         board: this.props.board,
-        posts: this.props.board.posts }))
+        posts: this.props.board.value.posts }))
     }
   }
 
@@ -63,7 +63,8 @@ class Board extends React.Component {
                         <Postmodal
                           show = {this.state.modalShow}
                           onHide = {modalClose}
-                          currentUser = {this.props.currentUser}
+                          currentUser = {this.state.currentUser}
+                          board = {this.state.board}
                         />
                       </Col>
                   </Row>
@@ -74,7 +75,7 @@ class Board extends React.Component {
                   </Row>
                 </div>
               </Col>
-              {createPostStack(this.state.posts, this.state.currentUser)}
+              {createPostStack(this.state.posts, this.state.currentUser, this.state.board)}
             </Row>
         </Col>
       </Row>
@@ -87,6 +88,8 @@ class Postmodal extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      currentUser: this.props.currentUser,
+      board: this.props.board,
       post: {
         author: this.props.currentUser,
         content: "",
@@ -111,6 +114,13 @@ class Postmodal extends React.Component {
         currentUser: this.props.currentUser,
         post: currentPost}))
     }
+    if (this.props.board !== prevProps.board) {      
+      // currentPost.isAnonymous 
+      // console.log("DIDDDDDDDDDDDDDDDDDD")
+      this.setState(() => ({
+        board: this.props.board,
+        }))
+    }
   }
   handleContentChange(event){
     var currentPost = this.state.post;
@@ -131,8 +141,8 @@ class Postmodal extends React.Component {
     // console.log("this.state.post.author")
     // console.log(this.state.post.author.uid)
     // console.log(this.state.post)
-    // still not owner of the board but author of the board
-    var boardOwner = this.state.post.author.uid
+    
+    var boardOwner = this.state.board.key
     // TODO: these values still null, fix this
     var username = this.state.post.author.username
     var content = this.state.post.content
@@ -160,6 +170,7 @@ class Postmodal extends React.Component {
       this.setState({ error });
     });
     event.preventDefault();
+    // window.location.reload();
   }
 
   render() {
@@ -240,14 +251,16 @@ class Postbox extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      post: this.props.post
-
+      post: this.props.post,
+      board: this.props.board
     }
     var currentPost = this.state.post;
     // console.log(event.target.value)
     currentPost.user = {username: this.state.post.username};
     // console.log(currentPost)
     this.setState({post: currentPost});
+    console.log("CHECK this.state")
+    console.log(this.state)
   }
 
   render(){
@@ -280,6 +293,7 @@ class Postbox extends React.Component {
                   show = {this.state.modalShow}
                   onHide = {modalClose}
                   currentUser = {this.props.currentUser}
+                  board = {this.state.board}
                 />
               </Col>
               <Col>
@@ -343,6 +357,7 @@ class Replymodal extends React.Component {
     super(props);
     this.state = {
       post: this.props.post,
+      board: this.props.board,
       reply: {
         author: this.props.currentUser,
         content: "",
@@ -367,6 +382,11 @@ class Replymodal extends React.Component {
         currentUser: this.props.currentUser,
         reply: {author: this.props.currentUser}}))
     }
+    if (this.props.board !== prevProps.board) {
+      this.setState(() => ({
+        board: this.props.board,
+        }))
+    }
   }
 
   handleSubmit(event){
@@ -375,7 +395,7 @@ class Replymodal extends React.Component {
     // console.log(this.state.post)
     //WRONGGGGGGGGGGGGGG VALUEEE!!!!!!!!!!!!!!!!!!!!!
     // still not owner of the board but author of the board
-    var boardOwner = this.state.reply.author.uid
+    var boardOwner = this.state.board.key
     // TODO: these values still null, fix this
     var username = this.state.reply.author.username
     var content = this.state.reply.content
@@ -402,6 +422,7 @@ class Replymodal extends React.Component {
       this.setState({ error });
     });
     event.preventDefault();
+    // window.location.reload();
   }
 
   render() {
@@ -454,12 +475,12 @@ class Replymodal extends React.Component {
 }
 
 
-const createPostStack = (posts, currentUser) => {
+const createPostStack = (posts, currentUser, board) => {
     var stack = [];
     if(posts!=null){
       for (const [key, value] of Object.entries(posts)) {
         stack.push(
-          <Postbox post={value} currentUser = {currentUser}/>
+          <Postbox post={value} currentUser = {currentUser} board ={board}/>
         );
         // console.log("key, value");
         // console.log(key, value);
