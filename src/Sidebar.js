@@ -78,7 +78,7 @@ class Sidebar extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      currentUser: null,
+      currentUser: this.props.currentUser,
       groupNames: [],
     };
   }
@@ -107,19 +107,46 @@ class Sidebar extends React.Component {
 
     var data_list = []
 
-    groupRef.once("value").then((snapshot) => {
-      snapshot.forEach(function(childSnapshot) {
-        var key = childSnapshot.key;
-        var childData = childSnapshot.val().name;
-        data_list.push(childData);
-      });
-      // console.log(data_list, data_list.length);
-      this.setState({
-        groupNames: data_list
-      });
-    });
+    db.onceGetOneUser(this.state.currentUser.uid).then(snapshot =>
+      {
+        console.log("snapshot")
+        console.log(snapshot.val())
+        if(snapshot.val().grouplist !== null){
 
+          for (const [key, value] of Object.entries(snapshot.val().grouplist)) {
+            console.log("FROM HERE");
+            console.log(value);            
+            var childData = value.name;
+            data_list.push(childData);
+            // console.log("key, value");
+            // console.log(key, value);
+          }
 
+          // snapshot.val().grouplist.forEach(function(childSnapshot) {
+          //   var key = childSnapshot.key;
+          //   var childData = childSnapshot.val().name;
+          //   data_list.push(childData);
+          // });
+          // console.log(data_list, data_list.length);
+          this.setState({
+            groupNames: data_list
+          });
+        }
+      }
+        // this.setState(() => ({ users: snapshot.val() }))
+    );
+
+    // groupRef.once("value").then((snapshot) => {
+    //   snapshot.forEach(function(childSnapshot) {
+    //     var key = childSnapshot.key;
+    //     var childData = childSnapshot.val().name;
+    //     data_list.push(childData);
+    //   });
+    //   // console.log(data_list, data_list.length);
+    //   this.setState({
+    //     groupNames: data_list
+    //   });
+    // });
 
   }
 
