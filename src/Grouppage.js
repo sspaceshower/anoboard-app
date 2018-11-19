@@ -1,12 +1,13 @@
 import React from 'react';
 import Group from './components/group.js'
 
-function Grouppage({ match }){
+function GroupPage({ match }){
   const groupname = match.params.groupname;
   const group = {};
   //TODO: <backend> use username to fectch board object which board.
   return(
-    <div>
-    </div>
+    <Group groupname = {groupname} />
   )
 }
+
+export default GroupPage;

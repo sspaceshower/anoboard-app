@@ -57,7 +57,7 @@ const createSubMenu = (grouplist) => {
       {grouplist.map((name) => {
         return(
         <Row>
-          <NavLink to={'/groups/' + name}
+          <NavLink to={'/group/' + name}
             style={{textDecoration: "none"}}
             className="sub-menu-button"
             activeClassName="sub-menu-active">
@@ -115,7 +115,7 @@ class Sidebar extends React.Component {
 
           for (const [key, value] of Object.entries(snapshot.val().grouplist)) {
             console.log("FROM HERE");
-            console.log(value);            
+            console.log(value);
             var childData = value.name;
             data_list.push(childData);
             // console.log("key, value");
