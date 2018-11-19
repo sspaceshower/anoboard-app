@@ -1,17 +1,25 @@
 # ANOBOARD - CS473 Project
 Update:
+* 18/11/20 refactoring, adding new sections
 * 18/11/07 remove reactstrap & change react-bootstrap version
 * 18/11/08
   * update to remove trello & migrating to GitHub project board, set automation
   * use pull request instead of pushing to master.
   * use `npm ci` instead of `npm install`
+  
+# Description
+![](https://img.shields.io/badge/nodejs-11.2.0-green.svg)
+![](https://img.shields.io/badge/npm-6.4.1-red.svg) 
+![](https://img.shields.io/badge/react%20-16.6.0-blue.svg)
+ANOBoard is a web application running in NodeJS environment and using Firebase platform for a database. Front-end is build with ReactJS library and Sass stylesheet.
+
+## Codebase
+Our own source code can be found in the `anoboard-app/src/` folder. Main files are `App.js` and `Homepage.js` as they put together every part in `anoboard-app/src/components/`.
+TODO: better description of our codebase.
 
 Please read the instruction on this file before working on the project.
 
 # Dev Instructions
-![](https://img.shields.io/badge/nodejs-v11.2.0-green.svg)
-![](https://img.shields.io/badge/npm-6.4.1-red.svg) 
-![](https://img.shields.io/badge/react%20-16.6.0-blue.svg)
 
 ## Index
 1. [How to run the application](#HOW-TO)
@@ -63,7 +71,7 @@ you can also find the list in `package.json` file
 **updated** deleting `reactstrap` and `react-bootstrap (v3)`. now use only `react-bootstrap (v4)`
 
 ## Assets
-- fonts: Source Sans Pro
+- fonts: Source Sans Pro, Lato
 
 ## React Command Guide
 
@@ -118,3 +126,5 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+Firebase introduction [Firebase Realtime Database](https://firebase.google.com/products/realtime-database/?authuser=0)
