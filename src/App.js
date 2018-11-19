@@ -13,6 +13,7 @@ import PasswordForgetPage from './components/passwordForget.js';
 import Homepage from './Homepage.js';
 import AccountPage from './components/account.js';
 import withAuthentication from './session/withAuthentication.js';
+import AuthUserContext from './session/authUserContext';
 import * as routes from './constants/routes';
 
 import './index.css';
@@ -20,8 +21,15 @@ import './index.css';
 const App = () => (
   <Router>
     <div id="outer-wrap">
-      <Route pattern="/" component={props => <Sidebar />}/>
-      <Main />
+      <AuthUserContext.Consumer>
+      {authUser =>
+        <div>
+          <Route pattern="/" component={props => <Sidebar currentUser = {authUser}/>}/>
+          <Main />
+        </div>
+      }
+      </AuthUserContext.Consumer>
+      
     </div>
   </Router>
 )
