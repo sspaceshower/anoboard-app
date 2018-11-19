@@ -14,15 +14,24 @@ export const doCreateUser = (uid, username,fname,mname,lname,biography, email) =
   });
 
 export const doCreateBoard = (uid, username,fname,mname,lname,biography, email) =>  
-  db.ref(`boards/${uid}`).push().set({
-    uid,
-    username,
-    fname,
-    mname,
-    lname,
-    biography,
-    email,
-  });
+  db.ref(`boards/${uid}`).push(
+    {uid,
+      username,
+      fname,
+      mname,
+      lname,
+      biography,
+      email,}
+  ).then((snap) => {
+    db.ref(`boards/${uid}/owner/${snap.key}`).update({
+      uid,
+      username,
+      fname,
+      mname,
+      lname,
+      biography,
+      email
+ })});
 
 export const doCreatePost = (uid, username, content, isAnonymous) =>  
   db.ref(`boards/${uid}/posts`).push({    

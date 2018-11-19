@@ -42,7 +42,7 @@ class Board extends React.Component {
     if (this.props.board !== prevProps.board) {
       this.setState(() => ({
         board: this.props.board,
-        posts: this.props.board.value.posts }))
+        posts: this.props.board.posts }))
     }
   }
 
@@ -142,7 +142,7 @@ class Postmodal extends React.Component {
     // console.log(this.state.post.author.uid)
     // console.log(this.state.post)
     
-    var boardOwner = this.state.board.key
+    var boardOwner = this.state.board.owner.uid
     // TODO: these values still null, fix this
     var username = this.state.post.author.username
     var content = this.state.post.content
@@ -395,7 +395,7 @@ class Replymodal extends React.Component {
     // console.log(this.state.post)
     //WRONGGGGGGGGGGGGGG VALUEEE!!!!!!!!!!!!!!!!!!!!!
     // still not owner of the board but author of the board
-    var boardOwner = this.state.board.key
+    var boardOwner = this.state.board.owner.uid
     // TODO: these values still null, fix this
     var username = this.state.reply.author.username
     var content = this.state.reply.content

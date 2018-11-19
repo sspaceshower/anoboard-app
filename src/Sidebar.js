@@ -111,7 +111,7 @@ class Sidebar extends React.Component {
       {
         console.log("snapshot")
         console.log(snapshot.val())
-        if(snapshot.val().grouplist !== null){
+        if(snapshot.val().grouplist !== undefined && snapshot.val().grouplist !== null){
 
           for (const [key, value] of Object.entries(snapshot.val().grouplist)) {
             console.log("FROM HERE");
