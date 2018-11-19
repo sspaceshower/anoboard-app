@@ -7,4 +7,4 @@ export const ACCOUNT = '/account';
 export const NOTIFICATION = '/notification';
 export const GROUPS = '/groups/';
 export const SEARCHGROUP = '/search';
-export const CS101 = '/group/CS101';
+export const EACHGROUP = '/groups/:eachgroup';
