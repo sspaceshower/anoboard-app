@@ -3,18 +3,19 @@ import { NavLink } from "react-router-dom";
 import { Row, Col } from 'react-bootstrap';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faBell, faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { createDisplayName } from '../helper/helper.js'
-import { db } from '../firebase';
-import {groupRef, studentsOfGroupRef} from "../firebase/firebase";
-import withAuthorization from '../session/withAuthorization.js';
-import AuthUserContext from '../session/authUserContext.js';
-import '../scss/sidebar.scss';
+import { faHome, faBell, faEnvelope, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { createDisplayName } from './helper/helper.js'
+import { db } from './firebase';
+import {groupRef, studentsOfGroupRef} from "./firebase/firebase";
+import withAuthorization from './session/withAuthorization.js';
+import AuthUserContext from './session/authUserContext.js';
+import './scss/sidebar.scss';
 
 
 library.add(faHome);
 library.add(faBell);
 library.add(faEnvelope);
+library.add(faPlusCircle);
 
 const createMenu = (menulist) => {
   const iconStyle = {
@@ -77,10 +78,11 @@ class Sidebar extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      currentUser: null,
       groupNames: [],
     };
   }
-  /*
+
   componentDidUpdate(prevProps) {
     // Typical usage (don't forget to compare props):
     if (this.props.currentUser !== prevProps.currentUser) {
@@ -99,7 +101,8 @@ class Sidebar extends React.Component {
         // console.log(key, value);
       }
     }
-  }*/
+  }
+
   componentDidMount() {
 
     var data_list = []
@@ -147,7 +150,12 @@ class Sidebar extends React.Component {
             <Row className="justify-content-md-center">
               <Col xs={8} className="horizontal-line"></Col>
             </Row>
-            <Row className="sub-menu">GROUPS</Row>
+            <Row>
+              <NavLink to="/groups" style={{textDecoration: "none"}}><div className="sub-menu">GROUPS</div></NavLink>
+              <Col><NavLink to="/search">
+                <div className="plus-button"><FontAwesomeIcon icon="plus-circle" /></div>
+              </NavLink></Col>
+            </Row>
             {createSubMenu(this.state.groupNames)}
             <NavLink to={"/groups"} style={{textDecoration: "none"}}>
               <Row id="show-more">show more..</Row>
