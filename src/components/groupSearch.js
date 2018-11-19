@@ -9,7 +9,6 @@ import { NavLink } from "react-router-dom";
 import {auth} from "../firebase/firebase";
 import { db } from '../firebase/';
 import { currentUser } from "../firebase/auth";
-import CommonDataManager from './commonDataManager';
 import AuthUserContext from "../session/authUserContext";
 import firebase from "firebase";
 
@@ -136,7 +135,7 @@ class GroupDisplay extends React.Component {
   }
 }
 
-const updateUser = (authUser, className) =>{
+const updateUser = (authUser, groupName) =>{
   console.log(authUser.uid);
   firebase.database().ref('users/').on('value', function (snapshot) {
     // console.log(snapshot.val())
@@ -156,19 +155,50 @@ const updateUser = (authUser, className) =>{
   //   }
   // });
 
-  if (firebase.database().ref('users/').child(authUser.uid + "/grouplist").name !== className){
-    // firebase.database().ref('users/').child(authUser.uid + "/grouplist").push({
-    //     "name" : className
-    //   }
-    // )
-  }
+  // if (firebase.database().ref('users/').child(authUser.uid + "/grouplist").name !== groupName){
+  //   // firebase.database().ref('users/').child(authUser.uid + "/grouplist").push({
+  //   //     "name" : className
+  //   //   }
+  //   // )
+  // }
 
   // Add User to group
-  firebase.database().ref('groups/').child(className).push(
-    {user: authUser.name}
-  )
 
 
+  // console.log(firebase.database().ref("groups/").child(groupName).child("/students"))
+
+  var user_list = [];
+  firebase.database().ref("groups/").child(groupName).child("/students").on("value", function(snapshot){
+    // console.log(snapshot.val());
+    snapshot.forEach(function(data) {
+      user_list.push(data.val().uid);
+    });
+    console.log(user_list);
+    console.log(user_list.indexOf(authUser.uid));
+    if (user_list.indexOf(authUser.uid) > -1) {
+      //In the array!
+    } else {
+      firebase.database().ref('groups/').child(groupName + "/students").push({
+          "uid" : authUser.uid
+        }
+      )
+    }
+  });
+
+  // console.log(firebase.database().ref('groups/').child(groupName+"/name"));
+  // console.log(authUser);
+  // firebase.database().ref('groups/').child(groupName + "/students").push(
+  //   {"uid": authUser.uid}
+  // );
+
+  // firebase.database().ref('groups/').orderByChild('name').equalTo(groupName).on("value", function(snapshot) {
+  //   console.log(snapshot.val());
+  //   snapshot.forEach(function(data) {
+  //     console.log(data.key);
+  //   });
+  // });
+
+  // add group to user
   var data_list = []
   // Add Group to User in grouplist
   db.onceGetOneUser(authUser.uid).then(snapshot =>
@@ -184,11 +214,11 @@ const updateUser = (authUser, className) =>{
           data_list.push(childData);
 
         }
-        if (data_list.indexOf(className) > -1) {
+        if (data_list.indexOf(groupName) > -1) {
           //In the array!
         } else {
           firebase.database().ref('users/').child(authUser.uid + "/grouplist").push({
-              "name" : className
+              "name" : groupName
             }
           )
         }
