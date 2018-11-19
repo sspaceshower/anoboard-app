@@ -15,31 +15,33 @@ class AllGroup extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      groupNames: [],
+      groupName: this.props.match.params.eachgroup,      
       students: [],
     };
+    console.log("this.state.groupName");
+    console.log(this.props.match.params.eachgroup);
   }
 
 
   componentDidMount() {
-
-
-    db.ref("groups/").on('value', snap =>  {
-      var data = [];
-      var groupNames = [];
-      var students = [];
-      snap.forEach(ss => {
-        data.push([ss.child('name').val(), ss.child('students').val()]);
-        groupNames.push(ss.child('name').val());
-        students.push(ss.child('students').val());
-      });
-      this.setState({
-        groupNames: groupNames,
-        students: students
-      });
-
-      console.log(students);
-    });
+    console.log("BUNNNNNN");
+    
+    if(this.state.groupName !== null && this.state.groupName !== undefined){
+        db.ref(`groups/${this.state.groupName}`).on('value', snap =>  {      
+          var students = [];
+          snap.child("students").forEach(ss => {
+            // data.push([ss.child('name').val(), ss.child('students').val()]);
+            // groupNames.push(ss.child('name').val());
+            students.push(ss.val());
+          });
+          this.setState({        
+            students: students
+          });
+          console.log("this.state.groupNameHEY");
+          // console.log(this.state.groupName);
+          console.log(students);
+        });
+    }
   }
 
   render(){
