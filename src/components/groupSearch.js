@@ -9,11 +9,13 @@ import { NavLink } from "react-router-dom";
 
 library.add(faUserFriends);
 library.add(faLock)
+
 class GroupSearch extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       currentUser: null, //TODO: fetch currentUser
+      groupNames : [],
       modalShow: false,
     }
   }
@@ -45,7 +47,7 @@ class GroupSearch extends React.Component {
               <Row className="title">Join a New Group</Row>
               <Row><div>Searchbar</div></Row>
               <Row>
-                <GroupDisplay />
+                {this.state.groupNames.map((name) => <GroupDisplay name={name} />)}
               </Row>
             </Container>
           </Row>
@@ -60,7 +62,8 @@ class GroupDisplay extends React.Component {
     super(props);
     this.state = {
       group: this.props.group,
-      groupNames : []
+      name: this.props.name
+
     };
 
     this.getGroupIcon = this.getGroupIcon.bind(this);
@@ -79,33 +82,13 @@ class GroupDisplay extends React.Component {
     return(isPublic ? "Public Group":"Closed Group")
   }
 
-  componentDidMount() {
-
-    var data_list = []
-
-    groupRef.once("value").then((snapshot) => {
-      snapshot.forEach(function(childSnapshot) {
-        var key = childSnapshot.key;
-        var childData = childSnapshot.val().name;
-        data_list.push(childData);
-      });
-      // console.log(data_list, data_list.length);
-      this.setState({
-        groupNames: data_list
-      });
-    });
-  }
-
   render(){
     let modalClose = () => this.setState({ modalShow: false})
     return(
-      <div>
-
-      {this.state.groupNames.map((entry) =>
         <Col sm={{span: 6, offset: 1}} md={{span: 3, offset: 0}} xs={{span: 10, offset: 1}}  className="group-display-wrap">
           <Container fluid>
             <Row><div className="group-img-wrap">group image</div></Row>
-            <Row><div className="group-name">{entry}</div></Row>
+            <Row><div className="group-name">{this.state.name}</div></Row>
             <Row>
               <div>{this.getGroupIcon()}</div>
               <div className="group-privacy">{this.getGroupPrivacy()}</div>
@@ -126,11 +109,6 @@ class GroupDisplay extends React.Component {
             />
           </Container>
         </Col>
-
-      )}
-
-
-      </div>
     );
   }
 }
