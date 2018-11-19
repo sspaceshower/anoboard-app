@@ -9,8 +9,6 @@ Update:
 Please read the instruction on this file before working on the project.
 
 # Dev Instructions
-
-## Current configuration:
 ![](https://img.shields.io/badge/nodejs-v11.2.0-green.svg)
 ![](https://img.shields.io/badge/npm-6.4.1-red.svg) 
 ![](https://img.shields.io/badge/react%20-16.6.0-blue.svg)
@@ -34,6 +32,11 @@ Here, we are using **ReactJS** and **CSS/SCSS** stylesheet.
 7. **In the last, all the files in this repository will be packed using webpack to get `bundle.js` and `bundle.css`**, but we will wait until front-end and API are finished before packing.
 
 please **DO NOT** copy assets from the old repository to here if you are not using it. there're too many unused files there, and I am not sure which one are actually used, so this way (ideally) we could delete everything there after we finish with this one.
+
+before making the first commit, be sure to run this command in your cloned repository to make global .gitconfig work
+```bash
+git config --local include.path ../.gitconfig
+```
 
 ## TO-DO List
 ### Guide
@@ -66,7 +69,7 @@ you can also find the list in `package.json` file
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-### Available Script
+### Available Scripts
 In the project directory, you can run:
 
 ```bash
