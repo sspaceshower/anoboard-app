@@ -4,17 +4,39 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserFriends, faLock } from '@fortawesome/free-solid-svg-icons';
 import '../scss/group.scss';
+import { groupRef } from "../firebase/firebase";
+import { NavLink } from "react-router-dom";
 
 library.add(faUserFriends);
 library.add(faLock)
+
 class GroupSearch extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       currentUser: null, //TODO: fetch currentUser
+      groupNames : [],
       modalShow: false,
     }
   }
+
+  componentDidMount() {
+
+    var data_list = []
+
+    groupRef.once("value").then((snapshot) => {
+      snapshot.forEach(function(childSnapshot) {
+        var key = childSnapshot.key;
+        var childData = childSnapshot.val().name;
+        data_list.push(childData);
+      });
+      // console.log(data_list, data_list.length);
+      this.setState({
+        groupNames: data_list
+      });
+    });
+  }
+
   render() {
 
     return(
@@ -25,7 +47,7 @@ class GroupSearch extends React.Component {
               <Row className="title">Join a New Group</Row>
               <Row><div>Searchbar</div></Row>
               <Row>
-                <GroupDisplay />
+                {this.state.groupNames.map((name) => <GroupDisplay name={name} />)}
               </Row>
             </Container>
           </Row>
@@ -39,7 +61,9 @@ class GroupDisplay extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      group: this.props.group
+      group: this.props.group,
+      name: this.props.name
+
     };
 
     this.getGroupIcon = this.getGroupIcon.bind(this);
@@ -61,30 +85,30 @@ class GroupDisplay extends React.Component {
   render(){
     let modalClose = () => this.setState({ modalShow: false})
     return(
-      <Col sm={{span: 6, offset: 1}} md={{span: 3, offset: 0}} xs={{span: 10, offset: 1}}  className="group-display-wrap">
-        <Container fluid>
-          <Row><div className="group-img-wrap">group image</div></Row>
-          <Row><div className="group-name">group name</div></Row>
-          <Row>
-            <div>{this.getGroupIcon()}</div>
-            <div className="group-privacy">{this.getGroupPrivacy()}</div>
-          </Row>
-        <Row><div className="group-description">group description</div></Row>
-        <Row className="button-wrap"><Col>
-          <Button
-            bsPrefix="button-join"
-            onClick={() => this.setState({modalShow: true})}>
-            Join
-          </Button>
+        <Col sm={{span: 6, offset: 1}} md={{span: 3, offset: 0}} xs={{span: 10, offset: 1}}  className="group-display-wrap">
+          <Container fluid>
+            <Row><div className="group-img-wrap">group image</div></Row>
+            <Row><div className="group-name">{this.state.name}</div></Row>
+            <Row>
+              <div>{this.getGroupIcon()}</div>
+              <div className="group-privacy">{this.getGroupPrivacy()}</div>
+            </Row>
+            <Row><div className="group-description">group description</div></Row>
+            <Row className="button-wrap"><Col>
+              <Button
+                bsPrefix="button-join"
+                onClick={() => this.setState({modalShow: true})}>
+                Join
+              </Button>
+            </Col>
+            </Row>
+            <JoinGroupModal
+              show = {this.state.modalShow}
+              onHide = {modalClose}
+              currentUser = {this.props.currentUser}
+            />
+          </Container>
         </Col>
-        </Row>
-        <JoinGroupModal
-          show = {this.state.modalShow}
-          onHide = {modalClose}
-          currentUser = {this.props.currentUser}
-        />
-        </Container>
-      </Col>
     );
   }
 }

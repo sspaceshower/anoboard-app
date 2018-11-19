@@ -10,7 +10,7 @@ import FullBoard from './components/fullboard.js';
 
 const paddingSet = {
   paddingLeft: '40px',
-  paddingRight: '40px'
+  paddingRight: '40px',
 }
 
 class Homepage extends Component {
