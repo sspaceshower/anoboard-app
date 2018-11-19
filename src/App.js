@@ -6,11 +6,11 @@ import LandingPage from './components/landingpage.js';
 import SignUpPage from './components/signup.js';
 import SignInPage from './components/signin.js';
 import Sidebar from './Sidebar.js'
-import Notification from './Notification.js';
+import Notification from './notification.js';
 import GroupSearch from './components/groupSearch.js';
 import AllGroup from './Allgroup.js';
 import PasswordForgetPage from './components/passwordForget.js';
-import Homepage from './Homepage.js';
+import Homepage from './homepage.js';
 import AccountPage from './components/account.js';
 import withAuthentication from './session/withAuthentication.js';
 import * as routes from './constants/routes';

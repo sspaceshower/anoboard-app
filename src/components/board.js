@@ -170,7 +170,7 @@ class Postmodal extends React.Component {
       this.setState({ error });
     });
     event.preventDefault();
-    // window.location.reload();
+    window.location.reload();
   }
 
   render() {
@@ -422,7 +422,7 @@ class Replymodal extends React.Component {
       this.setState({ error });
     });
     event.preventDefault();
-    // window.location.reload();
+    window.location.reload();
   }
 
   render() {
