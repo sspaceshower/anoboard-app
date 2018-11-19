@@ -1,8 +1,4 @@
-# README.MD
-Please read the instruction on this file before working on the project.
-<br>
-This repository has been created for front-end part of **ANOBOARD** using mainly ReactJS and SCSS
-
+# ANOBOARD - CS473 Project
 Update:
 * 18/11/07 remove reactstrap & change react-bootstrap version
 * 18/11/08
@@ -10,12 +6,17 @@ Update:
   * use pull request instead of pushing to master.
   * use `npm ci` instead of `npm install`
 
+Please read the instruction on this file before working on the project.
+<br>
+
+# Dev Instructions
+
 ## Index
-1. Instruction on how to work on this repository
-2. TO-DO List
-3. Ref: React Library
-4. Ref: Assets
-5. Ref: React Command Guide
+1. [How to run the application](#HOW-TO)
+2. [TO-DO List](#TO-DO-List)
+3. [Ref: React Library](#React-Library)
+4. Ref: [Assets](#Assets)
+5. Ref: [React Command Guide](#React-Command-Guide)
 
 
 ## HOW TO
@@ -32,7 +33,7 @@ Here, we are using **ReactJS** and **CSS/SCSS** stylesheet.
 
 please **DO NOT** copy assets from the old repository to here if you are not using it. there're too many unused files there, and I am not sure which one are actually used, so this way (ideally) we could delete everything there after we finish with this one.
 
-## TO-DO LIST
+## TO-DO List
 ### Guide
 - Please add the comment with keyword `TODO:` and include a short tag/category in <> before describing the task. For example:
 `TODO: <API> request ___ from the server`
@@ -51,8 +52,7 @@ when the corresponding API part is finished.
 - `optional`
 - `unidentified` : priority to be decided.
 
-## INSTALLED REACT LIBRARY
-
+## React Library
 you can also find the list in `package.json` file
 - [react-bootstrap](https://react-bootstrap.netlify.com)
 - [react-fontawesome](https://fontawesome.com)
@@ -60,7 +60,7 @@ you can also find the list in `package.json` file
 
 **updated** deleting `reactstrap` and `react-bootstrap (v3)`. now use only `react-bootstrap (v4)`
 
-## ASSETS
+## Assets
 - fonts: Source Sans Pro
 
 # React Command Guide
