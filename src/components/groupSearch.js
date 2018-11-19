@@ -136,47 +136,15 @@ class GroupDisplay extends React.Component {
 }
 
 const updateUser = (authUser, groupName) =>{
-  console.log(authUser.uid);
-  firebase.database().ref('users/').on('value', function (snapshot) {
-    // console.log(snapshot.val())
-  });
 
-  // db.ref('users/').child(authUser.uid + "/grouplist").once('value', function (snapshot) {
-  //   if (snapshot.val() === null) {
-  //     // db.ref('users/').child(authUser.uid + "/grouplist").push({"name": className})
-  //     console.log('Email is not present');
-  //   }else{
-  //     // db.ref('users/').child(authUser.uid + "/grouplist").push({"testtt": className})
-  //     console.log('Email is present');
-  //     var key = snapshot.key;
-  //     var childData = snapshot.val();
-  //     //Your Code goes Here
-  //     db.ref('users/').orderByChild("uid").equalTo(authUser.uid)
-  //   }
-  // });
-
-  // if (firebase.database().ref('users/').child(authUser.uid + "/grouplist").name !== groupName){
-  //   // firebase.database().ref('users/').child(authUser.uid + "/grouplist").push({
-  //   //     "name" : className
-  //   //   }
-  //   // )
-  // }
-
-  // Add User to group
-
-
-  // console.log(firebase.database().ref("groups/").child(groupName).child("/students"))
-
+  // add user to group
   var user_list = [];
   firebase.database().ref("groups/").child(groupName).child("/students").on("value", function(snapshot){
     // console.log(snapshot.val());
     snapshot.forEach(function(data) {
       user_list.push(data.val().uid);
     });
-    console.log(user_list);
-    console.log(user_list.indexOf(authUser.uid));
     if (user_list.indexOf(authUser.uid) > -1) {
-      //In the array!
     } else {
       firebase.database().ref('groups/').child(groupName + "/students").push({
           "uid" : authUser.uid
@@ -184,19 +152,6 @@ const updateUser = (authUser, groupName) =>{
       )
     }
   });
-
-  // console.log(firebase.database().ref('groups/').child(groupName+"/name"));
-  // console.log(authUser);
-  // firebase.database().ref('groups/').child(groupName + "/students").push(
-  //   {"uid": authUser.uid}
-  // );
-
-  // firebase.database().ref('groups/').orderByChild('name').equalTo(groupName).on("value", function(snapshot) {
-  //   console.log(snapshot.val());
-  //   snapshot.forEach(function(data) {
-  //     console.log(data.key);
-  //   });
-  // });
 
   // add group to user
   var data_list = []
@@ -212,7 +167,6 @@ const updateUser = (authUser, groupName) =>{
           // console.log(value);
           var childData = value.name;
           data_list.push(childData);
-
         }
         if (data_list.indexOf(groupName) > -1) {
           //In the array!
@@ -225,7 +179,7 @@ const updateUser = (authUser, groupName) =>{
       }
     }
   );
-}
+};
 
 class JoinGroupModal extends React.Component {
   constructor(props){
