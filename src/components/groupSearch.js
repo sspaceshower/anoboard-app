@@ -137,7 +137,7 @@ class GroupDisplay extends React.Component {
 
 const updateUser = (authUser, groupName) =>{
 
-  add user to group
+  //add user to group
   var user_list = [];
   firebase.database().ref("groups/").child(groupName).child("/students").on("value", function(snapshot){
     // console.log(snapshot.val());
