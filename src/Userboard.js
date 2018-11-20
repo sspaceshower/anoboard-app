@@ -10,7 +10,7 @@ function Userboard({ match }){
 db.onceGetBoards().then(snapshot =>
     snapshot.val().forEach(board => {
         if(board.child().owner.username === username){
-            userboard = board
+            userboard = board;
         }
     })
   );

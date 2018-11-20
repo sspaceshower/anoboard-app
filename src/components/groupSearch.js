@@ -133,7 +133,7 @@ class JoinGroupModal extends React.Component {
           <Container fluid>
             <Row><div>public? password:none</div></Row>
             <Row>
-              <Button variant="outline-secondary">Cancel</Button>
+              <Button variant="outline-secondary" onClick={this.props.onHide}>Cancel</Button>
               <Button variant="info">Confirm</Button>
             </Row>
           </Container>

@@ -50,6 +50,7 @@ const Main = () => (
       <Route path={routes.SEARCHGROUP} component={GroupSearch} />
       <Route path={routes.GROUPS} component={AllGroup} />
       <Route path={routes.GROUPPAGE} component={GroupPage} />
+      <Route path={routes.USERBOARD} component={Userboard} />
 
       {/* <span>Found in <a href="https://roadtoreact.com/course-details?courseId=TAMING_THE_STATE">Taming the State in React</a></span> | <span>Star the <a href="https://github.com/rwieruch/react-firebase-authentication">Repository</a></span> | <span>Receive a <a href="https://www.getrevue.co/profile/rwieruch">Developer's Newsletter</a></span> */}
     </div>

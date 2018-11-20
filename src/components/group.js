@@ -29,6 +29,7 @@ class Group extends React.Component {
         snap.child("students").forEach(ss => {
           // data.push([ss.child('name').val(), ss.child('students').val()]);
           // groupNames.push(ss.child('name').val());
+          console.log(ss.val());
           students.push(ss.val());
         });
         this.setState({
