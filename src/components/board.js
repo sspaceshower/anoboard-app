@@ -141,13 +141,13 @@ class Postmodal extends React.Component {
     // console.log("this.state.post.author")
     // console.log(this.state.post.author.uid)
     // console.log(this.state.post)
-  
-    var boardOwner = this.state.board.owner.uid
+
+    var boardOwner = this.props.board.owner.uid;
 
     // TODO: these values still null, fix this
-    var username = this.state.post.author.username
-    var content = this.state.post.content
-    var isAnonymous = this.state.post.isAnonymous
+    var username = this.state.post.author.username;
+    var content = this.state.post.content;
+    var isAnonymous = this.state.post.isAnonymous;
     const { history } = this.props;
     // username = "mock"
     // content = "mock"

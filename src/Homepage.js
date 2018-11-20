@@ -35,22 +35,12 @@ class Homepage extends Component {
     });
     db.onceGetOneUser(firebase.auth.currentUser.uid).then(snapshot =>
     {
-      const data_list = [];
-      if(snapshot.val().grouplist !== undefined && snapshot.val().grouplist !== null){
-        for (const [key, value] of Object.entries(snapshot.val().grouplist)) {
-          var childData = value.name;
-          data_list.push(childData);
-          // console.log("key, value");
-          // console.log(key, value);
-        }
-      }
       var user = {
         username: snapshot.val().username,
         fname: snapshot.val().fname,
         mname: snapshot.val().mname,
         lname: snapshot.val().lname,
         biography: snapshot.val().biography,
-        grouplist: data_list
       }
       this.setState({user: user, loaded:true,loading:loading.NOTHING,});
     }).catch((err)=> {
@@ -89,6 +79,7 @@ class Homepage extends Component {
               console.log("HEYHELPP!");
               console.log(key, value);
               board = value
+              console.log(board);
             }
             // console.log("key, value");
             // console.log(key, value);
@@ -100,7 +91,7 @@ class Homepage extends Component {
         <Container fluid>
           <Row className="wrapper">
               <Col md={{span:10, offset: 2}} style={paddingSet}>
-                <FullBoard currentUser={this.state.user} board={board} users = {users}/>
+                <FullBoard currentUser={this.state.user} board={board}/>
               </Col>
           </Row>
         </Container>
