@@ -13,15 +13,24 @@ import PasswordForgetPage from './components/passwordForget.js';
 import Homepage from './Homepage.js';
 import AccountPage from './components/account.js';
 import withAuthentication from './session/withAuthentication.js';
+import AuthUserContext from './session/authUserContext';
 import * as routes from './constants/routes';
+import Group from './components/group.js';
 
 import './index.css';
 
 const App = () => (
   <Router>
     <div id="outer-wrap">
-      <Route pattern="/" component={props => <Sidebar />}/>
-      <Main />
+      <AuthUserContext.Consumer>
+      {authUser =>
+        <div>
+          <Route pattern="/" component={props => <Sidebar currentUser = {authUser}/>}/>
+          <Main />
+        </div>
+      }
+      </AuthUserContext.Consumer>
+      
     </div>
   </Router>
 )
@@ -38,7 +47,7 @@ const Main = () => (
       <Route path={routes.NOTIFICATION} component={Notification} />
       <Route path={routes.SEARCHGROUP} component={GroupSearch} />
       <Route path={routes.GROUPS} component={AllGroup} />
-      <Route path={routes.CS101} component={AllGroup} />
+      <Route path={routes.EACHGROUP} component={Group} />
       {/* <span>Found in <a href="https://roadtoreact.com/course-details?courseId=TAMING_THE_STATE">Taming the State in React</a></span> | <span>Star the <a href="https://github.com/rwieruch/react-firebase-authentication">Repository</a></span> | <span>Receive a <a href="https://www.getrevue.co/profile/rwieruch">Developer's Newsletter</a></span> */}
     </div>
   </Switch>

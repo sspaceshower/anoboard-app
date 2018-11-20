@@ -1,25 +1,34 @@
-# README.MD
-Please read the instruction on this file before working on the project.
-<br>
-This repository has been created for front-end part of **ANOBOARD** using mainly ReactJS and SCSS
-
+# ANOBOARD - CS473 Project
 Update:
+* 18/11/20 refactoring, adding new sections
 * 18/11/07 remove reactstrap & change react-bootstrap version
 * 18/11/08
   * update to remove trello & migrating to GitHub project board, set automation
   * use pull request instead of pushing to master.
   * use `npm ci` instead of `npm install`
+  
+# Description
+![](https://img.shields.io/badge/nodejs-11.2.0-green.svg)
+![](https://img.shields.io/badge/npm-6.4.1-red.svg) 
+![](https://img.shields.io/badge/react%20-16.6.0-blue.svg)
+ANOBoard is a web application running in NodeJS environment and using Firebase platform for a database. Front-end is build with ReactJS library and Sass stylesheet.
+
+## Codebase
+Our own source code can be found in the `anoboard-app/src/` folder. Main files are `App.js` and `Homepage.js` as they put together every part in `anoboard-app/src/components/`.
+TODO: better description of our codebase.
+
+Please read the instruction on this file before working on the project.
+
+# Dev Instructions
 
 ## Index
-1. Instruction on how to work on this repository
-2. TO-DO List
-3. Ref: React Library
-4. Ref: Assets
-5. Ref: React Command Guide
-
+1. [How to run the application](#HOW-TO)
+2. [TO-DO List](#TO-DO-List)
+3. [Ref: React Library](#React-Library)
+4. [Ref: Assets](#Assets)
+5. [Ref: React Command Guide](#React-Command-Guide)
 
 ## HOW TO
-~~aka my effort to keep this organized~~<br>
 Here, we are using **ReactJS** and **CSS/SCSS** stylesheet.
 
 1. To start working, first clone the repository, then go to the project folder (where package.json is) and then run `npm ci` and `npm start`. note that we are using `npm ci` instead of `npm install` because it will install package according to the package-lock file and will not rewrite it. After the first pull, you can run project only with `npm start`.You also have to install sass package for scss reference, so run the command the npm prompt you when trying to run the project
@@ -32,27 +41,28 @@ Here, we are using **ReactJS** and **CSS/SCSS** stylesheet.
 
 please **DO NOT** copy assets from the old repository to here if you are not using it. there're too many unused files there, and I am not sure which one are actually used, so this way (ideally) we could delete everything there after we finish with this one.
 
-## TO-DO LIST
+before making the first commit, be sure to run this command in your cloned repository to make global .gitconfig work
+```bash
+git config --local include.path ../.gitconfig
+```
+
+## TO-DO List
 ### Guide
 - Please add the comment with keyword `TODO:` and include a short tag/category in <> before describing the task. For example:
 `TODO: <API> request ___ from the server`
 - Please also add new git issue with labels and add to corresponding project board + Anoboard App Board. The issue will automatically move into To Do section of the project board. Please write the description and location(filename) too if you see it necessary. you can freely create a new tag/label if you want to.
 - When working on something, please move the task to DOING section on project board; also assign your name to the issue if possible. This is the only column with no automation
 - If you are done with the task, delete the comment `TODO:` from the source code, close the issue on git and the automation will bring the corresponding card to DONE section
-<br>
-
 
 ### Tag List
 - `API`: request/pushing of information between front-end to back-end
-- `mockup`: fake information used to preview the website, to be changed/deleted
-when the corresponding API part is finished.
+- `mockup`: fake information used to preview the website, to be changed/deleted when the corresponding API part is finished.
 - `frontend`: interface/design
 - `general`
 - `optional`
 - `unidentified` : priority to be decided.
 
-## INSTALLED REACT LIBRARY
-
+## React Library
 you can also find the list in `package.json` file
 - [react-bootstrap](https://react-bootstrap.netlify.com)
 - [react-fontawesome](https://fontawesome.com)
@@ -60,18 +70,19 @@ you can also find the list in `package.json` file
 
 **updated** deleting `reactstrap` and `react-bootstrap (v3)`. now use only `react-bootstrap (v4)`
 
-## ASSETS
-- fonts: Source Sans Pro
+## Assets
+- fonts: Source Sans Pro, Lato
 
-# React Command Guide
+## React Command Guide
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
-
+### Available Scripts
 In the project directory, you can run:
 
-### `npm start`
+```bash
+npm start
+```
 
 Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -79,12 +90,16 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
-### `npm test`
+```bash
+npm test
+```
 
 Launches the test runner in the interactive watch mode.<br>
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+```bash
+npm run build
+```
 
 Builds the app for production to the `build` folder.<br>
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -94,7 +109,9 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+```bash
+npm run eject
+```
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
@@ -109,3 +126,5 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+Firebase introduction [Firebase Realtime Database](https://firebase.google.com/products/realtime-database/?authuser=0)

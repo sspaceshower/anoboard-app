@@ -42,7 +42,7 @@ class Board extends React.Component {
     if (this.props.board !== prevProps.board) {
       this.setState(() => ({
         board: this.props.board,
-        posts: this.props.board.value.posts }))
+        posts: this.props.board.posts }))
     }
   }
 
@@ -54,7 +54,7 @@ class Board extends React.Component {
         <Col md={12}>
             <Row className="justify-content-md-center">
               <Col xs={12} md={4}>
-                <div className="postbox-wrap">
+                <div className="postbox-new-wrap">
                   <Row>
                       <Col id="postbox-icon-wrap">
                         <Button bsPrefix="custom-area-new-button" onClick={() => this.setState({modalShow: true})}>
@@ -108,14 +108,14 @@ class Postmodal extends React.Component {
     if (this.props.currentUser !== prevProps.currentUser) {
       var currentPost = this.state.post;
       currentPost.author = this.props.currentUser;
-      // currentPost.isAnonymous 
+      // currentPost.isAnonymous
       // console.log("DIDDDDDDDDDDDDDDDDDD")
       this.setState(() => ({
         currentUser: this.props.currentUser,
         post: currentPost}))
     }
-    if (this.props.board !== prevProps.board) {      
-      // currentPost.isAnonymous 
+    if (this.props.board !== prevProps.board) {
+      // currentPost.isAnonymous
       // console.log("DIDDDDDDDDDDDDDDDDDD")
       this.setState(() => ({
         board: this.props.board,
@@ -141,8 +141,9 @@ class Postmodal extends React.Component {
     // console.log("this.state.post.author")
     // console.log(this.state.post.author.uid)
     // console.log(this.state.post)
-    
-    var boardOwner = this.state.board.key
+  
+    var boardOwner = this.state.board.owner.uid
+
     // TODO: these values still null, fix this
     var username = this.state.post.author.username
     var content = this.state.post.content
@@ -170,7 +171,7 @@ class Postmodal extends React.Component {
       this.setState({ error });
     });
     event.preventDefault();
-    // window.location.reload();
+    window.location.reload();
   }
 
   render() {
@@ -395,7 +396,7 @@ class Replymodal extends React.Component {
     // console.log(this.state.post)
     //WRONGGGGGGGGGGGGGG VALUEEE!!!!!!!!!!!!!!!!!!!!!
     // still not owner of the board but author of the board
-    var boardOwner = this.state.board.key
+    var boardOwner = this.state.board.owner.uid
     // TODO: these values still null, fix this
     var username = this.state.reply.author.username
     var content = this.state.reply.content
@@ -422,7 +423,7 @@ class Replymodal extends React.Component {
       this.setState({ error });
     });
     event.preventDefault();
-    // window.location.reload();
+    window.location.reload();
   }
 
   render() {
@@ -512,7 +513,7 @@ const createTag = (taglist) => {
 
 const createReplyStack = (post) => {
   var stack = [];
-  
+
   if(post.replys!=null){
     for (const [key, value] of Object.entries(post.replys)) {
       console.log("FROM REPLY");

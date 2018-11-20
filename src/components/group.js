@@ -13,10 +13,8 @@ class Group extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      groupInfo : [],
-      groupNames: [],
-      studentInfo: [],
-
+      groupName: this.props.match.params.eachgroup,      
+      students: [],
     };
   }
 
@@ -24,25 +22,22 @@ class Group extends React.Component {
   componentDidMount() {
 
 
-    db.ref("groups/").on('value', snap =>  {
-
-      var data = [];
-      var groupNames = [];
-      var students = [];
-      snap.forEach(ss => {
-        data.push([ss.child('name').val(), ss.child('students').val()]);
-        groupNames.push(ss.child('name').val());
-        students.push(ss.child('students').val());
+    if(this.state.groupName !== null && this.state.groupName !== undefined){
+      db.ref(`groups/${this.state.groupName}`).on('value', snap =>  {      
+        var students = [];
+        snap.child("students").forEach(ss => {
+          // data.push([ss.child('name').val(), ss.child('students').val()]);
+          // groupNames.push(ss.child('name').val());
+          students.push(ss.val());
+        });
+        this.setState({        
+          students: students
+        });
+        console.log("this.state.groupNameHEY");
+        // console.log(this.state.groupName);
+        console.log(students);
       });
-      this.setState({
-        // in the groupInfo is stored all the information
-        groupInfo: data,
-        groupNames: groupNames,
-        studentInfo: students
-      });
-
-      console.log(students);
-    });
+    }
   }
 
   render(){
@@ -53,7 +48,7 @@ class Group extends React.Component {
             <p>ioasdjoaisdj</p>
             <div>
               <ul>
-              {this.state.studentInfo.map((item) => {
+              {this.state.students.map((item) => {
                 return(<li>{item.name}</li>)
 
               })}
