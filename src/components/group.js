@@ -32,6 +32,7 @@ class Group extends React.Component {
           console.log(ss.val());
           students.push(ss.val());
         });
+
         this.setState({
           students: students
         });

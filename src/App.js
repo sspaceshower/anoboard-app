@@ -25,11 +25,18 @@ const App = () => (
   <Router>
     <div id="outer-wrap">
       <AuthUserContext.Consumer>
-      {authUser =>
-        <div>
-          <Route pattern="/" component={props => <Sidebar currentUser = {authUser}/>}/>
-          <Main />
-        </div>
+      {authUser => {
+        if(authUser){
+          return(
+            <div>
+              <Route pattern="/" component={props => <Sidebar />} />
+              <Main />
+            </div>
+          );
+        } else {
+          return(<Main />);
+        }
+      }
       }
       </AuthUserContext.Consumer>
 
