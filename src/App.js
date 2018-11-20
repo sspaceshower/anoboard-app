@@ -32,7 +32,7 @@ const App = () => (
             </div>
           );
         } else {
-          return(<Main />);
+          return(<div></div>);
         }
       }
       }

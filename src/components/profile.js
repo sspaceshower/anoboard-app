@@ -7,7 +7,7 @@ class Profile extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      owner: this.props.user //TODO: <mockup> to be changed to board.owner when board info is ready
+      owner: this.props.owner //TODO: <mockup> to be changed to board.owner when board info is ready
     };
   }
 
@@ -24,7 +24,7 @@ class Profile extends React.Component {
           <Col xs={10}>
             <Container fluid className="valign-middle" style={{paddingLeft: "20px"}}>
               <Row><Col><div id="profile-name">{displayName}</div></Col></Row>
-              <Row><Col><div id="biography">{this.props.user.biography}</div></Col></Row>
+              <Row><Col><div id="biography">{this.props.owner.biography}</div></Col></Row>
             </Container>
           </Col>
         </Row>

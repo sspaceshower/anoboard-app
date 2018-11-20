@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-
+import { Container, Row, Col } from 'react-bootstrap';
 import withAuthorization from './session/withAuthorization.js';
 import AuthUserContext from './session/authUserContext.js';
-import { db, auth } from './firebase';
-import { firebase } from './firebase';
-import { Container, Row, Col } from 'react-bootstrap';
+import { db, auth, firebase } from './firebase';
+import { loading } from './constants/loading.js';
 import FullBoard from './components/fullboard.js';
-import {withAuthConst} from './session/withAuthConst';
+import { withAuthConst } from './session/withAuthConst';
 
 // import { fetchUserData, fetchBoardData } from '../../helper/fetchdata.js'
 
@@ -20,18 +19,18 @@ class Homepage extends Component {
   constructor(props){
     super(props);
     this.state = {
-      loaded:false,
-      loading:loading.NOTHING,
-      authUser: null,
-      users: {},
-      boards: {},
-      user: {},
+      user: null,
+      board: null,
+      loaded_user: false,
+      loading_user: loading.NOTHING,
+      loaded_board: false,
+      loading_board: loading.NOTHING,
     };
   }
 
   fetchUserData(){
     this.setState({
-      loading:loading.RELOADING
+      loading_user:loading.RELOADING
     });
     db.onceGetOneUser(firebase.auth.currentUser.uid).then(snapshot =>
     {
@@ -41,57 +40,44 @@ class Homepage extends Component {
         mname: snapshot.val().mname,
         lname: snapshot.val().lname,
         biography: snapshot.val().biography,
+        uid: snapshot.val().uid,
       }
-      this.setState({user: user, loaded:true,loading:loading.NOTHING,});
+      this.setState({user: user, loaded_user:true,loading_user:loading.NOTHING,});
     }).catch((err)=> {
       console.log("fetch user error",err);});
   }
 
+  fetchBoardData(){
+    this.setState({
+      loading_board:loading.RELOADING
+    });
+    db.onceGetBoards().then(snapshot =>
+      {
+        var board = null;
+        for (const [key, value] of Object.entries(snapshot.val())){
+          if (key === this.state.user.username){
+            board = value;
+            break;
+          }
+        }
+      this.setState({userboard: board, loaded_board:true,loading_board:loading.NOTHING,});
+    }).catch((err)=> {
+      console.log("fetch board error",err);});
+  }
+
   componentDidMount() {
     this.fetchUserData();
-    db.onceGetUsers().then(snapshot =>
-      this.setState(() => ({ users: snapshot.val() }))
-    );
-    db.onceGetBoards().then(snapshot =>
-      this.setState(() => ({ boards: snapshot.val() }))
-    );
-
-    firebase.auth.onAuthStateChanged( authUser => {
-      authUser
-        ? this.setState({ authUser })
-        : this.setState({ authUser: null});
-    })
-
-
-
-
+    this.fetchBoardData();
   }
 
   render() {
-    const { users,boards } = this.state;
-    var board, currentUser;
-    console.log("authUser")
-        console.log(this.state.authUser)
 
-        if (this.state.authUser != null){
-          for (const [key, value] of Object.entries(boards)) {
-            if (this.state.authUser.uid === key){
-              console.log("HEYHELPP!");
-              console.log(key, value);
-              board = value
-              console.log(board);
-            }
-            // console.log("key, value");
-            // console.log(key, value);
-          }
-        }
-
-    if (this.state.loaded){
+    if (this.state.loaded_user && this.state.loaded_board){
       return (
         <Container fluid>
           <Row className="wrapper">
               <Col md={{span:10, offset: 2}} style={paddingSet}>
-                <FullBoard currentUser={this.state.user} board={board}/>
+                <FullBoard currentUser={this.state.user} board={this.state.board}/>
               </Col>
           </Row>
         </Container>
@@ -101,12 +87,6 @@ class Homepage extends Component {
     }
   }
 }
-
-const loading={
-	NOTHING:0,
-	SERVER_QUERYING:1,
-	RELOADING:2
-};
 
 const authCondition = (authUser) => !!authUser;
 

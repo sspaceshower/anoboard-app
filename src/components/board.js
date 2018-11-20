@@ -138,11 +138,9 @@ class Postmodal extends React.Component {
   }
 
   handleSubmit(event){
-    // console.log("this.state.post.author")
-    // console.log(this.state.post.author.uid)
     // console.log(this.state.post)
 
-    var boardOwner = this.props.board.owner.uid;
+    var boardOwner = this.state.board.owner.uid;
 
     // TODO: these values still null, fix this
     var username = this.state.post.author.username;
