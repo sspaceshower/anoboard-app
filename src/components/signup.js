@@ -31,7 +31,7 @@ class SignUpForm extends Component {
   }
 
   onSubmit = event => {
-    const { username,fname,mname,lname,biography, email, passwordOne } = this.state;
+    const { username, fname, mname, lname, biography, email, passwordOne } = this.state;
 
     const { history } = this.props;
 
@@ -47,7 +47,7 @@ class SignUpForm extends Component {
           .catch(error => {
             this.setState({ error });
           });
-        
+
         db.doCreateBoard(authUser.user.uid, username,fname,mname,lname,biography, email)
           .then(() => {
             this.setState(() => ({ ...INITIAL_STATE }));

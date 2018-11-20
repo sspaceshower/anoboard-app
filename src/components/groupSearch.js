@@ -6,7 +6,7 @@ import { faUserFriends, faLock } from '@fortawesome/free-solid-svg-icons';
 import '../scss/group.scss';
 import { groupRef } from "../firebase/firebase";
 import { NavLink } from "react-router-dom";
-import {auth} from "../firebase/firebase";
+import { auth} from "../firebase/firebase";
 import { db } from '../firebase/';
 import { currentUser } from "../firebase/auth";
 import AuthUserContext from "../session/authUserContext";
@@ -193,17 +193,6 @@ class JoinGroupModal extends React.Component {
   }
 
   render() {
-    auth.onAuthStateChanged(function(user) {
-      if (user) {
-        // console.log('This is the user: ', user.uid);
-        this.state.currentUser = user;
-      } else {
-        // No user is signed in.
-        // console.log('There is no logged in user');
-      }
-    });
-
-
     return(
       <AuthUserContext.Consumer>{authUser =>
         <Modal{...this.props} aria-labelledby = "join-modal" dialogClassName = "custom-modal">
@@ -213,7 +202,7 @@ class JoinGroupModal extends React.Component {
             <Container fluid>
               <Row><div>public? password:none</div></Row>
               <Row>
-                <Button variant="outline-secondary">Cancel</Button>
+                <Button variant="outline-secondary" onClick={this.props.onHide}>Cancel</Button>
                 <Button variant="info" onClick={() => updateUser(authUser, this.props.className)}>Confirm</Button>
               </Row>
             </Container>
