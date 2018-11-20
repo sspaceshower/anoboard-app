@@ -1,7 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-
-import Navigation from './components/navigation.js';
 import LandingPage from './components/landingpage.js';
 import SignUpPage from './components/signup.js';
 import SignInPage from './components/signin.js';
@@ -29,7 +27,7 @@ const App = () => (
         if(authUser){
           return(
             <div>
-              <Route pattern="/" component={props => <Sidebar />} />
+              <Route pattern="/" component={props => <Sidebar authUser = {authUser}/>} />
               <Main />
             </div>
           );

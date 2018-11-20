@@ -16,17 +16,49 @@ const paddingSet = {
 }
 
 class Homepage extends Component {
-  constructor(props) {
-    super(props);
 
+  constructor(props){
+    super(props);
     this.state = {
+      loaded:false,
+      loading:loading.NOTHING,
       authUser: null,
       users: {},
-      boards: {}
+      boards: {},
+      user: {},
     };
   }
 
+  fetchUserData(){
+    this.setState({
+      loading:loading.RELOADING
+    });
+    db.onceGetOneUser(firebase.auth.currentUser.uid).then(snapshot =>
+    {
+      const data_list = [];
+      if(snapshot.val().grouplist !== undefined && snapshot.val().grouplist !== null){
+        for (const [key, value] of Object.entries(snapshot.val().grouplist)) {
+          var childData = value.name;
+          data_list.push(childData);
+          // console.log("key, value");
+          // console.log(key, value);
+        }
+      }
+      var user = {
+        username: snapshot.val().username,
+        fname: snapshot.val().fname,
+        mname: snapshot.val().mname,
+        lname: snapshot.val().lname,
+        biography: snapshot.val().biography,
+        grouplist: data_list
+      }
+      this.setState({user: user, loaded:true,loading:loading.NOTHING,});
+    }).catch((err)=> {
+      console.log("fetch user error",err);});
+  }
+
   componentDidMount() {
+    this.fetchUserData();
     db.onceGetUsers().then(snapshot =>
       this.setState(() => ({ users: snapshot.val() }))
     );
@@ -40,9 +72,9 @@ class Homepage extends Component {
         : this.setState({ authUser: null});
     })
 
-    
 
-    
+
+
   }
 
   render() {
@@ -50,37 +82,40 @@ class Homepage extends Component {
     var board, currentUser;
     console.log("authUser")
         console.log(this.state.authUser)
-      
+
         if (this.state.authUser != null){
           for (const [key, value] of Object.entries(boards)) {
-            if (this.state.authUser.uid === key){      
+            if (this.state.authUser.uid === key){
               console.log("HEYHELPP!");
-              console.log(key, value);    
+              console.log(key, value);
               board = value
             }
             // console.log("key, value");
             // console.log(key, value);
-          }          
+          }
         }
 
-    return (
-      
-      <AuthUserContext.Consumer>
-        
-          {authUser =>
-            <Container fluid>
-              <Row className="wrapper">
-                  <Col md={{span:10, offset: 2}} style={paddingSet}>
-                    <FullBoard currentUser={authUser} board={board} users = {users}/>
-                  </Col>
-              </Row>
-            </Container>
-          }
-      </AuthUserContext.Consumer>
-
-    );
+    if (this.state.loaded){
+      return (
+        <Container fluid>
+          <Row className="wrapper">
+              <Col md={{span:10, offset: 2}} style={paddingSet}>
+                <FullBoard currentUser={this.state.user} board={board} users = {users}/>
+              </Col>
+          </Row>
+        </Container>
+      );
+    } else {
+      return(<div>Loading...</div>);
+    }
   }
 }
+
+const loading={
+	NOTHING:0,
+	SERVER_QUERYING:1,
+	RELOADING:2
+};
 
 const authCondition = (authUser) => !!authUser;
 

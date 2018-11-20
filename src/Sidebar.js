@@ -1,6 +1,8 @@
 import React from 'react';
 import { NavLink } from "react-router-dom";
 import { Row, Col } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { mapStateToProps, mapDispatchToProps } from './reducers/map.js'
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faBell, faEnvelope, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
@@ -17,12 +19,6 @@ library.add(faBell);
 library.add(faEnvelope);
 library.add(faPlusCircle);
 
-const loading={
-	NOTHING:0,
-	SERVER_QUERYING:1,
-	RELOADING:2
-};
-
 class Sidebar extends React.Component {
   constructor(props){
     super(props);
@@ -33,6 +29,7 @@ class Sidebar extends React.Component {
       groupNames: [],
     };
   }
+
 
   componentDidMount() {
     this.fetchUserData();
@@ -47,8 +44,6 @@ class Sidebar extends React.Component {
       const data_list = [];
       if(snapshot.val().grouplist !== undefined && snapshot.val().grouplist !== null){
         for (const [key, value] of Object.entries(snapshot.val().grouplist)) {
-          console.log("FROM HERE");
-          console.log(value);
           var childData = value.name;
           data_list.push(childData);
           // console.log("key, value");
@@ -60,82 +55,14 @@ class Sidebar extends React.Component {
         fname: snapshot.val().fname,
         mname: snapshot.val().mname,
         lname: snapshot.val().lname,
+				biography: snapshot.val().biography,
         grouplist: data_list
       }
       this.setState({user: user, loaded:true,loading:loading.NOTHING,});
-      console.log("state user");
-      console.log(this.state.user);
     }).catch((err)=> {
-			console.log("fetch error",err);});
-  }
-/*
-  componentDidUpdate(prevProps) {
-    // Typical usage (don't forget to compare props):
-    if (this.props.currentUser !== prevProps.currentUser) {
-      this.setState(() => ({ currentUser: this.props.currentUser }))
-    }
-    if (this.props.users !== prevProps.users) {
-      this.setState(() => ({ users: this.props.users }))
-      // console.log("key, value");
-      for (const [key, value] of Object.entries(this.props.users)) {
-        if (this.state.currentUser.uid === key){
-          console.log("PASSSSS!");
-          console.log(key, value);
-          this.setState(() => ({ currentUser: value }))
-        }
-        // console.log("key, value");
-        // console.log(key, value);
-      }
-    }
+			console.log("fetch user error",err);});
   }
 
-  componentDidMount() {
-
-    var data_list = []
-
-    db.onceGetOneUser(this.state.currentUser.uid).then(snapshot =>
-      {
-        console.log("snapshot")
-        console.log(snapshot.val())
-        if(snapshot.val().grouplist !== undefined && snapshot.val().grouplist !== null){
-
-          for (const [key, value] of Object.entries(snapshot.val().grouplist)) {
-            console.log("FROM HERE");
-            console.log(value);
-            var childData = value.name;
-            data_list.push(childData);
-            // console.log("key, value");
-            // console.log(key, value);
-          }
-
-          // snapshot.val().grouplist.forEach(function(childSnapshot) {
-          //   var key = childSnapshot.key;
-          //   var childData = childSnapshot.val().name;
-          //   data_list.push(childData);
-          // });
-          // console.log(data_list, data_list.length);
-          this.setState({
-            groupNames: data_list
-          });
-        }
-      }
-        // this.setState(() => ({ users: snapshot.val() }))
-    );
-
-    // groupRef.once("value").then((snapshot) => {
-    //   snapshot.forEach(function(childSnapshot) {
-    //     var key = childSnapshot.key;
-    //     var childData = childSnapshot.val().name;
-    //     data_list.push(childData);
-    //   });
-    //   // console.log(data_list, data_list.length);
-    //   this.setState({
-    //     groupNames: data_list
-    //   });
-    // });
-
-  }
-*/
   render() {
     const menulist = [
       {icon: "home", label: "myboard", url: "/home"},
@@ -238,8 +165,12 @@ const createSubMenu = (grouplist) => {
   );
 };
 
-
+const loading={
+	NOTHING:0,
+	SERVER_QUERYING:1,
+	RELOADING:2
+};
 
 const authCondition = (authUser) => !!authUser;
 
-export default withAuthorization(authCondition)(Sidebar);
+export default connect(mapStateToProps, mapDispatchToProps)(withAuthorization(authCondition)(Sidebar));
