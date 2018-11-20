@@ -13,8 +13,8 @@ export const doCreateUser = (uid, username,fname,mname,lname,biography, email) =
     email,
   });
 
-export const doCreateBoard = (uid, username,fname,mname,lname,biography, email) =>  
-  db.ref(`boards/${uid}`).push(
+export const doCreateBoard = (uid, username,fname,mname,lname,biography, email) =>
+  db.ref(`boards/${uid}`).child("owner").set(
     {uid,
       username,
       fname,
@@ -22,37 +22,28 @@ export const doCreateBoard = (uid, username,fname,mname,lname,biography, email) 
       lname,
       biography,
       email,}
-  ).then((snap) => {
-    db.ref(`boards/${uid}/owner/${snap.key}`).update({
-      uid,
-      username,
-      fname,
-      mname,
-      lname,
-      biography,
-      email
- })});
+  );
 
-export const doCreatePost = (uid, username, content, isAnonymous) =>  
-  db.ref(`boards/${uid}/posts`).push({    
+export const doCreatePost = (uid, username, content, isAnonymous) =>
+  db.ref(`boards/${uid}/posts`).push({
     uid,
     username,
     content,
     isAnonymous
   }).then((snap) => {
     db.ref(`boards/${uid}/posts/${snap.key}`).update({
-      postid: snap.key 
+      postid: snap.key
  })});
 
-export const doCreateReply = (uid, username, content, isAnonymous, postid) =>  
- db.ref(`boards/${uid}/posts/${postid}/replys`).push({    
+export const doCreateReply = (uid, username, content, isAnonymous, postid) =>
+ db.ref(`boards/${uid}/posts/${postid}/replys`).push({
    uid,
    username,
    content,
    isAnonymous
  }).then((snap) => {
    db.ref(`boards/${uid}/posts/${postid}/replys/${snap.key}`).update({
-     replyid: snap.key 
+     replyid: snap.key
 })});
 
 export const onceGetUsers = () =>

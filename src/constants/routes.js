@@ -8,4 +8,4 @@ export const NOTIFICATION = '/notification';
 export const GROUPS = '/groups';
 export const SEARCHGROUP = '/search';
 export const GROUPPAGE = '/group/:groupname';
-export const USERBOARD = '/:username';
+export const USERBOARD = '/user/:username';

@@ -219,7 +219,7 @@ class JoinGroupModal extends React.Component {
                 <div>public? password:none</div>
               </Row>
               <Row>
-                <Button variant="outline-secondary">Cancel</Button>
+                <Button variant="outline-secondary" onClick={this.props.onHide}>Cancel</Button>
                 <Button variant="info" onClick={() => updateUser(authUser, this.props.className)}>Confirm</Button>
               </Row>
             </Container>
