@@ -1,5 +1,6 @@
 import React from 'react';
 import Fullboard from './components/fullboard.js'
+import { db } from './firebase'
 
 function Userboard({ match }){
   const username = match.params.username;
@@ -10,7 +11,6 @@ db.onceGetBoards().then(snapshot =>
     snapshot.val().forEach(board => {
         if(board.child().owner.username === username){
             userboard = board
-            break;
         }
     })
   );
@@ -20,3 +20,5 @@ db.onceGetBoards().then(snapshot =>
     </div>
   )
 }
+
+export default Userboard;
