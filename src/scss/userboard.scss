@@ -178,12 +178,19 @@
 #postbox-reply {
   color: $fadegray;
 }
-
+#postbox-reply-num {
+  color: $fadegray;
+  font-family: $defaultfont;
+  display: inline;
+  margin-left: 5px;
+  text-align: left;
+  font-size: 16px;
+}
 #postbox-timestamp {
   color: $fadegray;
   font-family: $defaultfont;
   text-align: right;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 #postbox-menu {

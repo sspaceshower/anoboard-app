@@ -2,7 +2,7 @@ import { db } from './firebase';
 
 // User API
 
-export const doCreateUser = (uid, username,fname,mname,lname,biography, email) =>
+export const doCreateUser = (uid, username, fname, mname, lname, biography, email) =>
   db.ref(`users/${uid}`).set({
     uid,
     username,
@@ -45,9 +45,6 @@ export const doCreateReply = (uid, username, content, isAnonymous, postid) =>
    db.ref(`boards/${username}/posts/${postid}/replys/${snap.key}`).update({
      replyid: snap.key
 })});
-
-export const ref = (attr) =>
-  db.ref(attr);
 
 export const onceGetUsers = () =>
   db.ref('users').once('value');

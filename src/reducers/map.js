@@ -1,11 +1,17 @@
-import { updateUser } from './actions.js'
+import { updateUser, loginStatus, reRender } from './actions.js'
 
 export const mapStateToProps = state => {
-  return { currentUser: state.currentUser };
+  return {
+    currentUser: state.currentUser,
+    loggedIn: state.loggedIn,
+    renderFlag: state.renderFlag,
+  };
 };
 
 export const mapDispatchToProps = dispatch => {
   return {
-    updateUser: user => dispatch(updateUser(user))
+    updateUser: user => dispatch(updateUser(user)),
+    loginStatus: status => dispatch(loginStatus(status)),
+    reRender: value => dispatch(reRender(value))
   };
 };

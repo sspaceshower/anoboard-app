@@ -13,6 +13,7 @@ class FullBoard extends React.Component {
       board: this.props.board
     };
   }
+
   componentDidUpdate(prevProps) {
     // Typical usage (don't forget to compare props):
     if (this.props.currentUser !== prevProps.currentUser) {
@@ -24,8 +25,6 @@ class FullBoard extends React.Component {
   }
 
   render(){
-    // console.log("this.state.board OMGGGGGGGGG")
-    //   console.log(this.state.board)
     return(
       <Container fluid>
           <Row>

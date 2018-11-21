@@ -75,7 +75,7 @@ class Board extends React.Component {
                   </Row>
                 </div>
               </Col>
-              {createPostStack(this.state.posts, this.state.currentUser, this.state.board)}
+              {createPostStack(this.state.currentUser, this.state.board)}
             </Row>
         </Col>
       </Row>
@@ -108,15 +108,11 @@ class Postmodal extends React.Component {
     if (this.props.currentUser !== prevProps.currentUser) {
       var currentPost = this.state.post;
       currentPost.author = this.props.currentUser;
-      // currentPost.isAnonymous
-      // console.log("DIDDDDDDDDDDDDDDDDDD")
       this.setState(() => ({
         currentUser: this.props.currentUser,
         post: currentPost}))
     }
     if (this.props.board !== prevProps.board) {
-      // currentPost.isAnonymous
-      // console.log("DIDDDDDDDDDDDDDDDDDD")
       this.setState(() => ({
         board: this.props.board,
         }))
@@ -124,11 +120,8 @@ class Postmodal extends React.Component {
   }
   handleContentChange(event){
     var currentPost = this.state.post;
-    // console.log(event.target.value)
     currentPost.content = event.target.value;
-    // console.log(currentPost)
     this.setState({post: currentPost});
-    // console.log("CONTENTTTT")
   }
 
   handleAnonimity(event){
@@ -138,8 +131,6 @@ class Postmodal extends React.Component {
   }
 
   handleSubmit(event){
-    // console.log(this.state.post)
-
     var boardOwner = this.state.board.owner.uid;
 
     // TODO: these values still null, fix this
@@ -254,11 +245,19 @@ class Postbox extends React.Component {
       board: this.props.board
     }
     var currentPost = this.state.post;
-    // console.log(event.target.value)
-    currentPost.user = {username: this.state.post.username};    
+    currentPost.user = {username: this.state.post.username};
     this.setState({post: currentPost});
-    console.log("CHECK this.state")
-    console.log(this.state)
+
+    this.getReplyNum = this.getReplyNum.bind(this);
+
+  }
+
+  getReplyNum(){
+    if(this.state.post.replys !== undefined && this.state.post.replys !== null){
+      return (Object.keys(this.state.post.replys).length);
+    } else {
+      return ("");
+    }
   }
 
   render(){
@@ -270,7 +269,7 @@ class Postbox extends React.Component {
         <div className="postbox-wrap">
           <Row>
             <Col xs={5}><div id="postbox-author">{author}</div></Col>
-            <Col xs={7}><div id="postbox-tag">{"#mockup" /*TODO: <mockup> change to createTag*/}</div></Col>
+            <Col xs={7}><div id="postbox-tag">{"#classtag" /*TODO: <mockup> change to createTag*/}</div></Col>
           </Row>
           <Row><Col><div className="breakline"></div></Col></Row>
           <Row>
@@ -285,6 +284,7 @@ class Postbox extends React.Component {
               <Col>
                 <Button bsPrefix="postbox-reply-button" onClick={() => this.setState({modalShow: true})}>
                   <FontAwesomeIcon className="postbox-reply" icon="comments" />
+                  <div id="postbox-reply-num">{this.getReplyNum()}</div>
                 </Button>
                 <Replymodal
                   post = {this.state.post}
@@ -295,7 +295,7 @@ class Postbox extends React.Component {
                 />
               </Col>
               <Col>
-                <div id="postbox-timestamp">{"mockup" /*TODO: <mockup> change to createTimeStamp()*/}</div>
+                <div id="postbox-timestamp">{"timestamp" /*TODO: <mockup> change to createTimeStamp()*/}</div>
               </Col>
             </Row>
           </Container>
@@ -316,9 +316,7 @@ class Replybox extends React.Component {
       isAnonymous: this.props.reply.isAnonymous,
     }
     var currentPost = this.state;
-    // console.log(event.target.value)
     currentPost.user = {username: this.state.author};
-    // console.log(currentPost)
     this.setState({post: currentPost});
   }
 
@@ -329,7 +327,7 @@ class Replybox extends React.Component {
         <div className="reply-container">
           <Row>
             <Col xs={4}><div id="reply-author">{author}</div></Col>
-            <Col xs={8}><div id="reply-tag">{"#mockup" /*TODO: <mockup> change to createTag*/}</div></Col>
+            <Col xs={8}><div id="reply-tag">{"#classtag" /*TODO: <mockup> change to createTag*/}</div></Col>
           </Row>
           <Row>
             <Col>
@@ -340,7 +338,7 @@ class Replybox extends React.Component {
           </Row>
           <Row>
             <Col>
-              <div id="reply-timestamp">{"mockup" /*TODO: <mockup> change to createTimeStamp()*/}</div>
+              <div id="reply-timestamp">{"timestamp" /*TODO: <mockup> change to createTimeStamp()*/}</div>
             </Col>
           </Row>
           <Row><div className="reply-breakline"></div></Row>
@@ -362,7 +360,7 @@ class Replymodal extends React.Component {
         isAnonymous: true,
         timestamp: null
       },
-    };    
+    };
     this.handleContentChange = this.handleContentChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -379,13 +377,12 @@ class Replymodal extends React.Component {
         currentUser: this.props.currentUser,
         reply: {author: this.props.currentUser}}))
     }
-    if (this.props.board !== prevProps.board) {      
+    if (this.props.board !== prevProps.board) {
       this.setState(() => ({
         board: this.props.board,
         }))
     }
     if (this.props.post !== prevProps.post) {
-      console.log("POST")
       this.setState(() => ({
         post: this.props.post,
         }))
@@ -393,11 +390,6 @@ class Replymodal extends React.Component {
   }
 
   handleSubmit(event){
-    // console.log("this.state.post.author")
-    // console.log(this.state.post.author.uid)
-    // console.log(this.state.post)
-    //WRONGGGGGGGGGGGGGG VALUEEE!!!!!!!!!!!!!!!!!!!!!
-    // still not owner of the board but author of the board    
     var boardOwner = this.state.board.owner.uid
     // TODO: these values still null, fix this
     var username = this.state.reply.author.username
@@ -426,7 +418,7 @@ class Replymodal extends React.Component {
       this.setState({ error });
     });
     event.preventDefault();
-    
+
   }
 
   render() {
@@ -479,24 +471,15 @@ class Replymodal extends React.Component {
 }
 
 
-const createPostStack = (posts, currentUser, board) => {
+const createPostStack = (currentUser, board) => {
     var stack = [];
-    if(posts!=null){
-      for (const [key, value] of Object.entries(posts)) {
+    if(board.posts!=null){
+      for (const [key, value] of Object.entries(board.posts)) {
         stack.push(
           <Postbox post={value} currentUser = {currentUser} board ={board}/>
         );
-        // console.log("key, value");
-        // console.log(key, value);
       }
     }
-    // if(posts!=null){
-    //   for(let i=0; i<posts.length;i++){
-    //     stack.push(
-    //       <Postbox post={posts[i]} />
-    //     );
-    //   }
-    // }
     return(stack);
 }
 
@@ -519,13 +502,9 @@ const createReplyStack = (post) => {
 
   if(post.replys!=null){
     for (const [key, value] of Object.entries(post.replys)) {
-      console.log("FROM REPLY");
-      console.log(value);
       stack.push(
         <Replybox reply={value}/>
       );
-      // console.log("key, value");
-      // console.log(key, value);
     }
   }
 
