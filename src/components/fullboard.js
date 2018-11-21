@@ -10,55 +10,29 @@ class FullBoard extends React.Component {
     super(props);
     this.state = {
       currentUser: this.props.currentUser,
-      users: this.props.users,      
       board: this.props.board
     };
   }
+
   componentDidUpdate(prevProps) {
     // Typical usage (don't forget to compare props):
     if (this.props.currentUser !== prevProps.currentUser) {
       this.setState(() => ({ currentUser: this.props.currentUser }))
     }
     if (this.props.board !== prevProps.board) {
-      this.setState(() => ({ board: this.props.board }))      
-      // console.log("key, value");
-    //   for (const [key, value] of Object.entries(this.props.allBoardList)) {
-    //     if (this.state.currentUser.uid === key){      
-    //       console.log("IMHERE!");
-    //       console.log(key, value);    
-    //       this.setState(() => ({ board: 
-    //         {key: key,
-    //           value: value
-    //       } }))
-    //     }
-    //     // console.log("key, value");
-    //     // console.log(key, value);
-    //   }
-    }
-    if (this.props.users !== prevProps.users) {
-      this.setState(() => ({ users: this.props.users }))
-      console.log("key, value");
-      for (const [key, value] of Object.entries(this.props.users)) {
-        if (this.state.currentUser.uid === key){
-          
-          this.setState(() => ({ currentUser: value }))
-        }
-        // console.log("key, value");
-        // console.log(key, value);
-      }
+      this.setState(() => ({ board: this.props.board }))
     }
   }
+
   render(){
-    // console.log("this.state.board OMGGGGGGGGG")
-    //   console.log(this.state.board)
     return(
       <Container fluid>
           <Row>
-            <Col xs={12} md={6}><Profile user={this.state.currentUser}/></Col>
+            <Col xs={12} md={6}><Profile owner={this.props.board.owner}/></Col>
             <Col xs={12} md={6}>
               <Col className="wrap" id="trophy" style={{padding: '0'}}><Trophy /></Col>
             </Col>
-          </Row>          
+          </Row>
           <Row><Board currentUser = {this.state.currentUser} board = {this.state.board}/></Row>
       </Container>
     );

@@ -1,0 +1,97 @@
+@import './_base.scss';
+
+.nonauth-wrapper {
+  background-color: $blue-bg;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+#login-wrap {
+  background-color: white;
+  color: $blue-title;
+  border-radius: 10px;
+  height: 55vh;
+  margin-bottom: 50px;
+  padding: 20px 25px;
+}
+
+#signup-wrap {
+  background-color: white;
+  color: $blue-title;
+  border-radius: 10px;
+  height: 80vh;
+  margin-bottom: 30px;
+  padding: 20px 25px;
+}
+
+.header-icon {
+  color: $blue-title;
+  font-size: 30px;
+  text-align: center;
+}
+.box-title {
+  text-align: center;
+  font-size: 30px;
+  font-family: $latobold;
+}
+
+.label-text {
+  font-size: 16px;
+  margin: 10px 0 5px 0;
+  font-family: $lato;
+  color:$blue-content;
+}
+
+.custom-content {
+  font-size: 14px;
+  font-family: $lato;
+  color:$blue-content;
+}
+
+.custom-button-blue {
+  background-color: $blue-form;
+  border: none;
+  border-radius: 25px;
+  text-align: center;
+  color: white;
+  font-family: $latobold;
+  font-size: 16px;
+  width: 90px;
+  height: 35px;
+  cursor: pointer;
+}
+
+.custom-button-lg {
+  background-color: $blue-form;
+  border: none;
+  border-radius: 25px;
+  text-align: center;
+  color: white;
+  font-family: $latobold;
+  font-size: 16px;
+  width: 100px;
+  height: 40px;
+  margin: 15px;
+  cursor: pointer;
+}
+
+.center-wrap{
+  text-align: center;
+  margin: 20px;
+}
+
+.custom-link{
+  color: $brown-tag;
+  transition: all 0.2s ease-in-out;
+  &:hover{
+    color: $orange;
+    text-decoration: none;
+  }
+}
+
+.just-space {
+  padding: 1px;
+  margin: 1px;
+}

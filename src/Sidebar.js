@@ -2,13 +2,12 @@ import React from 'react';
 import { NavLink } from "react-router-dom";
 import { Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { auth } from './firebase'
 import { mapStateToProps, mapDispatchToProps } from './reducers/map.js'
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faBell, faEnvelope, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { createDisplayName } from './helper/helper.js'
-import { db, auth, firebase } from './firebase';
-import {groupRef, studentsOfGroupRef} from "./firebase/firebase";
 import withAuthorization from './session/withAuthorization.js';
 import AuthUserContext from './session/authUserContext.js';
 import './scss/sidebar.scss';
@@ -23,45 +22,11 @@ class Sidebar extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      loaded:false,
-      loading:loading.NOTHING,
-      user: {},
-      groupNames: [],
-    };
+      currentUser: this.props.currentUser,
+      renderFlat: this.props.renderFlag,
+    }
   }
 
-
-  componentDidMount() {
-    this.fetchUserData();
-  }
-
-  fetchUserData(){
-    this.setState({
-			loading:loading.RELOADING
-		});
-    db.onceGetOneUser(firebase.auth.currentUser.uid).then(snapshot =>
-    {
-      const data_list = [];
-      if(snapshot.val().grouplist !== undefined && snapshot.val().grouplist !== null){
-        for (const [key, value] of Object.entries(snapshot.val().grouplist)) {
-          var childData = value.name;
-          data_list.push(childData);
-          // console.log("key, value");
-          // console.log(key, value);
-        }
-      }
-      var user = {
-        username: snapshot.val().username,
-        fname: snapshot.val().fname,
-        mname: snapshot.val().mname,
-        lname: snapshot.val().lname,
-				biography: snapshot.val().biography,
-        grouplist: data_list
-      }
-      this.setState({user: user, loaded:true,loading:loading.NOTHING,});
-    }).catch((err)=> {
-			console.log("fetch user error",err);});
-  }
 
   render() {
     const menulist = [
@@ -70,41 +35,37 @@ class Sidebar extends React.Component {
       {icon: "envelope", label: "messages", url: "/messages"}
     ];
 
-    if(this.state.loaded){
-      return(
-        <Col md={2} id="sidebar">
-          <Row className="justify-content-md-center">
-            <Col xs={8} id="sidebar-logo">logo</Col>
-          </Row>
-          <Row className="justify-content-md-center">
-            <Col xs={8} className="horizontal-line"></Col>
-          </Row>
-          <Col md={{size: 8, offset: 1}} id="sidebar-login-text">
-            logged in as
-          </Col>
-          <Col md={{size: 8, offset: 1}} id="sidebar-login-user">
-            {createDisplayName(this.state.user, false)}
-          </Col>
-          {createMenu(menulist)}
-          <Row className="justify-content-md-center">
-            <Col xs={8} className="horizontal-line"></Col>
-          </Row>
-          <Row>
-            <NavLink to="/groups" style={{textDecoration: "none"}}><div className="sub-menu">GROUPS</div></NavLink>
-            <Col><NavLink to="/search">
-              <div className="plus-button"><FontAwesomeIcon icon="plus-circle" /></div>
-            </NavLink></Col>
-          </Row>
-          {createSubMenu(this.state.user.grouplist)}
-          <NavLink to={"/groups"} style={{textDecoration: "none"}}>
-            <Row id="show-more">show more..</Row>
-          </NavLink>
-          <button onClick={auth.doSignOut}>Logout</button>
+    return(
+      <Col md={2} id="sidebar">
+        <Row className="justify-content-md-center">
+          <Col xs={8} id="sidebar-logo">logo</Col>
+        </Row>
+        <Row className="justify-content-md-center">
+          <Col xs={8} className="horizontal-line"></Col>
+        </Row>
+        <Col md={{size: 8, offset: 1}} id="sidebar-login-text">
+          logged in as
         </Col>
-      );
-    } else {
-      return(<div>Loading...</div>);
-    }
+        <Col md={{size: 8, offset: 1}} id="sidebar-login-user">
+          {createDisplayName(this.props.currentUser, false)}
+        </Col>
+        {createMenu(menulist)}
+        <Row className="justify-content-md-center">
+          <Col xs={8} className="horizontal-line"></Col>
+        </Row>
+        <Row>
+          <NavLink to="/groups" style={{textDecoration: "none"}}><div className="sub-menu">GROUPS</div></NavLink>
+          <Col><NavLink to="/search">
+            <div className="plus-button"><FontAwesomeIcon icon="plus-circle" /></div>
+          </NavLink></Col>
+        </Row>
+        {createSubMenu(this.props.currentUser.grouplist)}
+        <NavLink to={"/groups"} style={{textDecoration: "none"}}>
+          <Row id="show-more">show more..</Row>
+        </NavLink>
+        <div className="center-wrap"><button className="custom-button-brown" onClick={auth.doSignOut}>Logout</button></div>
+      </Col>
+    );
   }
 }
 
@@ -163,12 +124,6 @@ const createSubMenu = (grouplist) => {
   return (
     submenu
   );
-};
-
-const loading={
-	NOTHING:0,
-	SERVER_QUERYING:1,
-	RELOADING:2
 };
 
 const authCondition = (authUser) => !!authUser;

@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
+import { Container, Row, Col } from 'react-bootstrap';
+import { db, auth, firebase } from './firebase';
+import { loading } from './constants/loading.js';
+import { withAuthConst } from './session/withAuthConst';
+import { mapStateToProps, mapDispatchToProps } from './reducers/map.js'
 import withAuthorization from './session/withAuthorization.js';
 import AuthUserContext from './session/authUserContext.js';
-import { db, auth } from './firebase';
-import { firebase } from './firebase';
-import { Container, Row, Col } from 'react-bootstrap';
 import FullBoard from './components/fullboard.js';
-import {withAuthConst} from './session/withAuthConst';
 
-// import { fetchUserData, fetchBoardData } from '../../helper/fetchdata.js'
 
 const paddingSet = {
   paddingLeft: '40px',
@@ -20,79 +20,46 @@ class Homepage extends Component {
   constructor(props){
     super(props);
     this.state = {
-      loaded:false,
-      loading:loading.NOTHING,
-      authUser: null,
-      users: {},
-      boards: {},
-      user: {},
+      board: null,
+      loading: loading.NOTHING,
+      loaded: false,
+
     };
   }
-
-  fetchUserData(){
+  fetchBoardData(){
     this.setState({
       loading:loading.RELOADING
     });
-    db.onceGetOneUser(firebase.auth.currentUser.uid).then(snapshot =>
-    {
-      var user = {
-        username: snapshot.val().username,
-        fname: snapshot.val().fname,
-        mname: snapshot.val().mname,
-        lname: snapshot.val().lname,
-        biography: snapshot.val().biography,
-      }
-      this.setState({user: user, loaded:true,loading:loading.NOTHING,});
+    db.onceGetBoards().then(snapshot =>
+      {
+        var board = null;
+        for (const [key, value] of Object.entries(snapshot.val())){
+          if (key === this.props.currentUser.username){
+            board = value;
+            break;
+          }
+        }
+      console.log("fetching board");
+      console.log(board);
+      this.setState({board: board, loaded:true,loading:loading.NOTHING,});
     }).catch((err)=> {
-      console.log("fetch user error",err);});
+      console.log("fetch board error",err);});
   }
 
   componentDidMount() {
-    this.fetchUserData();
-    db.onceGetUsers().then(snapshot =>
-      this.setState(() => ({ users: snapshot.val() }))
-    );
-    db.onceGetBoards().then(snapshot =>
-      this.setState(() => ({ boards: snapshot.val() }))
-    );
-
-    firebase.auth.onAuthStateChanged( authUser => {
-      authUser
-        ? this.setState({ authUser })
-        : this.setState({ authUser: null});
-    })
-
-
-
-
+    this.fetchBoardData();
   }
 
-  render() {
-    const { users,boards } = this.state;
-    var board, currentUser;
-    console.log("authUser")
-        console.log(this.state.authUser)
 
-        if (this.state.authUser != null){
-          for (const [key, value] of Object.entries(boards)) {
-            if (this.state.authUser.uid === key){
-              console.log("HEYHELPP!");
-              console.log(key, value);
-              board = value
-              console.log(board);
-            }
-            // console.log("key, value");
-            // console.log(key, value);
-          }
-        }
+  render() {
 
     if (this.state.loaded){
       return (
         <Container fluid>
           <Row className="wrapper">
-              <Col md={{span:10, offset: 2}} style={paddingSet}>
-                <FullBoard currentUser={this.state.user} board={board}/>
-              </Col>
+            <Col md={{span:10, offset: 2}} style={paddingSet}>
+              <FullBoard currentUser={this.props.currentUser} board={this.state.board}/>
+            </Col>
           </Row>
         </Container>
       );
@@ -102,12 +69,6 @@ class Homepage extends Component {
   }
 }
 
-const loading={
-	NOTHING:0,
-	SERVER_QUERYING:1,
-	RELOADING:2
-};
-
 const authCondition = (authUser) => !!authUser;
 
-export default withAuthorization(authCondition)(Homepage);
+export default connect(mapStateToProps, mapDispatchToProps)(withAuthorization(authCondition)(Homepage));
