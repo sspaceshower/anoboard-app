@@ -153,6 +153,7 @@ class Postmodal extends React.Component {
 
     db.doCreatePost(boardOwner, username, content, isAnonymous)
     .then(() => {
+      window.location.reload();
       this.setState(() => ({
         post: {
           author: this.props.currentUser,
@@ -169,7 +170,6 @@ class Postmodal extends React.Component {
       this.setState({ error });
     });
     event.preventDefault();
-    window.location.reload();
   }
 
   render() {
@@ -255,8 +255,7 @@ class Postbox extends React.Component {
     }
     var currentPost = this.state.post;
     // console.log(event.target.value)
-    currentPost.user = {username: this.state.post.username};
-    // console.log(currentPost)
+    currentPost.user = {username: this.state.post.username};    
     this.setState({post: currentPost});
     console.log("CHECK this.state")
     console.log(this.state)
@@ -363,8 +362,7 @@ class Replymodal extends React.Component {
         isAnonymous: true,
         timestamp: null
       },
-    };
-
+    };    
     this.handleContentChange = this.handleContentChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -381,9 +379,15 @@ class Replymodal extends React.Component {
         currentUser: this.props.currentUser,
         reply: {author: this.props.currentUser}}))
     }
-    if (this.props.board !== prevProps.board) {
+    if (this.props.board !== prevProps.board) {      
       this.setState(() => ({
         board: this.props.board,
+        }))
+    }
+    if (this.props.post !== prevProps.post) {
+      console.log("POST")
+      this.setState(() => ({
+        post: this.props.post,
         }))
     }
   }
@@ -393,7 +397,7 @@ class Replymodal extends React.Component {
     // console.log(this.state.post.author.uid)
     // console.log(this.state.post)
     //WRONGGGGGGGGGGGGGG VALUEEE!!!!!!!!!!!!!!!!!!!!!
-    // still not owner of the board but author of the board
+    // still not owner of the board but author of the board    
     var boardOwner = this.state.board.owner.uid
     // TODO: these values still null, fix this
     var username = this.state.reply.author.username
@@ -407,6 +411,7 @@ class Replymodal extends React.Component {
 
     db.doCreateReply(boardOwner, username, content, isAnonymous, postid)
     .then(() => {
+      window.location.reload();
       this.setState(() => ({
         reply: {
           author: this.props.currentUser,
@@ -421,7 +426,7 @@ class Replymodal extends React.Component {
       this.setState({ error });
     });
     event.preventDefault();
-    window.location.reload();
+    
   }
 
   render() {

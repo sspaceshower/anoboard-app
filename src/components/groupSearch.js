@@ -24,16 +24,6 @@ class GroupSearch extends React.Component {
       modalShow: false,
     };
 
-
-    auth.onAuthStateChanged(function (user) {
-      if (user) {
-        // console.log('This is the user: ', user.uid);
-        this.state.currentUser = user;
-      } else {
-        // No user is signed in.
-        // console.log('There is no logged in user');
-      }
-    });
   }
 
 
@@ -164,6 +154,20 @@ const updateUser = (authUser, groupName) => {
     }
   });
 
+  firebase.database().ref("users/").child(groupName).child("/students").on("value", function(snapshot){
+    // console.log(snapshot.val());
+    snapshot.forEach(function(data) {
+      user_list.push(data.val().uid);
+    });
+    if (user_list.indexOf(authUser.uid) > -1) {
+    } else {
+      firebase.database().ref('groups/').child(groupName + "/students").push({
+          "uid" : authUser.uid
+        }
+      )
+    }
+  });
+
   // add group to user
   // user needs existing grouplist
   var data_list = []
@@ -171,9 +175,9 @@ const updateUser = (authUser, groupName) => {
   db.onceGetOneUser(authUser.uid).then(snapshot => {
       // console.log("snapshot")
       // console.log(snapshot.val())
-      if (snapshot.val().grouplist !== undefined) {
-        console.log("ist ungleich null du fotze");
-        console.log(snapshot.val().grouplist);
+
+      if( "grouplist" in snapshot.val()){
+
 
         for (const [key, value] of Object.entries(snapshot.val().grouplist)) {
           // console.log("FROM HERE");
@@ -181,6 +185,7 @@ const updateUser = (authUser, groupName) => {
           var childData = value.name;
           data_list.push(childData);
         }
+      }
         console.log(data_list);
         if (data_list.indexOf(groupName) > -1) {
           //In the array!
@@ -190,12 +195,10 @@ const updateUser = (authUser, groupName) => {
             }
           )
         }
-      } else {
-        firebase.database().ref('users/').child(authUser.uid + "/grouplist").push(
-          {"name": groupName})
-      }
     }
   );
+
+  window.location.reload();
 };
 
 class JoinGroupModal extends React.Component {
