@@ -27,7 +27,7 @@ const INITIAL_STATE = {
   fname: '',
   mname: '',
   lname: '',
-  biography: '',
+  biography: "this is your biography! tell us about yourself!",
   email: '',
   passwordOne: '',
   passwordTwo: '',
@@ -39,7 +39,6 @@ class SignUpForm extends Component {
     super(props);
 
     this.state = { ...INITIAL_STATE };
-        this.setState({biography: "this is your biography! tell us about yourself!"})
   }
 
   onSubmit = event => {
