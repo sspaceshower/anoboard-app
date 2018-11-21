@@ -63,7 +63,7 @@ class Sidebar extends React.Component {
         <NavLink to={"/groups"} style={{textDecoration: "none"}}>
           <Row id="show-more">show more..</Row>
         </NavLink>
-        <button onClick={auth.doSignOut}>Logout</button>
+        <div className="center-wrap"><button className="custom-button-brown" onClick={auth.doSignOut}>Logout</button></div>
       </Col>
     );
   }
