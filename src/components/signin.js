@@ -78,7 +78,7 @@ class SignInForm extends Component {
               onChange={this.onChange} />
             <Form.Label  bsPrefix="label-text">Password</Form.Label>
             <Form.Control
-              type="password" placeholder="name@example.com"
+              type="password" placeholder="password"
               name="password" value={password}
               onChange={this.onChange} />
             <div className="center-wrap">
