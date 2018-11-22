@@ -7,7 +7,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserFriends, faLock } from '@fortawesome/free-solid-svg-icons';
 import { groupRef } from '../firebase/firebase';
-import { db, firebase } from '../firebase/';
+import { db } from '../firebase/';
 import AuthUserContext from '../session/authUserContext';
 import '../scss/group.scss';
 library.add(faUserFriends);
@@ -40,8 +40,6 @@ class GroupSearch extends React.Component {
   }
 
   render() {
-    console.log("check currentUser");
-    console.log(this.props);
     return (
       <Col md={{span: 10, offset: 2}} style={{padding: "30px 40px 30px 40px"}}>
         <Container fluid style={{paddingLeft: "0"}}>
@@ -125,51 +123,16 @@ class GroupDisplay extends React.Component {
 class JoinGroupModal extends React.Component {
   doJoinGroup = (currentUser, groupName) => {
     //add user to group
-    var user_list = [];
-    firebase.db.ref("groups/").child(groupName).child("/students").on("value", function (snapshot) {
-      // console.log(snapshot.val());
-      snapshot.forEach(function (data) {
-        user_list.push(data.val().uid);
-      });
-      if (user_list.indexOf(currentUser.uid) > -1) {
-      } else {
-        firebase.db.ref('groups/').child(groupName + "/students").push({
-            "uid": currentUser.uid,
-            "username": currentUser.username
-          }
-        )
-      }
-    });
+    const uid = currentUser.uid;
+    const username = currentUser.username;
+    const fname = currentUser.fname;
+    const mname = currentUser.mname;
+    const lname = currentUser.lname;
+    const new_grouplist = db.doAddGroupList(uid, username, fname, mname, lname, groupName);
+    var newUser = currentUser;
+    newUser.grouplist = new_grouplist;
+    this.props.updateUser(newUser);
 
-    // add group to user
-    // user needs existing grouplist
-    var data_list = []
-    // Add Group to User in grouplist
-    db.onceGetOneUser(currentUser.uid).then(snapshot => {
-      if (snapshot.val().grouplist !== undefined) {
-        for (const [key, value] of Object.entries(snapshot.val().grouplist)) {
-          var childData = value.name;
-          data_list.push(childData);
-        }
-        console.log(data_list);
-        if (data_list.indexOf(groupName) > -1) {
-          //In the array!
-        } else {
-          data_list.push(groupName)
-          firebase.db.ref('users/').child(currentUser.uid + "/grouplist").push({
-              "name": groupName
-          })
-        }
-      } else {
-        firebase.db.ref('users/').child(currentUser.uid + "/grouplist").push(
-          {"name": groupName})
-      }
-
-      var newUser = currentUser;
-      newUser.grouplist = data_list;
-      this.props.updateUser(newUser);
-    });
-    window.location.reload() //TODO: to be remove when rerender flag is finished
   }
 
   render() {

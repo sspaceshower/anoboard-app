@@ -46,6 +46,52 @@ export const doCreateReply = (uid, username, content, isAnonymous, postid) =>
      replyid: snap.key
 })});
 
+export const doAddGroupList = (uid, username, fname, mname, lname, groupName) => {
+  //return new grouplist
+  var user_list = [];
+  db.ref("groups/").child(groupName).child("/students").on("value", function (snapshot) {
+    snapshot.forEach(function (data) {
+      user_list.push(data.val().uid);
+    });
+    if (user_list.indexOf(uid) > -1) {
+    } else {
+      db.ref('groups/').child(groupName + "/students").push({
+          "uid": uid,
+          "username": username,
+          "fname": fname,
+          "mname": mname,
+          "lname": lname,
+        }
+      )
+    }
+  });
+
+  // add group to user
+  // user needs existing grouplist
+  var data_list = []
+  // Add Group to User in grouplist
+  onceGetOneUser(uid).then(snapshot => {
+    if (snapshot.val().grouplist !== undefined) {
+      for (const [key, value] of Object.entries(snapshot.val().grouplist)) {
+        var childData = value.name;
+        data_list.push(childData);
+      }
+      console.log(data_list);
+      if (data_list.indexOf(groupName) > -1) {
+        //In the array!
+      } else {
+        data_list.push(groupName)
+        db.ref(`users/${uid}/grouplist`).push({
+            "name": groupName
+        })
+      }
+    } else {
+      db.ref(`users/${uid}/grouplist`).push(
+        {"name": groupName})
+    }});
+
+    return(data_list);
+}
 export const onceGetUsers = () =>
   db.ref('users').once('value');
 
