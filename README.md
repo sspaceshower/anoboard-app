@@ -30,7 +30,7 @@ Please read the instruction on this file before working on the project.
 ## Index
 1. [How to run the application](#HOW-TO)
 2. [TO-DO List](#TO-DO-List)
-3. [Appendix: Additional React Library & Framework](#React-Libraries-and-Framework)
+3. [Appendix: Additionaly Installed Library & Framework](#Libraries-and-Framework)
 4. [Appendix: Public Assets](#Assets)
 5. [React Command Guide](#React-Command-Guide)
 
@@ -69,8 +69,9 @@ git config --local include.path ../.gitconfig
 - `unidentified` : priority to be decided.
 
 ## Appendix
-### React Libraries and Framework
+### Libraries and Framework
 you can also find the list in `package.json` file
+- [firebase](https://firebase.google.com/?gclid=Cj0KCQiAxNnfBRDwARIsAJlH29DkGiYpDh3s0DOPre_sJG9q66-aNFBNOoSL3MEp3OAXBUAlu4ejy_YaAly4EALw_wcB)
 - [react-bootstrap](https://react-bootstrap.netlify.com)
 - [react-fontawesome](https://fontawesome.com)
 - [react-router](https://reacttraining.com/react-router/core/guides/philosophy)
@@ -79,7 +80,7 @@ you can also find the list in `package.json` file
 **updated** deleting `reactstrap` and `react-bootstrap (v3)`. now use only `react-bootstrap (v4)`
 
 ### Assets
-- fonts: Source Sans Pro, Lato
+- fonts: [Source Sans Pro](https://fonts.google.com/specimen/Source+Sans+Pro), [Lato](https://fonts.google.com/specimen/Lato)
 
 ## React Command Guide
 
