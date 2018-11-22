@@ -7,6 +7,7 @@ import { loading } from './constants/loading.js';
 import withAuthentication from './session/withAuthentication.js';
 import SignUpPage from './components/signup.js';
 import SignInPage from './components/signin.js';
+import SignOutPage from './components/signout.js';
 import GroupSearch from './components/groupSearch.js';
 import AccountPage from './components/account.js';
 import PasswordForgetPage from './components/passwordForget.js';
@@ -36,9 +37,9 @@ class Main extends React.Component{
 		this.setState({
 			loading:loading.RELOADING
 		});
-
 		db.onceGetOneUser(firebase.auth.currentUser.uid).then(snapshot =>
 		{
+			console.log(snapshot.val())
 			const data_list = [];
 			if(snapshot.val().grouplist !== undefined && snapshot.val().grouplist !== null){
 				for (const [key, value] of Object.entries(snapshot.val().grouplist)) {
@@ -80,8 +81,7 @@ const Page = () => (
   <Switch>
     <div className="navigation-auth">
       <Route exact path={routes.LANDING} component={Homepage} />
-      <Route path={routes.SIGN_UP} component={SignUpPage} />
-      <Route path={routes.SIGN_IN} component={SignInPage} />
+      <Route path={routes.SIGN_OUT} component={SignOutPage} />
       <Route path={routes.PASSWORD_FORGET} component={PasswordForgetPage} />
       <Route path={routes.HOME} component={Homepage} />
       <Route path={routes.ACCOUNT} component={AccountPage} />

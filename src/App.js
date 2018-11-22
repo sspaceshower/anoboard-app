@@ -5,6 +5,7 @@ import withAuthentication from './session/withAuthentication.js';
 import AuthUserContext from './session/authUserContext';
 import SignUpPage from './components/signup.js';
 import SignInPage from './components/signin.js';
+import SignOutPage from './components/signout.js';
 import PasswordForgetPage from './components/passwordForget.js';
 import * as routes from './constants/routes';
 import './index.css';
@@ -33,9 +34,10 @@ const Page = () => (
       <Route path={routes.SIGN_UP} component={SignUpPage} />
       <Route path={routes.SIGN_IN} component={SignInPage} />
       <Route path={routes.PASSWORD_FORGET} component={PasswordForgetPage} />
+      <Route path={routes.SIGN_OUT} component={SignOutPage} />
       <Route exact path={routes.LANDING} render={() => (
-          <Redirect to="/signin" />
-        )}/>
+           <Redirect to="/signin" />
+         )}/>
       {/*TODO: <frontend> this could be done more neatly, will come back later*/}
     </div>
   </Switch>
