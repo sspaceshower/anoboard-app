@@ -9,7 +9,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faBell, faEnvelope, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { createDisplayName } from './helper/helper.js'
 import withAuthorization from './session/withAuthorization.js';
-import AuthUserContext from './session/authUserContext.js';
 import './scss/sidebar.scss';
 
 

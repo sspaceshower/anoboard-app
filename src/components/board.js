@@ -63,7 +63,7 @@ class Board extends React.Component {
                         <Postmodal
                           show = {this.state.modalShow}
                           onHide = {modalClose}
-                          currentUser = {this.state.currentUser}
+                          currentUser = {this.props.currentUser}
                           board = {this.state.board}
                         />
                       </Col>
@@ -134,13 +134,10 @@ class Postmodal extends React.Component {
     var boardOwner = this.state.board.owner.uid;
 
     // TODO: these values still null, fix this
-    var username = this.state.post.author.username;
+    var username = this.state.board.owner.username;
     var content = this.state.post.content;
     var isAnonymous = this.state.post.isAnonymous;
     const { history } = this.props;
-    // username = "mock"
-    // content = "mock"
-    // isAnonymous = true
 
     db.doCreatePost(boardOwner, username, content, isAnonymous)
     .then(() => {
@@ -155,7 +152,6 @@ class Postmodal extends React.Component {
           timestamp: null
         }
        }));
-      history.push(routes.HOME);
     })
     .catch(error => {
       this.setState({ error });
@@ -175,6 +171,7 @@ class Postmodal extends React.Component {
       fontSize: "30px",
     }
 
+    console.log(this.state)
     return (
       <Modal
         {...this.props}

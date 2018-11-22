@@ -54,7 +54,7 @@
   color: $lightgray;
   font-family: $defaultfont;
   margin-top: 2px;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .button-wrap {
@@ -75,12 +75,11 @@
   cursor: pointer;
 }
 
-.user-image-wrap {
-  height: 78px;
-  width: 78px;
-  border-radius: 78px;
-  margin-left: auto;
-  margin-right: auto;
+.user-img-wrap {
+  height: 85px;
+  width: 85px;
+  border-radius: 100%;
+  margin: 5px auto;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -91,4 +90,15 @@
   color: white;
   font-family: $semiboldfont;
   font-size: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+
+  &:hover{
+    text-decoration: none;
+    color: $orange;
+  }
 }

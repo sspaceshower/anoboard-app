@@ -5,8 +5,6 @@ import { firebase, db } from './firebase'
 import { mapStateToProps, mapDispatchToProps } from './reducers/map.js'
 import { loading } from './constants/loading.js';
 import withAuthentication from './session/withAuthentication.js';
-import AuthUserContext from './session/authUserContext';
-import LandingPage from './components/landingpage.js';
 import SignUpPage from './components/signup.js';
 import SignInPage from './components/signin.js';
 import GroupSearch from './components/groupSearch.js';
@@ -18,7 +16,6 @@ import AllGroup from './Allgroup.js';
 import Userboard from './Userboard.js';
 import Homepage from './Homepage.js';
 import GroupPage from './Grouppage.js';
-import Group from './components/group.js';
 import * as routes from './constants/routes';
 
 class Main extends React.Component{
