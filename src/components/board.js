@@ -160,18 +160,6 @@ class Postmodal extends React.Component {
   }
 
   render() {
-    const textStyle = {
-      fontFamily: "Lato-Bold",
-      fontSize: "40px",
-      color: "#47525E",
-    }
-
-    const iconStyle = {
-      color: "#47525E",
-      fontSize: "30px",
-    }
-
-    console.log(this.state)
     return (
       <Modal
         {...this.props}
@@ -419,17 +407,6 @@ class Replymodal extends React.Component {
   }
 
   render() {
-    const textStyle = {
-      fontFamily: "Lato-Bold",
-      fontSize: "40px",
-      color: "#47525E",
-    }
-
-    const iconStyle = {
-      color: "#47525E",
-      fontSize: "30px",
-    }
-
     return (
       <Modal
         {...this.props}
@@ -506,6 +483,17 @@ const createReplyStack = (post) => {
   }
 
   return(stack);
+}
+
+const textStyle = {
+  fontFamily: "Lato-Bold",
+  fontSize: "40px",
+  color: "#47525E",
+}
+
+const iconStyle = {
+  color: "#47525E",
+  fontSize: "30px",
 }
 
 export default Board;

@@ -54,6 +54,7 @@ export const doAddGroupList = (uid, username, fname, mname, lname, groupName) =>
       user_list.push(data.val().uid);
     });
     if (user_list.indexOf(uid) > -1) {
+        console.log("group: repeated!")
     } else {
       db.ref('groups/').child(groupName + "/students").push({
           "uid": uid,
@@ -79,6 +80,7 @@ export const doAddGroupList = (uid, username, fname, mname, lname, groupName) =>
       console.log(data_list);
       if (data_list.indexOf(groupName) > -1) {
         //In the array!
+        console.log("user: repeated!")
       } else {
         data_list.push(groupName)
         db.ref(`users/${uid}/grouplist`).push({
