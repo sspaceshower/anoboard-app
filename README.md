@@ -32,7 +32,7 @@ Please read the instruction on this file before working on the project.
 2. [TO-DO List](#TO-DO-List)
 3. [Appendix: Additional React Library & Framework](#React-Libraries-and-Framework)
 4. [Appendix: Public Assets](#Assets)
-5. [Appendix: React Command Guide](#React-Command-Guide)
+5. [React Command Guide](#React-Command-Guide)
 
 ## HOW TO
 Here, we are using **ReactJS** and **CSS/SCSS** stylesheet.
@@ -81,7 +81,7 @@ you can also find the list in `package.json` file
 ### Assets
 - fonts: Source Sans Pro, Lato
 
-### React Command Guide
+## React Command Guide
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
