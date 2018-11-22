@@ -6,7 +6,7 @@ Update:
   * update to remove trello & migrating to GitHub project board, set automation
   * use pull request instead of pushing to master.
   * use `npm ci` instead of `npm install`
-* 18/11/12 Add redux and react-redux
+* 18/11/22 Add redux and react-redux
 
 # Description
 ![](https://img.shields.io/badge/nodejs-11.2.0-green.svg)
