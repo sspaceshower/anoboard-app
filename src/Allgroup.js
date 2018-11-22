@@ -2,9 +2,12 @@ import React from 'react';
 import { db } from "./firebase/firebase";
 import { Col, Container, Row } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import { connect } from 'react-redux';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserFriends, faLock } from '@fortawesome/free-solid-svg-icons';
+import { mapStateToProps, mapDispatchToProps } from './reducers/map.js'
+
 import './scss/group.scss';
 
 library.add(faUserFriends);
@@ -15,30 +18,32 @@ class AllGroup extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      groupNames: [],
-      students: [],
+      groups: [],
+      groupNames: []
     };
   }
 
 
   componentDidMount() {
 
-
-    db.ref("groups/").on('value', snap =>  {
-      var data = [];
-      var groupNames = [];
-      var students = [];
+    const uid = this.props.currentUser.uid;
+    const grouplist = this.props.currentUser.grouplist;
+    db.ref("groups").on('value', snap =>  {
+      var groups = new Map();
+      var groupNames = []
+      console.log(grouplist);
       snap.forEach(ss => {
-        data.push([ss.child('name').val(), ss.child('students').val()]);
-        groupNames.push(ss.child('name').val());
-        students.push(ss.child('students').val());
+        if(grouplist.indexOf(ss.child('name').val()) > -1){
+          groups.set(ss.child('name').val(), ss.val());
+          groupNames.push(ss.child('name').val());
+        }
       });
       this.setState({
-        groupNames: groupNames,
-        students: students
+        groups: groups,
+        groupNames: groupNames
       });
 
-      console.log(students);
+      console.log(groupNames);
     });
   }
 
@@ -51,7 +56,7 @@ class AllGroup extends React.Component {
               <Row className="title">My Group</Row>
               <Row><div>Searchbar</div></Row>
               <Row>
-                <GroupDisplay />
+                {this.state.groupNames.map((name) => <GroupDisplay name={name} groups={this.state.groups}/>)}
               </Row>
             </Container>
           </Row>
@@ -65,7 +70,6 @@ class GroupDisplay extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      group: this.props.group
     };
 
     this.getGroupIcon = this.getGroupIcon.bind(this);
@@ -88,8 +92,8 @@ class GroupDisplay extends React.Component {
     return(
       <Col sm={{span: 6, offset: 1}} md={{span: 3, offset: 0}} xs={{span: 10, offset: 1}}  className="group-display-wrap">
         <Container fluid>
-          <Row><div className="group-img-wrap">group image</div></Row>
-          <Row><div className="group-name">group name</div></Row>
+          <Row><div className="group-img-wrap">IMG</div></Row>
+          <Row><div className="group-name">{this.props.name}</div></Row>
           <Row>
             <div>{this.getGroupIcon()}</div>
             <div className="group-privacy">{this.getGroupPrivacy()}</div>
@@ -101,4 +105,4 @@ class GroupDisplay extends React.Component {
   }
 }
 
-export default AllGroup;
+export default connect(mapStateToProps, mapDispatchToProps)(AllGroup);

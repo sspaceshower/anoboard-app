@@ -68,7 +68,7 @@ class Main extends React.Component{
 			return(
 	      <div>
 	        <Route pattern="/" component={props => <Sidebar />} />
-	        <Page />
+	        <Route pattern="/" component={props => <Page location={props.location}/>} />
 	      </div>
 			);
 		} else {

@@ -106,7 +106,7 @@ export const onceGetOneUser = (uid) =>
 export const onceGetOnePost = (username, postid) =>
   db.ref(`boards/${username}/posts/${postid}`).once('value');
 
-export const onceGetOneGroup = (groupname, postid) =>
+export const onceGetOneGroup = (groupname) =>
   db.ref(`groups/${groupname}`).once('value');
 
 // Other db APIs ...
