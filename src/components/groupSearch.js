@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container, Row, Col, Modal, Button } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { mapStateToProps, mapDispatchToProps } from '../reducers/map.js'
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -8,8 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserFriends, faLock } from '@fortawesome/free-solid-svg-icons';
 import { groupRef } from '../firebase/firebase';
 import { db } from '../firebase/';
-import AuthUserContext from '../session/authUserContext';
 import '../scss/group.scss';
+
 library.add(faUserFriends);
 library.add(faLock)
 
@@ -28,7 +27,6 @@ class GroupSearch extends React.Component {
 
     groupRef.once("value").then((snapshot) => {
       snapshot.forEach(function (childSnapshot) {
-        var key = childSnapshot.key;
         var childData = childSnapshot.val().name;
         data_list.push(childData);
       });

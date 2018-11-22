@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const createDisplayName = (user, lnameFull = true) => {
 
   const fname = (user.fname !== undefined && user.fname)? user.fname: "";

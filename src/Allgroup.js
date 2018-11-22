@@ -1,6 +1,6 @@
 import React from 'react';
-import {db, groupRef, studentsOfGroupRef} from "./firebase/firebase";
-import { Col, Container, Row, Button } from "react-bootstrap";
+import { db } from "./firebase/firebase";
+import { Col, Container, Row } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

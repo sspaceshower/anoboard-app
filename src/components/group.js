@@ -1,45 +1,28 @@
 import React from 'react';
-import {db, groupRef, studentsOfGroupRef} from "../firebase/firebase";
 import { Col, Container, Row } from "react-bootstrap";
-import FullBoard from "./fullboard";
-import { NavLink } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
+import { createDisplayName } from '../helper/helper.js';
 import '../scss/group.scss'
-
-const paddingSet = {
-  paddingLeft: '40px',
-  paddingRight: '40px'
-}
 
 class Group extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      groupName: this.props.groupname,
-      students: [],
-    };
+      groupName: this.props.groupName,
+      students: this.props.students
+    }
   }
 
-
-  componentDidMount() {
-
-
-    if(this.state.groupName !== null && this.state.groupName !== undefined){
-      db.ref(`groups/${this.state.groupName}`).on('value', snap =>  {
-        var students = [];
-        snap.child("students").forEach(ss => {
-          // data.push([ss.child('name').val(), ss.child('students').val()]);
-          // groupNames.push(ss.child('name').val());
-          console.log(ss.val());
-          students.push(ss.val());
-        });
-
-        this.setState({
-          students: students
-        });
-        console.log("this.state.groupNameHEY");
-        // console.log(this.state.groupName);
-        console.log(students);
-      });
+  componentDidUpdate(prevProps) {
+    if (this.props.groupName !== prevProps.groupName) {
+      this.setState(() => ({
+        groupName: this.props.groupName,
+        }))
+    }
+    if (this.props.students !== prevProps.students) {
+      this.setState(() => ({
+        students: this.props.students,
+       }))
     }
   }
 
@@ -52,7 +35,7 @@ class Group extends React.Component {
               <Row className="title">{this.state.groupName}</Row>
               <Row><div>Searchbar</div></Row>
               <Row>
-                {this.state.students.map((user) => <userDisplay user={user} />)}
+                {this.state.students.map((user) => <UserDisplay user={user} />)}
               </Row>
             </Container>
           </Row>
@@ -64,20 +47,23 @@ class Group extends React.Component {
 
 
 
-class userDisplay extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      user: this.props.user,
-    };
-  }
-
+class UserDisplay extends React.Component {
   render(){
     return(
       <Col sm={{span: 6, offset: 1}} md={{span: 3, offset: 0}} xs={{span: 10, offset: 1}}  className="group-display-wrap">
         <Container fluid>
-          <Row><div className="user-img-wrap">user image</div></Row>
-          <Row><div className="user-name">username</div></Row>
+          <Row>
+            <Col>
+              <NavLink to={"/user/" + this.props.user.username}>
+                <div className="user-img-wrap" />
+              </NavLink>
+            </Col>
+          </Row>
+          <Row>
+            <NavLink to={"/user/" + this.props.user.username} className="user-name">
+              {createDisplayName(this.props.user)}
+            </NavLink>
+          </Row>
         </Container>
       </Col>
     );
@@ -85,4 +71,4 @@ class userDisplay extends React.Component {
 }
 
 
-export default Group;
+export default withRouter(Group);

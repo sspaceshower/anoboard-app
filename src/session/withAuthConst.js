@@ -1,6 +1,4 @@
 import React from 'react';
-
-import AuthUserContext from './authUserContext.js';
 import { firebase } from '../firebase';
 
 export const withAuthConst = () =>
@@ -34,5 +32,3 @@ export const withAuthConst = () =>
       );
     }
   }
-
-

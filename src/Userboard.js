@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { db, firebase } from './firebase';
+import { db } from './firebase';
 import FullBoard from './components/fullboard.js';
 import { loading } from './constants/loading.js';
 import { mapStateToProps, mapDispatchToProps } from './reducers/map.js'
@@ -15,10 +15,29 @@ class Userboard extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      loaded: false,
       loading: loading.NOTHING,
       username: this.props.match.params.username,
       userboard : "",
     }
+  }
+
+  componentDidUpdate(prevProps) {
+    // Typical usage (don't forget to compare props):
+    if (this.props.currentUser !== prevProps.currentUser) {
+      this.setState(() => ({
+        currentUser: this.props.currentUser,
+        }))
+    }
+    if (this.props.board !== prevProps.board) {
+      this.setState(() => ({
+        board: this.props.board,
+        posts: this.props.board.posts }))
+    }
+  }
+
+  componentDidMount() {
+    this.fetchBoardData();
   }
 
   fetchBoardData(){
@@ -41,14 +60,8 @@ class Userboard extends React.Component {
       console.log("fetch board error",err);});
   }
 
-  componentDidMount() {
-    this.fetchBoardData();
-  }
-
   render(){
     if(this.state.loaded){
-      console.log("board");
-      console.log(this.state.userboard);
       return(
         <Container fluid>
           <Row className="wrapper">

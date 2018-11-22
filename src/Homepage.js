@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Container, Row, Col } from 'react-bootstrap';
-import { db, auth, firebase } from './firebase';
+import { db } from './firebase';
 import { loading } from './constants/loading.js';
-import { withAuthConst } from './session/withAuthConst';
 import { mapStateToProps, mapDispatchToProps } from './reducers/map.js'
 import withAuthorization from './session/withAuthorization.js';
-import AuthUserContext from './session/authUserContext.js';
 import FullBoard from './components/fullboard.js';
 
 
