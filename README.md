@@ -6,28 +6,33 @@ Update:
   * update to remove trello & migrating to GitHub project board, set automation
   * use pull request instead of pushing to master.
   * use `npm ci` instead of `npm install`
-  
+* 18/11/22 Add redux and react-redux
+
 # Description
 ![](https://img.shields.io/badge/nodejs-11.2.0-green.svg)
-![](https://img.shields.io/badge/npm-6.4.1-red.svg) 
+![](https://img.shields.io/badge/npm-6.4.1-red.svg)
 ![](https://img.shields.io/badge/react%20-16.6.0-blue.svg)
 
 ANOBoard is a web application running in NodeJS environment and using Firebase platform for a database. Front-end is build with ReactJS library and Sass stylesheet.
 
 ## Codebase
-Our own source code can be found in the `anoboard-app/src/` folder. Main files are `App.js` and `Homepage.js` as they put together every part in `anoboard-app/src/components/`.
-TODO: better description of our codebase.
-
-Please read the instruction on this file before working on the project.
+* This project is implemented with ReactJS framework with SASS/SCSS stylesheet. All the JavaScript file can be found in `anoboard-app/src/` folder, and assets such as fonts and third-party js/css are put in `anoboard-app/public/`. The base directory from here on will refer to `anoboard-app/src/`
+* Each page component can be found in the directory. This incluse `index.js` which calls render, `Sidebar.js` for rendering sidebar, `Homepage` and so on.
+* Each page is reduced into several subcomponents that can be found in folder `/components`
+* The backend/database controls are kept in `/firebase`
+* `/helper.js` is used to keep the file for helper functions used in several place across the application
+* `/constants`is for declaring constants.
+* Other subfolders are used to keep the file implemented in the use of third-party libraries, such as react-redux or font-awesome
 
 # Dev Instructions
+Please read the instruction on this file before working on the project.
 
 ## Index
 1. [How to run the application](#HOW-TO)
 2. [TO-DO List](#TO-DO-List)
-3. [Ref: React Library](#React-Library)
-4. [Ref: Assets](#Assets)
-5. [Ref: React Command Guide](#React-Command-Guide)
+3. [Appendix: Additionaly Installed Library & Framework](#Libraries-and-Framework)
+4. [Appendix: Public Assets](#Assets)
+5. [React Command Guide](#React-Command-Guide)
 
 ## HOW TO
 Here, we are using **ReactJS** and **CSS/SCSS** stylesheet.
@@ -63,23 +68,26 @@ git config --local include.path ../.gitconfig
 - `optional`
 - `unidentified` : priority to be decided.
 
-## React Library
+## Appendix
+### Libraries and Framework
 you can also find the list in `package.json` file
+- [firebase](https://firebase.google.com/?gclid=Cj0KCQiAxNnfBRDwARIsAJlH29DkGiYpDh3s0DOPre_sJG9q66-aNFBNOoSL3MEp3OAXBUAlu4ejy_YaAly4EALw_wcB)
 - [react-bootstrap](https://react-bootstrap.netlify.com)
 - [react-fontawesome](https://fontawesome.com)
 - [react-router](https://reacttraining.com/react-router/core/guides/philosophy)
+- [redux](https://redux.js.org)
 
 **updated** deleting `reactstrap` and `react-bootstrap (v3)`. now use only `react-bootstrap (v4)`
 
-## Assets
-- fonts: Source Sans Pro, Lato
+### Assets
+- fonts: [Source Sans Pro](https://fonts.google.com/specimen/Source+Sans+Pro), [Lato](https://fonts.google.com/specimen/Lato)
 
 ## React Command Guide
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ### Available Scripts
-In the project directory, you can run:
+This is from the official README file. In the project directory, you can run:
 
 ```bash
 npm start
