@@ -43,6 +43,14 @@
   &:hover{
     color: $orange;
   }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    outline: none;
+  }
 }
 
 .active-sidebar-button {
@@ -117,6 +125,14 @@
   width: 90px;
   height: 35px;
   cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    outline: none;
+  }
 }
 
 .center-wrap{

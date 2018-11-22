@@ -73,6 +73,14 @@
   height: 35px;
   margin-top: 10px;
   cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+  
+  &:active {
+    outline: none;
+  }
 }
 
 .user-img-wrap {

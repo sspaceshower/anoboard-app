@@ -17,6 +17,15 @@
   padding: 20px 25px;
 }
 
+#logout-wrap {
+  background-color: white;
+  color: $blue-title;
+  border-radius: 10px;
+  height: 30vh;
+  margin-bottom: 30px;
+  padding: 20px 25px;
+}
+
 #signup-wrap {
   background-color: white;
   color: $blue-title;
@@ -61,6 +70,14 @@
   width: 90px;
   height: 35px;
   cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    outline: none;
+  }
 }
 
 .custom-button-lg {
@@ -75,6 +92,14 @@
   height: 40px;
   margin: 15px;
   cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+  
+  &:active {
+    outline: none;
+  }
 }
 
 .center-wrap{
