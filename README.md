@@ -69,7 +69,7 @@ git config --local include.path ../.gitconfig
 - `unidentified` : priority to be decided.
 
 ## Appendix
-# React Libraries and Framework
+### React Libraries and Framework
 you can also find the list in `package.json` file
 - [react-bootstrap](https://react-bootstrap.netlify.com)
 - [react-fontawesome](https://fontawesome.com)
@@ -78,10 +78,10 @@ you can also find the list in `package.json` file
 
 **updated** deleting `reactstrap` and `react-bootstrap (v3)`. now use only `react-bootstrap (v4)`
 
-# Assets
+### Assets
 - fonts: Source Sans Pro, Lato
 
-# React Command Guide
+### React Command Guide
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
