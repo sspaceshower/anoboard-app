@@ -13,6 +13,7 @@
   color: $blue-title;
   border-radius: 10px;
   height: 55vh;
+  min-height: 400px;
   margin-bottom: 50px;
   padding: 20px 25px;
 }
@@ -26,11 +27,21 @@
   padding: 20px 25px;
 }
 
+#password-forget-wrap {
+  background-color: white;
+  color: $blue-title;
+  border-radius: 10px;
+  height: 30vh;
+  margin-bottom: 30px;
+  padding: 20px 25px;
+}
+
 #signup-wrap {
   background-color: white;
   color: $blue-title;
   border-radius: 10px;
   height: 80vh;
+  min-height: 600px;
   margin-bottom: 30px;
   padding: 20px 25px;
 }
@@ -96,7 +107,7 @@
   &:focus {
     outline: none;
   }
-  
+
   &:active {
     outline: none;
   }

@@ -173,6 +173,13 @@
   padding: 0;
   margin-left: 5px;
   cursor: pointer;
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    outline: none;
+  }
 }
 
 #postbox-reply {
@@ -220,6 +227,13 @@
   border-radius: 100%;
   padding: 0;
   cursor: pointer;
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    outline: none;
+  }
 }
 
 #postbox-new-text {

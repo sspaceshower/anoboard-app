@@ -119,6 +119,12 @@ class GroupDisplay extends React.Component {
 }
 
 class JoinGroupModal extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      alert: false,
+    }
+  }
   doJoinGroup = (currentUser, groupName) => {
     //add user to group
     const uid = currentUser.uid;
@@ -130,22 +136,48 @@ class JoinGroupModal extends React.Component {
     var newUser = currentUser;
     newUser.grouplist = new_grouplist;
     this.props.updateUser(newUser);
+    this.setState({alert: true})
+  }
 
+  getAlert () {
+    if (this.state.alert) return("please refresh the page to see the result!");
+    else return("");
   }
 
   render() {
+    const textStyle = {
+      fontFamily: "Lato-Bold",
+      fontSize: "40px",
+      color: "#47525E",
+    }
+
+    const iconStyle = {
+      color: "#47525E",
+      fontSize: "30px",
+    }
+
     return (
       <Modal{...this.props} aria-labelledby="join-modal" dialogClassName="custom-modal">
-        {/*{console.log(authUser)}*/}
-        <Modal.Header>Join Group</Modal.Header>
+        <Modal.Header bsPrefix="custom-modal-header">
+          <Modal.Title style={iconStyle}><FontAwesomeIcon icon="plus" /></Modal.Title>
+          <Modal.Title style={textStyle}>Join&nbsp;{this.props.name}?</Modal.Title>
+        </Modal.Header>
         <Modal.Body>
           <Container fluid>
-            <Row>
-              <div>public? password:none</div>
-            </Row>
-            <Row>
-              <Button variant="outline-secondary" onClick={this.props.onHide}>Cancel</Button>
-              <Button variant="info" onClick={() => this.doJoinGroup(this.props.currentUser, this.props.name)}>Confirm</Button>
+            <Row><Col style={{textAlign: "center"}}>
+              <Button
+                bsPrefix="cancel-sq-button"
+                onClick={this.props.onHide}>
+                Cancel
+              </Button>
+              <Button
+                bsPrefix="submit-sq-button"
+                onClick={() => this.doJoinGroup(this.props.currentUser, this.props.name)}>
+                Confirm
+              </Button>
+            </Col></Row>
+          <Row className="justify-content-md-center custom-alert-text">
+              {this.getAlert()}
             </Row>
           </Container>
         </Modal.Body>
