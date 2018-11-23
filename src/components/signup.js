@@ -154,7 +154,7 @@ class SignUpForm extends Component {
                 <Form.Control
                   name="mname"   value={mname}
                   onChange={this.onChange}
-                  type="text" placeholder="Middle Name" />
+                  type="text" placeholder="Middle Name (Optional)" />
               </Col>
             </Row>
             <Row>

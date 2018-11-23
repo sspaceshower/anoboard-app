@@ -24,25 +24,25 @@ export const doCreateBoard = (uid, username,fname,mname,lname,biography, email) 
       email,}
   );
 
-export const doCreatePost = (uid, username, content, isAnonymous) =>
-  db.ref(`boards/${username}/posts`).push({
+export const doCreatePost = (boardOwner,uid, username, content, isAnonymous) =>
+  db.ref(`boards/${boardOwner}/posts`).push({
     uid,
     username,
     content,
     isAnonymous
   }).then((snap) => {
-    db.ref(`boards/${username}/posts/${snap.key}`).update({
+    db.ref(`boards/${boardOwner}/posts/${snap.key}`).update({
       postid: snap.key
  })});
 
-export const doCreateReply = (uid, username, content, isAnonymous, postid) =>
- db.ref(`boards/${username}/posts/${postid}/replys`).push({
+export const doCreateReply = (boardOwner, uid, username, content, isAnonymous, postid) =>
+ db.ref(`boards/${boardOwner}/posts/${postid}/replys`).push({
    uid,
    username,
    content,
    isAnonymous
  }).then((snap) => {
-   db.ref(`boards/${username}/posts/${postid}/replys/${snap.key}`).update({
+   db.ref(`boards/${boardOwner}/posts/${postid}/replys/${snap.key}`).update({
      replyid: snap.key
 })});
 
