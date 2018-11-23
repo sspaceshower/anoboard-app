@@ -16,6 +16,7 @@ $blue-form: #47525E;
 $lightgray: #AFBACA;
 $fadegray: #D3D4D6;
 $bgray: #D7D2D2;
+$disabled: #A6A8AB;
 $darkgray: #3D4434;
 
 //grid breakpoints
@@ -65,4 +66,14 @@ body {
 
 :hover{
   text-decoration: none;
+}
+
+.fade-enter {
+  opacity: 0;
+  z-index: 1;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transition: opacity 1000ms ease-in-out;
 }

@@ -22,11 +22,14 @@
 
 .group-img-wrap {
   background-color: $fadegray;
+  color: #AFAFAA;
+  font-family: $boldfont;
+  font-size: 50px;
+  padding: 35px 0;
   height: 150px;
   width: 100%;
   text-align: center;
   vertical-align: middle;
-  color: black;
 }
 
 .group-name {
@@ -73,6 +76,32 @@
   height: 35px;
   margin-top: 10px;
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: white;
+    color: $board;
+  }
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    outline: none;
+  }
+}
+
+.button-joined {
+  background-color: transparent;
+  border: 1px solid $disabled;
+  border-radius: 25px;
+  text-align: center;
+  color: $disabled;
+  font-family: $latobold;
+  font-size: 16px;
+  width: 85px;
+  height: 35px;
+  margin-top: 10px;
 
   &:focus {
     outline: none;
@@ -144,14 +173,14 @@
 
 .cancel-sq-button {
   background-color: white;
-  border: 1px solid $fadegray;
+  border: 1px solid $disabled;
   border-radius: 7px;
   margin-left: 10px;
   margin-right: 10px;
   box-sizing: border-box;
   display: inline;
   text-align: center;
-  color: $fadegray;
+  color: $disabled;
   font-family: $latobold;
   font-size: 16px;
   width: 100px;

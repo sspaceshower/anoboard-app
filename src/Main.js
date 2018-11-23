@@ -18,6 +18,7 @@ import Userboard from './Userboard.js';
 import Homepage from './Homepage.js';
 import GroupPage from './Grouppage.js';
 import * as routes from './constants/routes';
+import './scss/_base.scss';
 
 class Main extends React.Component{
 	constructor(props){
@@ -68,7 +69,7 @@ class Main extends React.Component{
 			return(
 	      <div>
 	        <Route pattern="/" component={props => <Sidebar />} />
-	        <Page />
+	        <Route pattern="/" component={props => <Page location={props.location}/>} />
 	      </div>
 			);
 		} else {
@@ -77,22 +78,22 @@ class Main extends React.Component{
 	}
 }
 
-const Page = () => (
-  <Switch>
-    <div className="navigation-auth">
-      <Route exact path={routes.LANDING} component={Homepage} />
-      <Route path={routes.SIGN_OUT} component={SignOutPage} />
-      <Route path={routes.PASSWORD_FORGET} component={PasswordForgetPage} />
-      <Route path={routes.HOME} component={Homepage} />
-      <Route path={routes.ACCOUNT} component={AccountPage} />
-      <Route path={routes.NOTIFICATION} component={Notification} />
-      <Route path={routes.SEARCHGROUP} component={GroupSearch} />
-      <Route path={routes.GROUPS} component={AllGroup} />
-      <Route path={routes.GROUPPAGE} component={GroupPage} />
-      <Route path={routes.USERBOARD} component={Userboard} />
-      {/* <span>Found in <a href="https://roadtoreact.com/course-details?courseId=TAMING_THE_STATE">Taming the State in React</a></span> | <span>Star the <a href="https://github.com/rwieruch/react-firebase-authentication">Repository</a></span> | <span>Receive a <a href="https://www.getrevue.co/profile/rwieruch">Developer's Newsletter</a></span> */}
-    </div>
-  </Switch>
+const Page = (props) => (
+	 <Switch location={props.location}>
+		 <div className="navigation-auth">
+			 <Route exact path={routes.LANDING} component={Homepage} />
+			 <Route path={routes.SIGN_OUT} component={SignOutPage} />
+			 <Route path={routes.PASSWORD_FORGET} component={PasswordForgetPage} />
+			 <Route path={routes.HOME} component={Homepage} />
+			 <Route path={routes.ACCOUNT} component={AccountPage} />
+			 <Route path={routes.NOTIFICATION} component={Notification} />
+			 <Route path={routes.SEARCHGROUP} component={GroupSearch} />
+			 <Route path={routes.GROUPS} component={AllGroup} />
+			 <Route path={routes.GROUPPAGE} component={GroupPage} />
+			 <Route path={routes.USERBOARD} component={Userboard} />
+		 </div>
+	 </Switch>
+
 )
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withAuthentication(Main)));

@@ -8,6 +8,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faBell, faEnvelope, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { createDisplayName } from './helper/helper.js'
+import { SIGN_IN } from './constants/routes.js'
 import withAuthorization from './session/withAuthorization.js';
 import './scss/sidebar.scss';
 
@@ -24,6 +25,19 @@ class Sidebar extends React.Component {
       currentUser: this.props.currentUser,
       renderFlat: this.props.renderFlag,
     }
+  }
+
+  handleSignOut () {
+    const { history } = this.props;
+
+    auth
+      .doSignOut()
+      .then(() => {
+        history.push(SIGN_IN);
+      })
+      .catch(error => {
+        this.setState({ error });
+      });
   }
 
 
@@ -62,7 +76,11 @@ class Sidebar extends React.Component {
         <NavLink to={"/groups"} style={{textDecoration: "none"}}>
           <Row id="show-more">show more..</Row>
         </NavLink>
-        <div className="center-wrap"><button className="custom-button-brown" onClick={auth.doSignOut}>Logout</button></div>
+        <div className="center-wrap">
+          <button className="custom-button-brown" onClick={() => {this.handleSignOut()}}>
+            Logout
+          </button>
+        </div>
       </Col>
     );
   }

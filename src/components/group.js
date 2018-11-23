@@ -9,7 +9,8 @@ class Group extends React.Component {
     super(props);
     this.state = {
       groupName: this.props.groupName,
-      students: this.props.students
+      students: this.props.students,
+      location: this.props.location,
     }
   }
 
@@ -24,9 +25,15 @@ class Group extends React.Component {
         students: this.props.students,
        }))
     }
+    if (this.props.students !== prevProps.students) {
+      this.setState(() => ({
+        location: this.props.location,
+       }))
+    }
   }
 
   render(){
+    console.log(this.props.location)
     return(
       <Col md={{span:10, offset: 2}} style={{padding: "30px 40px 30px 40px"}}>
         <Container fluid style={{paddingLeft: "0"}}>

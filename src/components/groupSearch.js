@@ -80,6 +80,28 @@ class GroupDisplay extends React.Component {
     return (isPublic ? "Public Group" : "Closed Group")
   }
 
+  getJoinButton(name) {
+    console.log(this.props.currentUser.grouplist);
+    const grouplist = this.props.currentUser.grouplist;
+    if(grouplist.indexOf(name) > -1){
+      return(
+        <Button
+          bsPrefix="button-joined"
+          disabled>
+          Joined
+        </Button>
+      );
+    } else {
+      return(
+        <Button
+          bsPrefix="button-join"
+          onClick={() => this.setState({modalShow: true})}>
+          Join
+        </Button>
+      );
+    }
+  }
+
   render() {
     let modalClose = () => this.setState({modalShow: false})
     return (
@@ -87,7 +109,7 @@ class GroupDisplay extends React.Component {
            className="group-display-wrap">
         <Container fluid>
           <Row>
-            <div className="group-img-wrap">group image</div>
+            <div className="group-img-wrap">IMG</div>
           </Row>
           <Row>
             <div className="group-name">{this.props.name}</div>
@@ -100,11 +122,7 @@ class GroupDisplay extends React.Component {
             <div className="group-description">group description</div>
           </Row>
           <Row className="button-wrap"><Col>
-            <Button
-              bsPrefix="button-join"
-              onClick={() => this.setState({modalShow: true})}>
-              Join
-            </Button>
+            {this.getJoinButton(this.props.name)}
           </Col>
           </Row>
           <JoinGroupModal

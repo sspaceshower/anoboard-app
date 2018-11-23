@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom'
 import { db } from './firebase'
 import { loading } from './constants/loading.js';
 import Group from './components/group.js'
@@ -12,19 +13,6 @@ class GroupPage extends React.Component {
       groupName: this.props.match.params.groupname,
       students: [],
     };
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.match.params.groupName !== prevProps.match.params.groupName) {
-      this.setState(() => ({
-        groupName: this.props.match.params.groupName,
-        }))
-    }
-    if (this.props.location !== prevProps.location ) {
-      this.setState(() => ({
-        location: this.props.location,
-      }));
-    }
   }
 
   componentDidMount() {
@@ -41,7 +29,6 @@ class GroupPage extends React.Component {
         snap.child("students").forEach(ss => {
           // data.push([ss.child('name').val(), ss.child('students').val()]);
           // groupNames.push(ss.child('name').val());
-          console.log(ss.val());
           students.push(ss.val());
         });
 
@@ -66,4 +53,4 @@ class GroupPage extends React.Component {
   }
 }
 
-export default GroupPage;
+export default withRouter(GroupPage);

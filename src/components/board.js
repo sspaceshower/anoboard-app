@@ -131,15 +131,16 @@ class Postmodal extends React.Component {
   }
 
   handleSubmit(event){
-    var boardOwner = this.state.board.owner.uid;
+    var boardOwner = this.state.board.owner.username;
 
     // TODO: these values still null, fix this
-    var username = this.state.board.owner.username;
+    var uid = this.state.currentUser.uid;
+    var username = this.state.currentUser.username;
     var content = this.state.post.content;
     var isAnonymous = this.state.post.isAnonymous;
     const { history } = this.props;
 
-    db.doCreatePost(boardOwner, username, content, isAnonymous)
+    db.doCreatePost(boardOwner, uid, username, content, isAnonymous)
     .then(() => {
       window.location.reload();
       this.setState(() => ({
@@ -375,18 +376,19 @@ class Replymodal extends React.Component {
   }
 
   handleSubmit(event){
-    var boardOwner = this.state.board.owner.uid
+    var boardOwner = this.state.board.owner.username;
     // TODO: these values still null, fix this
-    var username = this.state.reply.author.username
-    var content = this.state.reply.content
-    var isAnonymous = this.state.reply.isAnonymous
-    var postid = this.state.post.postid
+    var uid = this.state.reply.author.uid;
+    var username = this.state.reply.author.username;
+    var content = this.state.reply.content;
+    var isAnonymous = this.state.reply.isAnonymous;
+    var postid = this.state.post.postid;
     const { history } = this.props;
     // username = "replymock"
     // content = "replymock"
     isAnonymous = true
 
-    db.doCreateReply(boardOwner, username, content, isAnonymous, postid)
+    db.doCreateReply(boardOwner, uid, username, content, isAnonymous, postid)
     .then(() => {
       window.location.reload();
       this.setState(() => ({
