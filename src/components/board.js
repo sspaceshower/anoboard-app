@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Row, Col, Modal, Form, Button } from 'react-bootstrap';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { loading } from '../constants/loading.js';
 import { faPlusCircle, faPlus, faReply, faComments } from '@fortawesome/free-solid-svg-icons';
 import { createDisplayName } from '../helper/helper.js'
 import * as routes from '../constants/routes';
@@ -28,15 +29,40 @@ class Board extends React.Component {
     this.state = {
       currentUser: this.props.currentUser,
       board: this.props.board,
+      //access pool here, it's a list of armot,weapon, trophy
+      //actually we don't need this, but just to make you see how to access it
+      pool: this.props.currentUser.pool,
       // posts : this.props.board.value.posts,
       modalShow: false,
+      loaded: false,
+			loading: loading.NOTHING,
     }
+    this.fetchTrophyData = this.fetchTrophyData.bind(this);
   }
+
+  
+  componentDidMount() {
+		this.fetchTrophyData()
+  }
+  
+  fetchTrophyData(){
+		this.setState({
+			loading:loading.RELOADING
+		});
+		db.onceGetTrophy().then(snapshot =>
+		{
+			console.log(snapshot.val())					
+			this.setState({trophy: snapshot.val(), loaded:true, loading:loading.NOTHING,});
+		}).catch((err)=> {
+			console.log("fetch user error",err);});
+  }
+
   componentDidUpdate(prevProps) {
     // Typical usage (don't forget to compare props):
     if (this.props.currentUser !== prevProps.currentUser) {
       this.setState(() => ({
         currentUser: this.props.currentUser,
+        pool: this.props.currentUser.pool
         }))
     }
     if (this.props.board !== prevProps.board) {
@@ -47,6 +73,7 @@ class Board extends React.Component {
   }
 
   render(){
+    if(this.state.loaded){
     let modalClose = () => this.setState({ modalShow: false})
     return(
       <Container fluid style={{paddingLeft: "0"}}>
@@ -65,6 +92,7 @@ class Board extends React.Component {
                           onHide = {modalClose}
                           currentUser = {this.props.currentUser}
                           board = {this.state.board}
+                          trophy = {this.state.trophy}
                         />
                       </Col>
                   </Row>
@@ -81,6 +109,9 @@ class Board extends React.Component {
       </Row>
       </Container>
     );
+  } else{
+    return(<div>Loading...</div>);
+  }
   }
 }
 
@@ -89,6 +120,7 @@ class Postmodal extends React.Component {
     super(props);
     this.state = {
       currentUser: this.props.currentUser,
+      trophy: this.props.trophy,
       board: this.props.board,
       post: {
         author: this.props.currentUser,
@@ -97,12 +129,16 @@ class Postmodal extends React.Component {
         isAnonymous: true,
         replies: null,
         timestamp: null
-      },
+      },      
     };
     this.handleContentChange = this.handleContentChange.bind(this);
     this.handleAnonimity = this.handleAnonimity.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.getToday = this.getToday.bind(this);
+    this.calculateLevel = this.calculateLevel.bind(this);    
+    
   }
+
   componentDidUpdate(prevProps) {
     // Typical usage (don't forget to compare props):
     if (this.props.currentUser !== prevProps.currentUser) {
@@ -130,37 +166,129 @@ class Postmodal extends React.Component {
     this.setState({post: currentPost});
   }
 
+  getToday(){
+    return {
+      day: new Date().getDate(),
+      month: (new Date().getMonth())+1,
+      year: new Date().getFullYear()
+    }     
+  }
+
+  calculateLevel(total_XP){
+    //change level    
+    return(total_XP%40 == 0)
+  }
+
   handleSubmit(event){
     var boardOwner = this.state.board.owner.username;
 
-    // TODO: these values still null, fix this
+    
     var uid = this.state.currentUser.uid;
     var username = this.state.currentUser.username;
     var content = this.state.post.content;
     var isAnonymous = this.state.post.isAnonymous;
     const { history } = this.props;
 
-    db.doCreatePost(boardOwner, uid, username, content, isAnonymous)
-    .then(() => {
-      window.location.reload();
-      this.setState(() => ({
-        post: {
-          author: this.props.currentUser,
-          content: "",
-          tag: null,
-          isAnonymous: true,
-          replies: null,
-          timestamp: null
+    var today_XP = this.state.currentUser.status.today_XP
+    var total_XP = this.state.currentUser.status.total_XP
+    var level = this.state.currentUser.status.level
+    var HP = this.state.currentUser.status.HP
+    var weapon = this.state.currentUser.status.weapon
+    var armor = this.state.currentUser.status.armor
+    var trophy = this.state.currentUser.status.trophy
+    var atk = this.state.currentUser.status.atk + weapon.atk
+    var def = this.state.currentUser.status.def + armor.def
+    today_XP = today_XP + 20
+    total_XP = total_XP + 20
+    const day_now = this.getToday()
+    //check time not same
+    console.log("TODAYY")
+    console.log(this.state.currentUser.status.lastUpdate)
+    console.log(day_now)
+    var day = day_now.day
+    var month = day_now.month
+    var year = day_now.year
+    var day_user = this.state.currentUser.status.lastUpdate.day
+    var month_user = this.state.currentUser.status.lastUpdate.month
+    var year_user = this.state.currentUser.status.lastUpdate.year
+    if(day !== day_user && month !== month_user && year !== year_user){
+      today_XP = 20
+    }
+    var levelChange = this.calculateLevel(total_XP)
+    //use this variable as get Trophy to be true or false
+    var getTrophy = false
+    var getWeapon = false
+    var getArmor = false
+    var key
+    if(levelChange){
+      if(level%2==0){
+        HP = HP + 1             
+      }
+      level = level + 1   
+      
+        if(level<10){
+          key = "level0" + level
         }
-       }));
+        else{
+          key = "level" + level
+        }
+        console.log("KEYHEYY")
+        console.log(key)
+        if(this.state.trophy[key].trophy!=null && this.state.trophy[key].trophy!=undefined){
+          getTrophy = true
+          trophy = this.state.trophy[key].trophy
+          db.updatePoolTrophy(uid, trophy)
+        }
+        if(this.state.trophy[key].weapon!=null && this.state.trophy[key].weapon!=undefined){        
+          getWeapon = true  
+          weapon = this.state.trophy[key].weapon
+          atk = atk + weapon.atk
+          db.updatePoolWeapon(uid, weapon)
+          console.log("SHOULD SEE SMTH HERE")
+          console.log(weapon)
+        }
+        if(this.state.trophy[key].armor!=null && this.state.trophy[key].armor!=undefined){          
+          getArmor = true
+          armor = this.state.trophy[key].armor
+          def = def + armor.def
+          db.updatePoolArmor(uid, armor)
+        }
+    }    
+    // console.log("KEYYY")
+    // console.log(key)
+    // console.log(total_XP)
+    // console.log(today_XP)
+    // console.log(HP)
+    // console.log(level)
+    // console.log(weapon)
+    // console.log(armor)
+    db.updateXP(uid, today_XP, total_XP, day_now, HP , level, weapon, armor, trophy, atk, def)
+    .then(() => {
+        db.doCreatePost(boardOwner, uid, username, content, isAnonymous)
+        .then(() => {
+          window.location.reload();
+          this.setState(() => ({
+            post: {
+              author: this.props.currentUser,
+              content: "",
+              tag: null,
+              isAnonymous: true,
+              replies: null,
+              timestamp: null
+            }
+          }));
+        })
+        .catch(error => {
+          this.setState({ error });
+        })
     })
     .catch(error => {
       this.setState({ error });
-    });
+    })
     event.preventDefault();
   }
 
-  render() {
+  render() {    
     return (
       <Modal
         {...this.props}
@@ -219,7 +347,7 @@ class Postmodal extends React.Component {
           </Container>
         </Modal.Body>
       </Modal>
-    );
+    );  
   }
 }
 
@@ -228,16 +356,59 @@ class Postbox extends React.Component {
     super(props);
     this.state = {
       post: this.props.post,
-      board: this.props.board
+      board: this.props.board,
+      currentUser: this.props.currentUser,
+      loaded: false,
+			loading: loading.NOTHING,
     }
     var currentPost = this.state.post;
     currentPost.user = {username: this.state.post.username};
     this.setState({post: currentPost});
 
     this.getReplyNum = this.getReplyNum.bind(this);
-
+    this.clickAttack = this.clickAttack.bind(this);
+    this.calculateATK = this.calculateATK.bind(this);
+    this.calculateEnemyDef = this.calculateEnemyDef.bind(this);
+    this.fight = this.fight.bind(this);
+    this.getToday = this.getToday.bind(this);
+    this.checkHP = this.checkHP.bind(this);
   }
-
+  
+  componentDidMount() {
+		this.fetchUserData()
+  }
+  
+  fetchUserData(){
+		this.setState({
+			loading:loading.RELOADING
+		});
+		db.onceGetOneUser(this.state.post.uid).then(snapshot =>
+		{
+			console.log(snapshot.val())
+			const data_list = [];
+			if(snapshot.val().grouplist !== undefined && snapshot.val().grouplist !== null){
+				for (const [key, value] of Object.entries(snapshot.val().grouplist)) {
+					var childData = value.name;
+					data_list.push(childData);
+				}
+			}
+			var user = {
+				uid: snapshot.val().uid,
+				username: snapshot.val().username,
+				email: snapshot.val().email,
+				fname: snapshot.val().fname,
+				mname: snapshot.val().mname,
+				lname: snapshot.val().lname,
+				biography: snapshot.val().biography,
+				grouplist: data_list,
+				status: snapshot.val().status,
+			}
+			
+			this.setState({postUser: user, loaded:true, loading:loading.NOTHING,});
+		}).catch((err)=> {
+			console.log("fetch user error",err);});
+  }
+  
   getReplyNum(){
     if(this.state.post.replys !== undefined && this.state.post.replys !== null){
       return (Object.keys(this.state.post.replys).length);
@@ -246,7 +417,160 @@ class Postbox extends React.Component {
     }
   }
 
+  //use this function to check whether you can click fight or not
+  checkHP(){
+    if(this.state.currentUser.status.HP > 2){
+      return true
+    } else {
+      return false
+    }
+  }
+
+  //TODO:use this function for clicking fight!!
+  clickAttack(){
+    //get post'owner -> XP,ATK,DEF,Weapon.ATK,Armor,HP,Today_XP,Total_XP
+
+    //get current user -> XP,ATK,DEF,Weapon.ATK,Armor,HP,Today_XP,Total_XP
+    var currentUser = this.state.currentUser
+    var HP = this.state.currentUser.status.HP    
+
+    console.log("clickAttack")
+    console.log(currentUser)
+    console.log(this.state.post)
+    const date_now = Date.now()
+    const today = this.getToday()
+    const timestamp = Math.floor(date_now / 1000);
+    console.log(timestamp)
+    console.log(date_now)
+    console.log(today)
+    console.log(today.day)
+    var atk = this.calculateATK(currentUser)
+    var def = this.calculateEnemyDef()
+    var FightResult = this.fight(atk,def)
+    
+    HP = HP - 2
+    
+    if(FightResult){
+      //if you win, you get XP and lose HP
+          var uid = this.state.currentUser.uid;
+        var today_XP = this.state.currentUser.status.today_XP
+        var total_XP = this.state.currentUser.status.total_XP
+        var level = this.state.currentUser.status.level
+        
+        var weapon = this.state.currentUser.status.weapon
+        var armor = this.state.currentUser.status.armor
+        var trophy = this.state.currentUser.status.trophy
+        var atk = this.state.currentUser.status.atk
+        var def = this.state.currentUser.status.def
+        //TODO: are you sure with getting 20 XP for winning the fight?
+        today_XP = today_XP + 20
+        total_XP = total_XP + 20
+        const day_now = this.getToday()
+        //check time not same
+        console.log("TODAYY")
+        console.log(this.state.currentUser.status.lastUpdate)
+        console.log(day_now)
+        var day = day_now.day
+        var month = day_now.month
+        var year = day_now.year
+        var day_user = this.state.currentUser.status.lastUpdate.day
+        var month_user = this.state.currentUser.status.lastUpdate.month
+        var year_user = this.state.currentUser.status.lastUpdate.year
+        if(day !== day_user && month !== month_user && year !== year_user){
+          today_XP = 20
+        }
+        var levelChange = this.calculateLevel(total_XP)
+        //use this variable as get Trophy to be true or false
+        var getTrophy = false
+        var getWeapon = false
+        var getArmor = false
+        var key
+        if(levelChange){
+          if(level%2==0){
+            HP = HP + 1             
+          }
+          level = level + 1   
+          
+            if(level<10){
+              key = "level0" + level
+            }
+            else{
+              key = "level" + level
+            }
+            console.log("KEYHEYY")
+            console.log(key)
+            if(this.state.trophy[key].trophy!=null && this.state.trophy[key].trophy!=undefined){
+              getTrophy = true
+              trophy = this.state.trophy[key].trophy
+              db.updatePoolTrophy(uid, trophy)
+            }
+            if(this.state.trophy[key].weapon!=null && this.state.trophy[key].weapon!=undefined){        
+              getWeapon = true  
+              weapon = this.state.trophy[key].weapon          
+              db.updatePoolWeapon(uid, weapon)
+              console.log("SHOULD SEE SMTH HERE")
+              console.log(weapon)
+            }
+            if(this.state.trophy[key].armor!=null && this.state.trophy[key].armor!=undefined){          
+              getArmor = true
+              armor = this.state.trophy[key].armor          
+              db.updatePoolArmor(uid, armor)
+            }
+        }
+        atk = atk + weapon.atk
+        def = def + armor.def
+
+      db.updateXP(uid, today_XP, total_XP, day_now, HP , level, weapon, armor, trophy, atk, def)
+    .then(() => {
+      //TODO: after win -> change XP and HP (done) and show username <FRONTEND>
+    })
+    
+    .catch(error => {
+      this.setState({ error });
+    })
+    
+    }
+    else{
+      //TODO: if lost, show that you have lower atk, lost the fight <FRONTEND> cannot show username
+    }
+
+  }
+
+  getToday(){
+    return {
+      day: new Date().getDate(),
+      month: (new Date().getMonth())+1,
+      year: new Date().getFullYear()
+    }     
+  }
+  calculateATK(currentUser){
+    //TODO: we must delete all users again to create status there in firebase
+    var atk = currentUser.status.atk
+    if(currentUser.status.weapon != null && currentUser.status.weapon != undefined){
+      atk = atk + currentUser.status.weapon.atk
+    }
+    return atk
+    
+  }
+  calculateEnemyDef(){
+    //get post'owner -> XP,ATK,DEF,Weapon.ATK,Armor,HP,Today_XP,Total_XP
+
+    //get current user -> XP,ATK,DEF,Weapon.ATK,Armor,HP,Today_XP,Total_XP    
+    console.log("CALCULATE_DEF")
+    console.log(this.state.postUser)
+    console.log(this.state.post)
+    var def = this.state.postUser.def
+    if(this.state.postUser.status != null && this.state.postUser.status != undefined){
+      def = def + this.state.postUser.status.armor.def
+    }
+    return def
+  }
+  fight(atk,def){
+    if(atk > def) return true
+    else return false
+  }
   render(){
+    if(this.state.loaded){
     let modalClose = () => this.setState({ modalShow: false})
     const author = this.state.post.isAnonymous?
       'anonymous':createDisplayName(this.state.post.user);
@@ -288,6 +612,9 @@ class Postbox extends React.Component {
         </div>
       </Col>
     );
+  } else {
+    return(<div>Loading...</div>);
+  }
   }
 }
 
@@ -349,6 +676,8 @@ class Replymodal extends React.Component {
     };
     this.handleContentChange = this.handleContentChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.getToday = this.getToday.bind(this);
+    this.calculateLevel = this.calculateLevel.bind(this);
   }
 
   handleContentChange(event){
@@ -375,9 +704,22 @@ class Replymodal extends React.Component {
     }
   }
 
+  getToday(){
+    return {
+      day: new Date().getDate(),
+      month: (new Date().getMonth())+1,
+      year: new Date().getFullYear()
+    }     
+  }
+
+  calculateLevel(total_XP){
+    //change level    
+    return(total_XP%40 == 0)
+  }
+
   handleSubmit(event){
     var boardOwner = this.state.board.owner.username;
-    // TODO: these values still null, fix this
+    
     var uid = this.state.reply.author.uid;
     var username = this.state.reply.author.username;
     var content = this.state.reply.content;
@@ -388,24 +730,103 @@ class Replymodal extends React.Component {
     // content = "replymock"
     isAnonymous = true
 
-    db.doCreateReply(boardOwner, uid, username, content, isAnonymous, postid)
+    var today_XP = this.state.reply.author.status.today_XP
+    var total_XP = this.state.reply.author.status.total_XP
+    var level = this.state.reply.author.status.level
+    var HP = this.state.reply.author.status.HP
+    var weapon = this.state.reply.author.status.weapon
+    var armor = this.state.reply.author.status.armor
+    var trophy = this.state.reply.author.status.trophy
+    var atk = this.state.reply.author.status.atk + weapon.atk
+    var def = this.state.reply.author.status.def + armor.def
+    today_XP = today_XP + 10
+    total_XP = total_XP + 10
+    const day_now = this.getToday()
+    //check time not same
+    console.log("TODAYYREPLYYY")
+    console.log(this.state.reply.author.status.lastUpdate)
+    console.log(day_now)
+    var day = day_now.day
+    var month = day_now.month
+    var year = day_now.year
+    var day_user = this.state.reply.author.status.lastUpdate.day
+    var month_user = this.state.reply.author.status.lastUpdate.month
+    var year_user = this.state.reply.author.status.lastUpdate.year
+    if(day !== day_user && month !== month_user && year !== year_user){
+      today_XP = 10
+    }
+    var levelChange = this.calculateLevel(total_XP)
+    //use this variable as get Trophy to be true or false
+    var getTrophy = false
+    var getWeapon = false
+    var getArmor = false
+    var key
+    if(levelChange){
+      if(level%2==0){
+        HP = HP + 1             
+      }
+      level = level + 1   
+      
+        if(level<10){
+          key = "level0" + level
+        }
+        else{
+          key = "level" + level
+        }
+        // console.log("KEYHEYY")
+        // console.log(key)
+        if(this.state.trophy[key].trophy!=null && this.state.trophy[key].trophy!=undefined){
+          getTrophy = true
+          trophy = this.state.trophy[key].trophy
+          db.updatePoolTrophy(uid, trophy)
+        }
+        if(this.state.trophy[key].weapon!=null && this.state.trophy[key].weapon!=undefined){        
+          getWeapon = true  
+          weapon = this.state.trophy[key].weapon
+          atk = atk + weapon.atk
+          db.updatePoolWeapon(uid, weapon)
+          console.log("SHOULD SEE SMTH HERE")
+          console.log(weapon)
+        }
+        if(this.state.trophy[key].armor!=null && this.state.trophy[key].armor!=undefined){          
+          getArmor = true
+          armor = this.state.trophy[key].armor
+          def = def + armor.def
+          db.updatePoolArmor(uid, armor)
+        }
+    }    
+    // console.log("KEYYYREPLYYY")
+    // console.log(key)
+    // console.log(total_XP)
+    // console.log(today_XP)
+    // console.log(HP)
+    // console.log(level)
+    // console.log(weapon)
+    // console.log(armor)
+    db.updateXP(uid, today_XP, total_XP, day_now, HP , level, weapon, armor, trophy, atk, def)
     .then(() => {
-      window.location.reload();
-      this.setState(() => ({
-        reply: {
-          author: this.props.currentUser,
-          content: "",
-          isAnonymous: true,
-          timestamp: null
-        },
-       }));
-      history.push(routes.HOME);
+      db.doCreateReply(boardOwner, uid, username, content, isAnonymous, postid)
+      .then(() => {
+        window.location.reload();
+        this.setState(() => ({
+          reply: {
+            author: this.props.currentUser,
+            content: "",
+            isAnonymous: true,
+            timestamp: null
+          },
+         }));
+        history.push(routes.HOME);
+      })
+      .catch(error => {
+        this.setState({ error });
+      });
     })
     .catch(error => {
       this.setState({ error });
-    });
+    })
     event.preventDefault();
-
+    
   }
 
   render() {
@@ -445,7 +866,6 @@ class Replymodal extends React.Component {
     );
   }
 }
-
 
 const createPostStack = (currentUser, board) => {
     var stack = [];
