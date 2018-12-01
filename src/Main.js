@@ -57,7 +57,13 @@ class Main extends React.Component{
 				mname: snapshot.val().mname,
 				lname: snapshot.val().lname,
 				biography: snapshot.val().biography,
-				grouplist: data_list
+				grouplist: data_list,
+				status: snapshot.val().status,
+				pool: snapshot.val().pool,
+				first_visit_home: snapshot.val().first_visit_home,
+    			first_visit_group: snapshot.val().first_visit_group,
+				first_visit_group_search: snapshot.val().first_visit_group_search,
+				first_visit_trophy: snapshot.val().first_visit_trophy,
 			}
 			this.props.updateUser(user);
 			this.setState({user: user, loaded: true, loading:loading.NOTHING,});
