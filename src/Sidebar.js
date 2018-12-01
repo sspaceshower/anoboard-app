@@ -7,8 +7,8 @@ import { mapStateToProps, mapDispatchToProps } from './reducers/map.js'
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faBell, faEnvelope, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import { createDisplayName } from './helper/helper.js'
-import { SIGN_IN } from './constants/routes.js'
+import { createDisplayName } from './helper/helper.js';
+import { SIGN_IN } from './constants/routes.js';
 import withAuthorization from './session/withAuthorization.js';
 import './scss/sidebar.scss';
 

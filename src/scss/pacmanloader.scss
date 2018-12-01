@@ -1,0 +1,18 @@
+$primary-color: white;
+@import '~loaders.css/src/animations/pacman.scss';
+
+.loader-hidden {
+  display: none;
+}
+
+.loader-active {
+  display: block;
+}
+
+.loader-fullscreen-wrap {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}

@@ -1,9 +1,10 @@
 import React from 'react';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { firebase, db } from './firebase'
 import { mapStateToProps, mapDispatchToProps } from './reducers/map.js'
 import { loading } from './constants/loading.js';
+import Pacman from './components/pacman.js';
 import withAuthentication from './session/withAuthentication.js';
 import SignUpPage from './components/signup.js';
 import SignInPage from './components/signin.js';
@@ -59,7 +60,7 @@ class Main extends React.Component{
 				grouplist: data_list
 			}
 			this.props.updateUser(user);
-			this.setState({user: user, loaded:true, loading:loading.NOTHING,});
+			this.setState({user: user, loaded: true, loading:loading.NOTHING,});
 		}).catch((err)=> {
 			console.log("fetch user error",err);});
 	}
@@ -73,7 +74,11 @@ class Main extends React.Component{
 	      </div>
 			);
 		} else {
-			return(<div>loader..</div>);
+			return(
+				<div>
+					<Pacman />
+				</div>
+			);
 		}
 	}
 }
@@ -91,6 +96,9 @@ const Page = (props) => (
 			 <Route path={routes.GROUPS} component={AllGroup} />
 			 <Route path={routes.GROUPPAGE} component={GroupPage} />
 			 <Route path={routes.USERBOARD} component={Userboard} />
+			 <Route path={routes.SIGN_IN} render={() => (
+						<Redirect to="/home" />
+					)}/>
 		 </div>
 	 </Switch>
 

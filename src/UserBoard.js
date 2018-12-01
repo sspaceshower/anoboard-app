@@ -2,6 +2,7 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { db } from './firebase';
+import Pacman from './components/pacman.js';
 import FullBoard from './components/fullboard.js';
 import { loading } from './constants/loading.js';
 import { mapStateToProps, mapDispatchToProps } from './reducers/map.js'
@@ -71,7 +72,7 @@ class Userboard extends React.Component {
           </Row>
         </Container>
       );
-    } else { return (<div>loader</div>) }
+    } else { return (<Pacman />) }
   }
 }
 
