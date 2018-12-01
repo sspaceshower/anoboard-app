@@ -2,7 +2,7 @@ import { db } from './firebase';
 
 // User API
 
-export const doCreateUser = (uid, username, fname, mname, lname, biography, email) =>
+export const doCreateUser = (uid, username, fname, mname, lname, biography, email, day_now) =>
   db.ref(`users/${uid}`).set({
     uid,
     username,
@@ -18,6 +18,11 @@ export const doCreateUser = (uid, username, fname, mname, lname, biography, emai
       level: 1,
       today_XP: 0,
       total_XP: 0,
+      lastUpdate: {
+        day: day_now.day,
+        month: day_now.month,
+        year: day_now.year,
+      },
       armor: {
         def: 5,
         name: "Cool leather jacket",
