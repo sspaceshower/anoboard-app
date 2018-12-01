@@ -1,18 +1,18 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import '../scss/group.scss';
+import '../../scss/group.scss';
 import GroupSearch from './groupSearch';
 
 class GroupHelper extends Component {
     constructor(props) {
       super(props);
-  
+
       this.state = {
         users: {},
         boards: {}
       };
     }
-  
+
     // componentDidMount() {
     //   db.onceGetUsers().then(snapshot =>
     //     this.setState(() => ({ users: snapshot.val() }))
@@ -21,18 +21,18 @@ class GroupHelper extends Component {
     //     this.setState(() => ({ boards: snapshot.val() }))
     //   );
     // }
-  
+
     render() {
       const { users,boards } = this.state;
-  
+
       return (
-  
+
         <AuthUserContext.Consumer>
-            {authUser =>              
+            {authUser =>
             <GroupSearch currentUser={authUser} allBoardList={boards} users = {users}/>
             }
         </AuthUserContext.Consumer>
-  
+
       );
     }
   }

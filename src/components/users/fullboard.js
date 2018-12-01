@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import Board from './board.js';
 import Profile from './profile.js';
 import Trophy from './trophy.js';
-import '../scss/userboard.scss';
+import '../../scss/userboard.scss';
 
 class FullBoard extends React.Component {
   constructor(props){
@@ -28,10 +28,8 @@ class FullBoard extends React.Component {
     return(
       <Container fluid>
           <Row>
-            <Col xs={12} md={6}><Profile owner={this.props.board.owner}/></Col>
-            <Col xs={12} md={6}>
-              <Col className="wrap" id="trophy" style={{padding: '0'}}><Trophy /></Col>
-            </Col>
+            <Col sm={12} md={6}><Profile owner={this.props.board.owner}/></Col>
+            <Col sm={12} md={6}><Trophy /></Col>
           </Row>
           <Row><Board currentUser = {this.state.currentUser} board = {this.state.board}/></Row>
       </Container>

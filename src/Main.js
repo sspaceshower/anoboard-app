@@ -4,14 +4,14 @@ import { connect } from 'react-redux';
 import { firebase, db } from './firebase'
 import { mapStateToProps, mapDispatchToProps } from './reducers/map.js'
 import { loading } from './constants/loading.js';
-import Pacman from './components/pacman.js';
+import Pacman from './components/util/pacman.js';
 import withAuthentication from './session/withAuthentication.js';
-import SignUpPage from './components/signup.js';
-import SignInPage from './components/signin.js';
-import SignOutPage from './components/signout.js';
-import GroupSearch from './components/groupSearch.js';
-import AccountPage from './components/account.js';
-import PasswordForgetPage from './components/passwordForget.js';
+import SignUpPage from './components/authentication/signup.js';
+import SignInPage from './components/authentication/signin.js';
+import SignOutPage from './components/authentication/signout.js';
+import GroupSearch from './components/groups/groupSearch.js';
+import AccountPage from './components/users/account.js';
+import PasswordForgetPage from './components/authentication/passwordForget.js';
 import Sidebar from './Sidebar.js'
 import Notification from './Notification.js';
 import AllGroup from './Allgroup.js';
@@ -31,6 +31,10 @@ class Main extends React.Component{
 		};
 	}
 
+	componentWillReceiveProps(){
+    this.setState({reload: true});
+  }
+
 	componentDidMount() {
 		this.fetchUserData()
 	}
@@ -41,7 +45,6 @@ class Main extends React.Component{
 		});
 		db.onceGetOneUser(firebase.auth.currentUser.uid).then(snapshot =>
 		{
-			console.log(snapshot.val())
 			const data_list = [];
 			if(snapshot.val().grouplist !== undefined && snapshot.val().grouplist !== null){
 				for (const [key, value] of Object.entries(snapshot.val().grouplist)) {
@@ -61,11 +64,25 @@ class Main extends React.Component{
 				status: snapshot.val().status,
 				pool: snapshot.val().pool,
 				first_visit_home: snapshot.val().first_visit_home,
-    			first_visit_group: snapshot.val().first_visit_group,
+    		first_visit_group: snapshot.val().first_visit_group,
 				first_visit_group_search: snapshot.val().first_visit_group_search,
 				first_visit_trophy: snapshot.val().first_visit_trophy,
 			}
-			this.props.updateUser(user);
+			this.props.updateUid(user.uid);
+			this.props.updateUsername(user.username);
+			this.props.updateEmail(user.email);
+			this.props.updateFname(user.fname);
+			this.props.updateMname(user.mname);
+			this.props.updateLname(user.lname);
+			this.props.updateBio(user.biography);
+			this.props.updateGroups(user.grouplist);
+			this.props.updateStatus(user.status);
+			this.props.updatePool(user.pool);
+			this.props.updateFVH(user.first_visit_home);
+			this.props.updateFVG(user.first_visit_group);
+			this.props.updateFVGS(user.first_visit_group_search);
+			this.props.updateFVT(user.first_visit_trophy);
+			
 			this.setState({user: user, loaded: true, loading:loading.NOTHING,});
 		}).catch((err)=> {
 			console.log("fetch user error",err);});

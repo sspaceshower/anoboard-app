@@ -26,12 +26,11 @@ class AllGroup extends React.Component {
 
   componentDidMount() {
 
-    const uid = this.props.currentUser.uid;
-    const grouplist = this.props.currentUser.grouplist;
+    const uid = this.props.uid;
+    const grouplist = this.props.groups;
     db.ref("groups").on('value', snap =>  {
       var groups = new Map();
       var groupNames = []
-      console.log(grouplist);
       snap.forEach(ss => {
         if(grouplist.indexOf(ss.child('name').val()) > -1){
           groups.set(ss.child('name').val(), ss.val());
@@ -42,8 +41,6 @@ class AllGroup extends React.Component {
         groups: groups,
         groupNames: groupNames
       });
-
-      console.log(groupNames);
     });
   }
 

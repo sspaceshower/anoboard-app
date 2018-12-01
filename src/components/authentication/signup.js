@@ -4,9 +4,9 @@ import { Container, Row, Col, Form} from 'react-bootstrap';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
-import { auth, db } from '../firebase';
-import * as routes from '../constants/routes';
-import '../scss/auth.scss';
+import { auth, db } from '../../firebase';
+import * as routes from '../../constants/routes';
+import '../../scss/auth.scss';
 
 library.add(faUserPlus)
 
@@ -49,8 +49,13 @@ class SignUpForm extends Component {
     auth
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
+        var day_now = {
+           day: new Date().getDate(),
+           month: (new Date().getMonth())+1,
+           year: new Date().getFullYear()
+         }
         // Create a user in your own accessible Firebase Database too
-        db.doCreateUser(authUser.user.uid, username,fname,mname,lname,biography, email)
+        db.doCreateUser(authUser.user.uid, username,fname,mname,lname,biography, email, day_now)
           .then(() => {
             this.setState(() => ({ ...INITIAL_STATE }));
             history.push(routes.HOME);

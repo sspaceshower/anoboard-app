@@ -1,7 +1,7 @@
 import React from 'react';
 import Loader from 'react-loaders';
 import { Container, Row, Col } from 'react-bootstrap';
-import '../scss/pacmanloader.scss'
+import '../../scss/pacmanloader.scss'
 
 class Pacman extends React.Component {
   constructor(props){
@@ -12,13 +12,13 @@ class Pacman extends React.Component {
   }
   render() {
     return(
-      <Container fluid className="container-float">
-        <Row className="justify-content-md-center loader-fullscreen-wrap">
-          <div class="col-xs-12">
-            <div class="loaders single">
-              <div class="loader-container">
-                <div class="loader loader-active">
-                  <div class="loader-inner pacman">
+      <Container fluid className="loader-fullscreen-wrap">
+        <Row className="justify-content-center" style={{height: "100%"}}>
+          <div className="col-xs-12 center-vertical">
+            <div className="loaders single">
+              <div className="loader-container">
+                <div className="loader loader-active">
+                  <div className="loader-inner pacman">
                     <div /><div /><div /><div /><div />
                   </div>
                 </div>

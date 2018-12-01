@@ -1,5 +1,6 @@
 import React from 'react';
-import { NavLink } from "react-router-dom";
+import Media from 'react-media'
+import { NavLink } from 'react-router-dom';
 import { Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { auth } from './firebase'
@@ -22,8 +23,7 @@ class Sidebar extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      currentUser: this.props.currentUser,
-      renderFlat: this.props.renderFlag,
+      renderFlag: this.props.renderFlag,
     }
   }
 
@@ -39,6 +39,79 @@ class Sidebar extends React.Component {
         this.setState({ error });
       });
   }
+
+  createMenu = (menulist) => {
+    const iconStyle = {
+      display: 'inline-block',
+      padding: '0 0 0 15px',
+      margin: '0',
+      textAlign: 'center',
+    };
+
+    const labelStyle = {
+      display: 'inline-block',
+    };
+
+    var menu = [];
+    for(let i=0; i< menulist.length; i++){
+      menu.push(
+        <Row>
+          <Media query="(min-width: 950px)">
+            {matches => matches ? (
+              <NavLink
+                exact to={menulist[i].url}
+                className="sidebar-button"
+                activeClassName="active-sidebar-button"
+                style={{textDecoration: "none"}}
+              >
+                <Col xs={2} style={iconStyle}><FontAwesomeIcon icon={menulist[i].icon} /></Col>
+                <Col xs={10} style={labelStyle}>{menulist[i].label}</Col>
+              </NavLink>
+            ):(
+              <NavLink
+                exact to={menulist[i].url}
+                className="sidebar-button"
+                activeClassName="active-sidebar-button"
+                style={{textDecoration: "none"}}
+              >
+                <Col xs={10} className="center-content"><FontAwesomeIcon icon={menulist[i].icon} /></Col>
+              </NavLink>
+            )
+
+          }
+          </Media>
+        </Row>
+      );
+    }
+    return (
+      menu
+    );
+  };
+
+  createSubMenu = () => {
+    const grouplist = this.props.groups;
+    var submenu = [];
+    submenu.push(
+      <div>
+        {grouplist.map((name) => {
+          return(
+          <Row>
+            <NavLink to={'/group/' + name}
+              style={{textDecoration: "none"}}
+              className="sub-menu-button"
+              activeClassName="sub-menu-active">
+              {name}
+            </NavLink>
+          </Row>
+        )
+        })}
+      </div>
+    )
+    return (
+      submenu
+    );
+  };
+
 
 
   render() {
@@ -56,26 +129,57 @@ class Sidebar extends React.Component {
         <Row className="justify-content-md-center">
           <Col xs={8} className="horizontal-line"></Col>
         </Row>
-        <Col md={{size: 8, offset: 1}} id="sidebar-login-text">
-          logged in as
-        </Col>
-        <Col md={{size: 8, offset: 1}} id="sidebar-login-user">
-          {createDisplayName(this.props.currentUser, false)}
-        </Col>
-        {createMenu(menulist)}
+        <Media query="(min-width: 950px)">
+          {matches => matches ? (
+          <div>
+            <Col md={{size: 9, offset: 1}} id="sidebar-login-text">
+              logged in as
+            </Col>
+            <Col md={{size: 8, offset: 1}} id="sidebar-login-user">
+              {createDisplayName(this.props.fname, this.props.mname, this.props.lname, this.props.username, false)}
+            </Col>
+          </div>
+          ) : (
+          <div>
+            <Col md={12} id="sidebar-login-text" className="center-content">
+              logged in as
+            </Col>
+            <Col md={12} id="sidebar-login-user" className="center-content">
+              {createDisplayName(this.props.fname, this.props.mname, this.props.lname, this.props.username, false)}
+            </Col>
+          </div>
+          )}
+        </Media>
+        {this.createMenu(menulist)}
         <Row className="justify-content-md-center">
           <Col xs={8} className="horizontal-line"></Col>
         </Row>
         <Row>
-          <NavLink to="/groups" style={{textDecoration: "none"}}><div className="sub-menu">GROUPS</div></NavLink>
-          <Col><NavLink to="/search">
-            <div className="plus-button"><FontAwesomeIcon icon="plus-circle" /></div>
-          </NavLink></Col>
+          <Media query="(min-width: 950px)">
+            {matches => matches ? (
+              <Col>
+                <Col md={12}><NavLink to="/groups" className="sub-menu" style={{textDecoration: "none", paddingLeft: "15px"}}>GROUPS</NavLink>
+                <NavLink to="/search">
+                  <div className="plus-button"><FontAwesomeIcon icon="plus-circle" /></div>
+                </NavLink></Col>
+              </Col>
+            ):(
+              <Col>
+                <Col md={12}><NavLink to="/groups" className="sub-menu" style={{textDecoration: "none"}}>GROUPS</NavLink>
+                <NavLink to="/search">
+                  <div className="plus-button"><FontAwesomeIcon icon="plus-circle" /></div>
+                </NavLink></Col>
+              </Col>
+            )}
+          </Media>
+
         </Row>
-        {createSubMenu(this.props.currentUser.grouplist)}
-        <NavLink to={"/groups"} style={{textDecoration: "none"}}>
-          <Row id="show-more">show more..</Row>
-        </NavLink>
+        {this.createSubMenu()}
+        <Row className="justify-content-md-center">
+          <NavLink to={"/groups"} id="show-more" style={{textDecoration: "none"}}>
+          show more..
+          </NavLink>
+        </Row>
         <div className="center-wrap">
           <button className="custom-button-brown" onClick={() => {this.handleSignOut()}}>
             Logout
@@ -85,64 +189,6 @@ class Sidebar extends React.Component {
     );
   }
 }
-
-
-const createMenu = (menulist) => {
-  const iconStyle = {
-    display: 'inline-block',
-    padding: '0 0 0 15px',
-    margin: '0',
-    textAlign: 'center',
-  };
-
-  const labelStyle = {
-    display: 'inline-block',
-  };
-
-  var menu = [];
-  for(let i=0; i< menulist.length; i++){
-    menu.push(
-      <Row>
-        <NavLink
-          exact to={menulist[i].url}
-          className="sidebar-button"
-          activeClassName="active-sidebar-button"
-          style={{textDecoration: "none"}}
-        >
-          <Col xs={2} style={iconStyle}><FontAwesomeIcon icon={menulist[i].icon} /></Col>
-          <Col xs={10} style={labelStyle}>{menulist[i].label}</Col>
-        </NavLink>
-      </Row>
-    );
-  }
-  return (
-    menu
-  );
-};
-
-const createSubMenu = (grouplist) => {
-  var submenu = [];
-  submenu.push(
-    <div>
-      {grouplist.map((name) => {
-        return(
-        <Row>
-          <NavLink to={'/group/' + name}
-            style={{textDecoration: "none"}}
-            className="sub-menu-button"
-            activeClassName="sub-menu-active">
-            {name}
-          </NavLink>
-        </Row>
-      )
-      })}
-    </div>
-  )
-  return (
-    submenu
-  );
-};
-
 const authCondition = (authUser) => !!authUser;
 
 export default connect(mapStateToProps, mapDispatchToProps)(withAuthorization(authCondition)(Sidebar));

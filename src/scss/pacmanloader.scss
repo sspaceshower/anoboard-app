@@ -11,8 +11,5 @@ $primary-color: white;
 
 .loader-fullscreen-wrap {
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
+  display: block;
 }

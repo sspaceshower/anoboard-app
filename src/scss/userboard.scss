@@ -3,22 +3,18 @@
 
 #board {
   height: 100%;
+  width: 100%;
   min-height: 1000px;
-  margin: 0 0 30px 0;
+  margin: 25px 0 30px 0;
   padding: 30px;
   color: white;
   border-radius: 5px;
   background-color: $board;
   font-family: $defaultfont;
-}
-
-#profile-wrap {
-  position: relative;
+  animation: 0.1s ease-in 0s 1 fadeIn;
 }
 
 #trophy {
-  float:right;
-  display: inline-flex;
 }
 
 .wrap {
@@ -26,10 +22,8 @@
   border-radius: 5px;
   background-color: white;
   margin: 25px 0 15px 0;
-}
-
-.valign-middle {
-  margin-top: 21px;
+  padding: 0 10px;
+  animation: 0.2s ease-in 0s 1 fadeIn;
 }
 
 .profile-img-container {
@@ -81,6 +75,16 @@
   transition: all 0.2s ease-in-out;
 }
 
+.selector-label-disabled {
+  color: $fadegray;
+  font-family: $lato;
+  font-size: 16px;
+  margin: 0 5px 3px 0;
+  vertical-align: middle;
+  text-align: left;
+  text-decoration: line-through;
+}
+
 #profile-name {
   color: $darkgray;
   font-size: 26px;
@@ -120,6 +124,7 @@
   margin-top: 30px;
   background-color: white;
   position: relative;
+  animation: 0.2s ease-in 0s 1 slideIn;
 }
 
 .postbox-new-wrap {
@@ -134,11 +139,23 @@
   transform: rotate(-5deg);
 }
 
-#postbox-author {
+.postbox-author-anonymous {
   font-family: $boldfont;
   font-size: 22px;
   color: $blue-title;
   float: left;
+}
+
+.postbox-author-link {
+  font-family: $boldfont;
+  font-size: 20px;
+  color: $blue-title;
+  float: left;
+
+  &:hover {
+    text-decoration: none;
+    color: black;
+  }
 }
 
 #postbox-author-match {
@@ -327,4 +344,14 @@
   height: 1px;
   margin: 5px 0 10px 0;
   background: #F1F1F1;
+}
+
+@media (min-width: 780px){
+  #board {
+    margin-top: 0;
+  }
+  #trophy {
+    width: 95%;
+    float: right;
+  }
 }
