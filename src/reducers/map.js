@@ -37,5 +37,6 @@ export const mapDispatchToProps = dispatch => {
     updateFVH: fvh => {dispatch(actions.updateFVH(fvh))},
     updateFVGS: fvgs => {dispatch(actions.updateFVGS(fvgs))},
     updateFVT: fvt => {dispatch(actions.updateFVT(fvt))},
+    reRender: bool => {dispatch(actions.reRender(bool))}
   };
 };

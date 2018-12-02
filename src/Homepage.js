@@ -71,7 +71,7 @@ class Homepage extends Component {
         <Container fluid>
           <Row className="wrapper">
             <Col md={{span:10, offset: 2}} style={paddingSet}>
-              <FullBoard currentUser={this.state.currentUser} board={this.state.board}/>
+              <FullBoard currentUser={this.state.currentUser} board={this.state.board} {...this.props}/>
             </Col>
           </Row>
         </Container>

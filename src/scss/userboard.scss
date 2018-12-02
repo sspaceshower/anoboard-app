@@ -151,10 +151,11 @@
   font-size: 20px;
   color: $blue-title;
   float: left;
+  transition: all 0.2s ease-in-out;
 
   &:hover {
     text-decoration: none;
-    color: black;
+    color: $redalert;
   }
 }
 
@@ -301,18 +302,24 @@
   top: 5%;
 }
 
-#reply-author {
+.reply-author-anonymous {
   font-family: $boldfont;
   font-size: 18px;
   color: $blue-title;
   float: left;
 }
 
-#reply-author-match {
+.reply-author-link {
   font-family: $boldfont;
   font-size: 18px;
   color: $blue-title;
   float: left;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    text-decoration: none;
+    color: $redalert;
+  }
 }
 
 #reply-tag {

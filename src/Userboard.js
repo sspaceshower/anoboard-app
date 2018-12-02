@@ -83,7 +83,7 @@ class Userboard extends React.Component {
         <Container fluid>
           <Row className="wrapper">
             <Col md={{span:10, offset: 2}} style={paddingSet}>
-              <FullBoard currentUser={this.state.currentUser} board={this.state.userboard}/>
+              <FullBoard currentUser={this.state.currentUser} board={this.state.userboard} {...this.props}/>
             </Col>
           </Row>
         </Container>

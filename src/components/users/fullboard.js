@@ -31,7 +31,7 @@ class FullBoard extends React.Component {
             <Col sm={12} md={6}><Profile owner={this.props.board.owner}/></Col>
             <Col sm={12} md={6}><Trophy /></Col>
           </Row>
-          <Row><Board currentUser = {this.state.currentUser} board = {this.state.board}/></Row>
+          <Row><Board currentUser = {this.state.currentUser} board = {this.state.board} {...this.props} /></Row>
       </Container>
     );
   }

@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { loading } from '../../constants/loading.js';
 import { faPlusCircle, faPlus, faReply, faComments } from '@fortawesome/free-solid-svg-icons';
 import { createDisplayName } from '../../helper/helper.js'
-import Pacman from '../util/pacman.js';
 import * as routes from '../../constants/routes';
 import { auth, db } from '../../firebase';
 import AuthUserContext from '../../session/authUserContext.js';
@@ -73,7 +72,21 @@ class Board extends React.Component {
     }
   }
 
+
+  createPostStack = (currentUser, board, trophy) => {
+      var stack = [];
+      if(board.posts!=null){
+        for (const [key, value] of Object.entries(board.posts)) {
+          stack.push(
+            <Postbox post={value} currentUser = {currentUser} board ={board} trophy = {trophy} {...this.props}/>
+          );
+        }
+      }
+      return(stack);
+  }
+
   render(){
+    console.log(this.props);
     if(this.state.loaded){
     let modalClose = () => this.setState({ modalShow: false})
     return(
@@ -88,6 +101,7 @@ class Board extends React.Component {
                           <FontAwesomeIcon className="postbox-new-icon" icon="plus-circle" />
                         </Button>
                         <Postmodal
+                          {...this.props}
                           show = {this.state.modalShow}
                           onHide = {modalClose}
                           currentUser = {this.state.currentUser}
@@ -103,13 +117,13 @@ class Board extends React.Component {
                   </Row>
                 </div>
               </Col>
-              {createPostStack(this.state.currentUser, this.state.board, this.state.trophy)}
+              {this.createPostStack(this.state.currentUser, this.state.board, this.state.trophy)}
             </Row>
         </Col>
       </Row>
     );
   } else{
-    return(<Pacman />);
+    return(null);
   }
   }
 }
@@ -250,7 +264,6 @@ class Postmodal extends React.Component {
     .then(() => {
         db.doCreatePost(boardOwner, uid, username, content, isAnonymous)
         .then(() => {
-          window.location.reload();
           this.setState(() => ({
             post: {
               author: this.props.currentUser,
@@ -260,7 +273,7 @@ class Postmodal extends React.Component {
               replies: null,
               timestamp: null
             }
-          }));
+          }), () => this.props.reRender(true));
         })
         .catch(error => {
           this.setState({ error });
@@ -344,7 +357,9 @@ class Postbox extends React.Component {
       currentUser: this.props.currentUser,
       loaded: false,
       loading: loading.NOTHING,
-      trophy: this.props.trophy
+      trophy: this.props.trophy,
+      newItem: false,
+      win: false,
     }
     var currentPost = this.state.post;
     currentPost.user = {username: this.state.post.username};
@@ -429,7 +444,7 @@ class Postbox extends React.Component {
 
     if(FightResult){
       //if you win, you get XP and lose HP
-          var uid = this.state.currentUser.uid;
+        var uid = this.state.currentUser.uid;
         var today_XP = this.state.currentUser.status.today_XP
         var total_XP = this.state.currentUser.status.total_XP
         var level = this.state.currentUser.status.level
@@ -545,9 +560,11 @@ class Postbox extends React.Component {
     } else {
       return(
         <Col xs={8}>
-          <div className="postbox-author-link">
-            {createDisplayName(this.state.postUser.fname, this.state.postUser.mname, this.state.postUser.lname, this.state.postUser.username)}
-          </div>
+          <NavLink to={"/user/" + this.state.postUser.username}>
+            <div className="postbox-author-link">
+              {createDisplayName(this.state.postUser.fname, this.state.postUser.mname, this.state.postUser.lname, this.state.postUser.username)}
+            </div>
+        </NavLink>
         </Col>
       );
     }
@@ -578,6 +595,7 @@ class Postbox extends React.Component {
                   <div id="postbox-reply-num">{this.getReplyNum()}</div>
                 </Button>
                 <Replymodal
+                  {... this.props}
                   post = {this.state.post}
                   show = {this.state.modalShow}
                   onHide = {modalClose}
@@ -595,7 +613,7 @@ class Postbox extends React.Component {
       </Col>
     );
   } else {
-    return(<Pacman />);
+    return(null);
   }
   }
 }
@@ -622,14 +640,30 @@ class Replybox extends React.Component {
     this.setState({post: currentPost});
   }
 
+  getAuthor(){
+    if(this.state.isAnonymous){
+      return(
+        <Col xs={6}><div className="reply-author-anonymous">anonymous</div></Col>
+      );
+    } else {
+      return(
+        <Col xs={6}>
+          <NavLink to={"/user/" + this.state.author.username}>
+            <div className="reply-author-link">
+              {createDisplayName(this.state.author.fname, this.state.author.mname, this.state.author.lname, this.state.author.username)}
+            </div>
+        </NavLink>
+        </Col>
+      );
+    }
+  }
+
   render(){
-    const author = this.state.isAnonymous?
-      'anonymous':createDisplayName(this.state.author.fname, this.state.author.mname, this.state.author.lname, this.state.author.username);
     return(
         <div className="reply-container">
           <Row>
-            <Col xs={4}><div id="reply-author">{author}</div></Col>
-            <Col xs={8}><div id="reply-tag">{"#classtag" /*TODO: <mockup> change to createTag*/}</div></Col>
+            {this.getAuthor()}
+            <Col xs={6}><div id="reply-tag">{"#classtag"}</div></Col>
           </Row>
           <Row>
             <Col>
@@ -791,7 +825,6 @@ class Replymodal extends React.Component {
     .then(() => {
       db.doCreateReply(boardOwner, uid, username, fname, mname, lname, content, isAnonymous, postid)
       .then(() => {
-        window.location.reload();
         this.setState(() => ({
           reply: {
             author: this.props.currentUser,
@@ -799,8 +832,7 @@ class Replymodal extends React.Component {
             isAnonymous: true,
             timestamp: null
           },
-         }));
-        history.push(routes.HOME);
+        }),  () => this.props.reRender(true));
       })
       .catch(error => {
         this.setState({ error });
@@ -911,18 +943,6 @@ class Replymodal extends React.Component {
       </Modal>
     );
   }
-}
-
-const createPostStack = (currentUser, board, trophy) => {
-    var stack = [];
-    if(board.posts!=null){
-      for (const [key, value] of Object.entries(board.posts)) {
-        stack.push(
-          <Postbox post={value} currentUser = {currentUser} board ={board} trophy = {trophy}/>
-        );
-      }
-    }
-    return(stack);
 }
 
 //TODO: <frontend> create timestamp

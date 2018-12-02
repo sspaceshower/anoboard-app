@@ -12,4 +12,6 @@ $primary-color: white;
 .loader-fullscreen-wrap {
   height: 100vh;
   display: block;
+  position: absolute;
+  top: 0; left: 0;
 }
