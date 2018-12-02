@@ -2,7 +2,8 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { db } from './firebase';
-import FullBoard from './components/fullboard.js';
+import Pacman from './components/util/pacman.js';
+import FullBoard from './components/users/fullboard.js';
 import { loading } from './constants/loading.js';
 import { mapStateToProps, mapDispatchToProps } from './reducers/map.js'
 
@@ -18,15 +19,32 @@ class Userboard extends React.Component {
       loaded: false,
       loading: loading.NOTHING,
       username: this.props.match.params.username,
+      currentUser: {
+        uid: this.props.uid,
+        username: this.props.username,
+        email: this.props.email,
+        fname: this.props.fname,
+        mname: this.props.mname,
+        lname: this.props.lname,
+        biography: this.props.bio,
+        grouplist: this.props.groups,
+        status: this.props.status,
+        pool: this.props.pool,
+        fvh: this.props.fvh,
+        fvg: this.props.fvg,
+        fvgs: this.props.fvgs,
+        fvt: this.props.fvt,
+      },
+      uid: this.props.uid,
       userboard : "",
     }
   }
 
   componentDidUpdate(prevProps) {
     // Typical usage (don't forget to compare props):
-    if (this.props.currentUser !== prevProps.currentUser) {
+    if (this.props.uid !== prevProps.uid) {
       this.setState(() => ({
-        currentUser: this.props.currentUser,
+        uid: this.props.uid,
         }))
     }
     if (this.props.board !== prevProps.board) {
@@ -53,25 +71,24 @@ class Userboard extends React.Component {
             break;
           }
         }
-      console.log("fetching board");
-      console.log(board);
       this.setState({userboard: board, loaded:true,loading:loading.NOTHING,});
     }).catch((err)=> {
       console.log("fetch board error",err);});
   }
 
   render(){
+    console.log(this.state.currentUser);
     if(this.state.loaded){
       return(
         <Container fluid>
           <Row className="wrapper">
             <Col md={{span:10, offset: 2}} style={paddingSet}>
-              <FullBoard currentUser={this.props.currentUser} board={this.state.userboard}/>
+              <FullBoard currentUser={this.state.currentUser} board={this.state.userboard}/>
             </Col>
           </Row>
         </Container>
       );
-    } else { return (<div>loader</div>) }
+    } else { return (<Pacman />) }
   }
 }
 

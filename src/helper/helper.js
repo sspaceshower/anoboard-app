@@ -1,14 +1,14 @@
-export const createDisplayName = (user, lnameFull = true) => {
+export const createDisplayName = (fname, mname, lname, username, lnameFull = true) => {
 
-  const fname = (user.fname !== undefined && user.fname)? user.fname: "";
-  const mname = user.mname? " " + user.mname.charAt(0) + ".": "";
-  const lname = user.lname? " " + (lnameFull?  user.lname: user.lname.charAt(0) + "."): "";
+  const dfname = (fname !== undefined && fname)? fname: "";
+  const dmname = mname? " " + mname.charAt(0) + ".": "";
+  const dlname = lname? " " + (lnameFull?  lname: lname.charAt(0) + "."): "";
   var displayName = "";
 
-  if (!(user.fname || user.mname || user.lname)){
-    displayName = user.username;
+  if (!(fname || mname || lname)){
+    displayName = username;
   } else {
-    displayName = fname + mname + lname;
+    displayName = dfname + dmname + dlname;
   }
   return(displayName);
 }

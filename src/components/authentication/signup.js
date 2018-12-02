@@ -4,9 +4,11 @@ import { Container, Row, Col, Form} from 'react-bootstrap';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
-import { auth, db } from '../firebase';
-import * as routes from '../constants/routes';
-import '../scss/auth.scss';
+import { auth, db } from '../../firebase';
+import { loading } from '../../constants/loading.js';
+import Pacman from '../util/pacman.js';
+import * as routes from '../../constants/routes';
+import '../../scss/auth.scss';
 
 library.add(faUserPlus)
 
@@ -32,25 +34,75 @@ const INITIAL_STATE = {
   passwordOne: '',
   passwordTwo: '',
   error: null,
+  loaded: false,
+  loading: loading.NOTHING,  
 };
 
-class SignUpForm extends Component {
+class SignUpForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = { ...INITIAL_STATE };
+    this.fetchUserData = this.fetchUserData.bind(this);
+  }
+
+  componentDidMount() {
+		this.fetchUserData()
+  }
+
+  fetchUserData(){    
+		this.setState({
+			loading:loading.RELOADING
+    });          
+		db.onceGetUsers().then(snapshot =>
+		{
+      const user_list = [];			
+				for (const [key, value] of Object.entries(snapshot.val())) {
+					var childData = value.username;
+					user_list.push(childData);
+				}      
+      this.setState({usernames: user_list, loaded:true, loading:loading.NOTHING,});
+      
+		}).catch((err)=> {
+			console.log("fetch user error",err);});
   }
 
   onSubmit = event => {
-    const { username, fname, mname, lname, biography, email, passwordOne } = this.state;
+    const { username, fname, mname, lname, biography, email, passwordOne, passwordTwo } = this.state;
 
-    const { history } = this.props;
-
+    const { history } = this.props;       
+    if(username === ''){
+      alert("Please fill in username")
+    }
+    else if(fname === ''){
+      alert("Please fill in your First name")
+    }
+    else if(lname === ''){
+      alert("Please fill in your Last name")
+    }
+    else if(email === ''){
+      alert("Please fill in your email")
+    }
+    else if(passwordOne === ''){
+      alert("Please fill in your password")
+    }
+    else if(passwordTwo === ''){
+      alert("Please confirm your password")
+    }
+    else if(passwordTwo !== passwordOne){
+      alert("Please make sure you confirm the same password")
+    }
+    else if(!this.state.usernames.includes(username)){
     auth
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(authUser => {
+        var day_now = {
+           day: new Date().getDate(),
+           month: (new Date().getMonth())+1,
+           year: new Date().getFullYear()
+         }
         // Create a user in your own accessible Firebase Database too
-        db.doCreateUser(authUser.user.uid, username,fname,mname,lname,biography, email)
+        db.doCreateUser(authUser.user.uid, username,fname,mname,lname,biography, email, day_now)
           .then(() => {
             this.setState(() => ({ ...INITIAL_STATE }));
             history.push(routes.HOME);
@@ -71,7 +123,10 @@ class SignUpForm extends Component {
       .catch(error => {
         this.setState({ error });
       });
-
+    }
+    else{      
+      alert("this username is already used")
+    }
     event.preventDefault();
   };
 
@@ -100,6 +155,7 @@ class SignUpForm extends Component {
       lname === '' ||
       email === '';
 
+      if(this.state.loaded){
     return (
       <div>
         <div className="header-icon"><FontAwesomeIcon icon="user-plus" /></div>
@@ -167,7 +223,7 @@ class SignUpForm extends Component {
               </Col>
             </Row>
             <div className="center-wrap">
-              <button className="custom-button-lg" disabled={isInvalid} type="submit">
+              <button className="custom-button-lg" type="submit">
                 Sign Up
               </button>
             </div>
@@ -175,8 +231,9 @@ class SignUpForm extends Component {
           {error && <p>{error.message}</p>}
         </Form>
       </div>
-
-    );
+      );  
+    } else { return (<Pacman />) }
+    
   }
 }
 

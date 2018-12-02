@@ -2,7 +2,7 @@ import { db } from './firebase';
 
 // User API
 
-export const doCreateUser = (uid, username, fname, mname, lname, biography, email) =>
+export const doCreateUser = (uid, username, fname, mname, lname, biography, email, day_now) =>
   db.ref(`users/${uid}`).set({
     uid,
     username,
@@ -18,6 +18,11 @@ export const doCreateUser = (uid, username, fname, mname, lname, biography, emai
       level: 1,
       today_XP: 0,
       total_XP: 0,
+      lastUpdate: {
+         day: day_now.day,
+         month: day_now.month,
+         year: day_now.year,
+       },
       armor: {
         def: 5,
         name: "Cool leather jacket",
@@ -28,12 +33,12 @@ export const doCreateUser = (uid, username, fname, mname, lname, biography, emai
         name: "Baseball bat",
         url: "anoboard-app/public/img/baseball-bat.png"
       },
-      trophy: {        
+      trophy: {
         name: "First Grader",
         url: "anoboard-app/public/img/first.png"
       },
     },
-    pool: {      
+    pool: {
       armor: {
         somekey: {
           def: 5,
@@ -46,13 +51,13 @@ export const doCreateUser = (uid, username, fname, mname, lname, biography, emai
           atk: 5,
           name: "Baseball bat",
           url: "anoboard-app/public/img/baseball-bat.png"
-        }        
+        }
       },
-      trophy: {    
+      trophy: {
         somekey:{
           name: "First Grader",
           url: "anoboard-app/public/img/first.png"
-        }            
+        }
       },
     },
     first_visit_home: true,
@@ -87,10 +92,13 @@ export const doCreatePost = (boardOwner,uid, username, content, isAnonymous) =>
       postid: snap.key
  })});
 
-export const doCreateReply = (boardOwner, uid, username, content, isAnonymous, postid) =>
+export const doCreateReply = (boardOwner, uid, username, fname, mname, lname, content, isAnonymous, postid) =>
  db.ref(`boards/${boardOwner}/posts/${postid}/replys`).push({
    uid,
    username,
+   fname,
+   mname,
+   lname,
    content,
    isAnonymous
  }).then((snap) => {
@@ -126,57 +134,10 @@ export const updatePoolArmor = (user, armor) =>
  });
 export const updatePoolTrophy = (user, trophy) =>
  db.ref(`users/${user}/pool/trophy`).push({
-   name: trophy.name,   
+   name: trophy.name,
    url: trophy.url
  });
-export const doAddGroupList = (uid, username, fname, mname, lname, groupName) => {
-  //return new grouplist
-  var user_list = [];
-  db.ref("groups/").child(groupName).child("/students").on("value", function (snapshot) {
-    snapshot.forEach(function (data) {
-      user_list.push(data.val().uid);
-    });
-    if (user_list.indexOf(uid) > -1) {
-        console.log("group: repeated!")
-    } else {
-      db.ref('groups/').child(groupName + "/students").push({
-          "uid": uid,
-          "username": username,
-          "fname": fname,
-          "mname": mname,
-          "lname": lname,
-        }
-      )
-    }
-  });
 
-  // add group to user
-  // user needs existing grouplist
-  var data_list = []
-  // Add Group to User in grouplist
-  onceGetOneUser(uid).then(snapshot => {
-    if (snapshot.val().grouplist !== undefined) {
-      for (const [key, value] of Object.entries(snapshot.val().grouplist)) {
-        var childData = value.name;
-        data_list.push(childData);
-      }
-      console.log(data_list);
-      if (data_list.indexOf(groupName) > -1) {
-        //In the array!
-        console.log("user: repeated!")
-      } else {
-        data_list.push(groupName)
-        db.ref(`users/${uid}/grouplist`).push({
-            "name": groupName
-        })
-      }
-    } else {
-      db.ref(`users/${uid}/grouplist`).push(
-        {"name": groupName})
-    }});
-
-    return(data_list);
-}
 export const onceGetUsers = () =>
   db.ref('users').once('value');
 

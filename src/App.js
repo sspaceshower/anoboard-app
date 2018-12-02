@@ -3,10 +3,10 @@ import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import Main from './Main.js'
 import withAuthentication from './session/withAuthentication.js';
 import AuthUserContext from './session/authUserContext';
-import SignUpPage from './components/signup.js';
-import SignInPage from './components/signin.js';
-import SignOutPage from './components/signout.js';
-import PasswordForgetPage from './components/passwordForget.js';
+import SignUpPage from './components/authentication/signup.js';
+import SignInPage from './components/authentication/signin.js';
+import SignOutPage from './components/authentication/signout.js';
+import PasswordForgetPage from './components/authentication/passwordForget.js';
 import * as routes from './constants/routes';
 import './index.css';
 

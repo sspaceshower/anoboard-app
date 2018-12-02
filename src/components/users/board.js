@@ -1,14 +1,16 @@
 import React from 'react';
 import { Container, Row, Col, Modal, Form, Button } from 'react-bootstrap';
+import { NavLink } from "react-router-dom";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { loading } from '../constants/loading.js';
+import { loading } from '../../constants/loading.js';
 import { faPlusCircle, faPlus, faReply, faComments } from '@fortawesome/free-solid-svg-icons';
-import { createDisplayName } from '../helper/helper.js'
-import * as routes from '../constants/routes';
-import { auth, db } from '../firebase';
-import AuthUserContext from '../session/authUserContext.js';
-import '../scss/userboard.scss';
+import { createDisplayName } from '../../helper/helper.js'
+import Pacman from '../util/pacman.js';
+import * as routes from '../../constants/routes';
+import { auth, db } from '../../firebase';
+import AuthUserContext from '../../session/authUserContext.js';
+import '../../scss/userboard.scss';
 
 const INITIAL_STATE = {
   username: '',
@@ -31,7 +33,7 @@ class Board extends React.Component {
       board: this.props.board,
       //access pool here, it's a list of armot,weapon, trophy
       //actually we don't need this, but just to make you see how to access it
-      pool: this.props.currentUser.pool,
+      pool: this.props.pool,
       // posts : this.props.board.value.posts,
       modalShow: false,
       loaded: false,
@@ -40,18 +42,17 @@ class Board extends React.Component {
     this.fetchTrophyData = this.fetchTrophyData.bind(this);
   }
 
-  
+
   componentDidMount() {
 		this.fetchTrophyData()
   }
-  
+
   fetchTrophyData(){
 		this.setState({
 			loading:loading.RELOADING
 		});
 		db.onceGetTrophy().then(snapshot =>
 		{
-			console.log(snapshot.val())					
 			this.setState({trophy: snapshot.val(), loaded:true, loading:loading.NOTHING,});
 		}).catch((err)=> {
 			console.log("fetch user error",err);});
@@ -62,7 +63,7 @@ class Board extends React.Component {
     if (this.props.currentUser !== prevProps.currentUser) {
       this.setState(() => ({
         currentUser: this.props.currentUser,
-        pool: this.props.currentUser.pool
+        pool: this.props.pool
         }))
     }
     if (this.props.board !== prevProps.board) {
@@ -76,11 +77,10 @@ class Board extends React.Component {
     if(this.state.loaded){
     let modalClose = () => this.setState({ modalShow: false})
     return(
-      <Container fluid style={{paddingLeft: "0"}}>
       <Row id="board">
         <Col md={12}>
             <Row className="justify-content-md-center">
-              <Col xs={12} md={4}>
+              <Col sm={12} md={6} lg={4}>
                 <div className="postbox-new-wrap">
                   <Row>
                       <Col id="postbox-icon-wrap">
@@ -90,7 +90,7 @@ class Board extends React.Component {
                         <Postmodal
                           show = {this.state.modalShow}
                           onHide = {modalClose}
-                          currentUser = {this.props.currentUser}
+                          currentUser = {this.state.currentUser}
                           board = {this.state.board}
                           trophy = {this.state.trophy}
                         />
@@ -103,14 +103,13 @@ class Board extends React.Component {
                   </Row>
                 </div>
               </Col>
-              {createPostStack(this.state.currentUser, this.state.board)}
+              {createPostStack(this.state.currentUser, this.state.board, this.state.trophy)}
             </Row>
         </Col>
       </Row>
-      </Container>
     );
   } else{
-    return(<div>Loading...</div>);
+    return(<Pacman />);
   }
   }
 }
@@ -129,14 +128,14 @@ class Postmodal extends React.Component {
         isAnonymous: true,
         replies: null,
         timestamp: null
-      },      
+      },
     };
     this.handleContentChange = this.handleContentChange.bind(this);
     this.handleAnonimity = this.handleAnonimity.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getToday = this.getToday.bind(this);
-    this.calculateLevel = this.calculateLevel.bind(this);    
-    
+    this.calculateLevel = this.calculateLevel.bind(this);
+
   }
 
   componentDidUpdate(prevProps) {
@@ -171,18 +170,18 @@ class Postmodal extends React.Component {
       day: new Date().getDate(),
       month: (new Date().getMonth())+1,
       year: new Date().getFullYear()
-    }     
+    }
   }
 
   calculateLevel(total_XP){
-    //change level    
+    //change level
     return(total_XP%40 == 0)
   }
 
   handleSubmit(event){
     var boardOwner = this.state.board.owner.username;
 
-    
+
     var uid = this.state.currentUser.uid;
     var username = this.state.currentUser.username;
     var content = this.state.post.content;
@@ -202,9 +201,6 @@ class Postmodal extends React.Component {
     total_XP = total_XP + 20
     const day_now = this.getToday()
     //check time not same
-    console.log("TODAYY")
-    console.log(this.state.currentUser.status.lastUpdate)
-    console.log(day_now)
     var day = day_now.day
     var month = day_now.month
     var year = day_now.year
@@ -222,46 +218,34 @@ class Postmodal extends React.Component {
     var key
     if(levelChange){
       if(level%2==0){
-        HP = HP + 1             
+        HP = HP + 1
       }
-      level = level + 1   
-      
+      level = level + 1
+
         if(level<10){
           key = "level0" + level
         }
         else{
           key = "level" + level
         }
-        console.log("KEYHEYY")
-        console.log(key)
         if(this.state.trophy[key].trophy!=null && this.state.trophy[key].trophy!=undefined){
           getTrophy = true
           trophy = this.state.trophy[key].trophy
           db.updatePoolTrophy(uid, trophy)
         }
-        if(this.state.trophy[key].weapon!=null && this.state.trophy[key].weapon!=undefined){        
-          getWeapon = true  
+        if(this.state.trophy[key].weapon!=null && this.state.trophy[key].weapon!=undefined){
+          getWeapon = true
           weapon = this.state.trophy[key].weapon
           atk = atk + weapon.atk
           db.updatePoolWeapon(uid, weapon)
-          console.log("SHOULD SEE SMTH HERE")
-          console.log(weapon)
         }
-        if(this.state.trophy[key].armor!=null && this.state.trophy[key].armor!=undefined){          
+        if(this.state.trophy[key].armor!=null && this.state.trophy[key].armor!=undefined){
           getArmor = true
           armor = this.state.trophy[key].armor
           def = def + armor.def
           db.updatePoolArmor(uid, armor)
         }
-    }    
-    // console.log("KEYYY")
-    // console.log(key)
-    // console.log(total_XP)
-    // console.log(today_XP)
-    // console.log(HP)
-    // console.log(level)
-    // console.log(weapon)
-    // console.log(armor)
+    }
     db.updateXP(uid, today_XP, total_XP, day_now, HP , level, weapon, armor, trophy, atk, def)
     .then(() => {
         db.doCreatePost(boardOwner, uid, username, content, isAnonymous)
@@ -288,7 +272,7 @@ class Postmodal extends React.Component {
     event.preventDefault();
   }
 
-  render() {    
+  render() {
     return (
       <Modal
         {...this.props}
@@ -331,7 +315,7 @@ class Postmodal extends React.Component {
                           onChange={this.handleAnonimity}/>
                         <Form.Check.Label
                           bsPrefix={this.state.post.isAnonymous ? "selector-label" : "selector-label-checked"}>
-                          {createDisplayName(this.state.post.author)}
+                          {createDisplayName(this.props.currentUser.fname, this.props.currentUser.mname, this.props.currentUser.lname, this.props.currentUser.username)}
                         </Form.Check.Label>
                       </Form.Check>
                     </div>
@@ -347,7 +331,7 @@ class Postmodal extends React.Component {
           </Container>
         </Modal.Body>
       </Modal>
-    );  
+    );
   }
 }
 
@@ -359,7 +343,8 @@ class Postbox extends React.Component {
       board: this.props.board,
       currentUser: this.props.currentUser,
       loaded: false,
-			loading: loading.NOTHING,
+      loading: loading.NOTHING,
+      trophy: this.props.trophy
     }
     var currentPost = this.state.post;
     currentPost.user = {username: this.state.post.username};
@@ -373,18 +358,17 @@ class Postbox extends React.Component {
     this.getToday = this.getToday.bind(this);
     this.checkHP = this.checkHP.bind(this);
   }
-  
+
   componentDidMount() {
 		this.fetchUserData()
   }
-  
+
   fetchUserData(){
 		this.setState({
 			loading:loading.RELOADING
 		});
 		db.onceGetOneUser(this.state.post.uid).then(snapshot =>
 		{
-			console.log(snapshot.val())
 			const data_list = [];
 			if(snapshot.val().grouplist !== undefined && snapshot.val().grouplist !== null){
 				for (const [key, value] of Object.entries(snapshot.val().grouplist)) {
@@ -403,12 +387,12 @@ class Postbox extends React.Component {
 				grouplist: data_list,
 				status: snapshot.val().status,
 			}
-			
+
 			this.setState({postUser: user, loaded:true, loading:loading.NOTHING,});
 		}).catch((err)=> {
 			console.log("fetch user error",err);});
   }
-  
+
   getReplyNum(){
     if(this.state.post.replys !== undefined && this.state.post.replys !== null){
       return (Object.keys(this.state.post.replys).length);
@@ -432,31 +416,24 @@ class Postbox extends React.Component {
 
     //get current user -> XP,ATK,DEF,Weapon.ATK,Armor,HP,Today_XP,Total_XP
     var currentUser = this.state.currentUser
-    var HP = this.state.currentUser.status.HP    
+    var HP = this.state.currentUser.status.HP
 
-    console.log("clickAttack")
-    console.log(currentUser)
-    console.log(this.state.post)
     const date_now = Date.now()
     const today = this.getToday()
     const timestamp = Math.floor(date_now / 1000);
-    console.log(timestamp)
-    console.log(date_now)
-    console.log(today)
-    console.log(today.day)
     var atk = this.calculateATK(currentUser)
     var def = this.calculateEnemyDef()
     var FightResult = this.fight(atk,def)
-    
+
     HP = HP - 2
-    
+
     if(FightResult){
       //if you win, you get XP and lose HP
           var uid = this.state.currentUser.uid;
         var today_XP = this.state.currentUser.status.today_XP
         var total_XP = this.state.currentUser.status.total_XP
         var level = this.state.currentUser.status.level
-        
+
         var weapon = this.state.currentUser.status.weapon
         var armor = this.state.currentUser.status.armor
         var trophy = this.state.currentUser.status.trophy
@@ -467,9 +444,6 @@ class Postbox extends React.Component {
         total_XP = total_XP + 20
         const day_now = this.getToday()
         //check time not same
-        console.log("TODAYY")
-        console.log(this.state.currentUser.status.lastUpdate)
-        console.log(day_now)
         var day = day_now.day
         var month = day_now.month
         var year = day_now.year
@@ -487,33 +461,29 @@ class Postbox extends React.Component {
         var key
         if(levelChange){
           if(level%2==0){
-            HP = HP + 1             
+            HP = HP + 1
           }
-          level = level + 1   
-          
+          level = level + 1
+
             if(level<10){
               key = "level0" + level
             }
             else{
               key = "level" + level
             }
-            console.log("KEYHEYY")
-            console.log(key)
             if(this.state.trophy[key].trophy!=null && this.state.trophy[key].trophy!=undefined){
               getTrophy = true
               trophy = this.state.trophy[key].trophy
               db.updatePoolTrophy(uid, trophy)
             }
-            if(this.state.trophy[key].weapon!=null && this.state.trophy[key].weapon!=undefined){        
-              getWeapon = true  
-              weapon = this.state.trophy[key].weapon          
+            if(this.state.trophy[key].weapon!=null && this.state.trophy[key].weapon!=undefined){
+              getWeapon = true
+              weapon = this.state.trophy[key].weapon
               db.updatePoolWeapon(uid, weapon)
-              console.log("SHOULD SEE SMTH HERE")
-              console.log(weapon)
             }
-            if(this.state.trophy[key].armor!=null && this.state.trophy[key].armor!=undefined){          
+            if(this.state.trophy[key].armor!=null && this.state.trophy[key].armor!=undefined){
               getArmor = true
-              armor = this.state.trophy[key].armor          
+              armor = this.state.trophy[key].armor
               db.updatePoolArmor(uid, armor)
             }
         }
@@ -524,11 +494,11 @@ class Postbox extends React.Component {
     .then(() => {
       //TODO: after win -> change XP and HP (done) and show username <FRONTEND>
     })
-    
+
     .catch(error => {
       this.setState({ error });
     })
-    
+
     }
     else{
       //TODO: if lost, show that you have lower atk, lost the fight <FRONTEND> cannot show username
@@ -541,7 +511,7 @@ class Postbox extends React.Component {
       day: new Date().getDate(),
       month: (new Date().getMonth())+1,
       year: new Date().getFullYear()
-    }     
+    }
   }
   calculateATK(currentUser){
     //TODO: we must delete all users again to create status there in firebase
@@ -550,15 +520,12 @@ class Postbox extends React.Component {
       atk = atk + currentUser.status.weapon.atk
     }
     return atk
-    
+
   }
   calculateEnemyDef(){
     //get post'owner -> XP,ATK,DEF,Weapon.ATK,Armor,HP,Today_XP,Total_XP
 
-    //get current user -> XP,ATK,DEF,Weapon.ATK,Armor,HP,Today_XP,Total_XP    
-    console.log("CALCULATE_DEF")
-    console.log(this.state.postUser)
-    console.log(this.state.post)
+    //get current user -> XP,ATK,DEF,Weapon.ATK,Armor,HP,Today_XP,Total_XP
     var def = this.state.postUser.def
     if(this.state.postUser.status != null && this.state.postUser.status != undefined){
       def = def + this.state.postUser.status.armor.def
@@ -569,17 +536,31 @@ class Postbox extends React.Component {
     if(atk > def) return true
     else return false
   }
+
+  getAuthor(){
+    if(this.state.post.isAnonymous){
+      return(
+        <Col xs={8}><div className="postbox-author-anonymous">anonymous</div></Col>
+      );
+    } else {
+      return(
+        <Col xs={8}>
+          <div className="postbox-author-link">
+            {createDisplayName(this.state.postUser.fname, this.state.postUser.mname, this.state.postUser.lname, this.state.postUser.username)}
+          </div>
+        </Col>
+      );
+    }
+  }
   render(){
     if(this.state.loaded){
     let modalClose = () => this.setState({ modalShow: false})
-    const author = this.state.post.isAnonymous?
-      'anonymous':createDisplayName(this.state.post.user);
     return(
-      <Col xs={12} sm={6} md={4}>
+      <Col sm={12} md={6} lg={4}>
         <div className="postbox-wrap">
           <Row>
-            <Col xs={5}><div id="postbox-author">{author}</div></Col>
-            <Col xs={7}><div id="postbox-tag">{"#classtag" /*TODO: <mockup> change to createTag*/}</div></Col>
+            {this.getAuthor()}
+            <Col xs={4}><div id="postbox-tag">{"#classtag" /*TODO: <mockup> change to createTag*/}</div></Col>
           </Row>
           <Row><Col><div className="breakline"></div></Col></Row>
           <Row>
@@ -602,6 +583,7 @@ class Postbox extends React.Component {
                   onHide = {modalClose}
                   currentUser = {this.props.currentUser}
                   board = {this.state.board}
+                  trophy = {this.state.trophy}
                 />
               </Col>
               <Col>
@@ -613,7 +595,7 @@ class Postbox extends React.Component {
       </Col>
     );
   } else {
-    return(<div>Loading...</div>);
+    return(<Pacman />);
   }
   }
 }
@@ -623,11 +605,18 @@ class Replybox extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      author: this.props.reply.username,
+      author: {
+        username: this.props.reply.username,
+        fname: this.props.reply.fname,
+        mname: this.props.reply.mname,
+        lname: this.props.reply.lname,
+      },
+
       content: this.props.reply.content,
       // timestamp: this.props.reply.timestamp,
       isAnonymous: this.props.reply.isAnonymous,
-    }
+    };
+
     var currentPost = this.state;
     currentPost.user = {username: this.state.author};
     this.setState({post: currentPost});
@@ -635,7 +624,7 @@ class Replybox extends React.Component {
 
   render(){
     const author = this.state.isAnonymous?
-      'anonymous':createDisplayName(this.state.author.username);
+      'anonymous':createDisplayName(this.state.author.fname, this.state.author.mname, this.state.author.lname, this.state.author.username);
     return(
         <div className="reply-container">
           <Row>
@@ -670,14 +659,16 @@ class Replymodal extends React.Component {
       reply: {
         author: this.props.currentUser,
         content: "",
-        isAnonymous: true,
+        isAnonymous: (this.props.currentUser.uid === this.props.board.owner.uid) ? false: true,
         timestamp: null
       },
+      trophy: this.props.trophy,
     };
     this.handleContentChange = this.handleContentChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getToday = this.getToday.bind(this);
     this.calculateLevel = this.calculateLevel.bind(this);
+    this.handleAnonimity = this.handleAnonimity.bind(this);
   }
 
   handleContentChange(event){
@@ -685,6 +676,13 @@ class Replymodal extends React.Component {
     currentReply.content = event.target.value;
     this.setState({reply: currentReply});
   }
+
+  handleAnonimity(event){
+    var reply = this.state.reply;
+    reply.isAnonymous = (event.target.value === "anonymous") ? true:false;
+    this.setState({reply: reply});
+  }
+
   componentDidUpdate(prevProps) {
     // Typical usage (don't forget to compare props):
     if (this.props.currentUser !== prevProps.currentUser) {
@@ -709,26 +707,26 @@ class Replymodal extends React.Component {
       day: new Date().getDate(),
       month: (new Date().getMonth())+1,
       year: new Date().getFullYear()
-    }     
+    }
   }
 
   calculateLevel(total_XP){
-    //change level    
+    //change level
     return(total_XP%40 == 0)
   }
 
   handleSubmit(event){
     var boardOwner = this.state.board.owner.username;
-    
+
     var uid = this.state.reply.author.uid;
     var username = this.state.reply.author.username;
+    var fname = this.state.reply.author.fname;
+    var mname = this.state.reply.author.mname;
+    var lname = this.state.reply.author.lname;
     var content = this.state.reply.content;
     var isAnonymous = this.state.reply.isAnonymous;
     var postid = this.state.post.postid;
     const { history } = this.props;
-    // username = "replymock"
-    // content = "replymock"
-    isAnonymous = true
 
     var today_XP = this.state.reply.author.status.today_XP
     var total_XP = this.state.reply.author.status.total_XP
@@ -743,9 +741,6 @@ class Replymodal extends React.Component {
     total_XP = total_XP + 10
     const day_now = this.getToday()
     //check time not same
-    console.log("TODAYYREPLYYY")
-    console.log(this.state.reply.author.status.lastUpdate)
-    console.log(day_now)
     var day = day_now.day
     var month = day_now.month
     var year = day_now.year
@@ -763,49 +758,38 @@ class Replymodal extends React.Component {
     var key
     if(levelChange){
       if(level%2==0){
-        HP = HP + 1             
+        HP = HP + 1
       }
-      level = level + 1   
-      
+      level = level + 1
+
         if(level<10){
           key = "level0" + level
         }
         else{
           key = "level" + level
         }
-        // console.log("KEYHEYY")
-        // console.log(key)
         if(this.state.trophy[key].trophy!=null && this.state.trophy[key].trophy!=undefined){
           getTrophy = true
           trophy = this.state.trophy[key].trophy
           db.updatePoolTrophy(uid, trophy)
         }
-        if(this.state.trophy[key].weapon!=null && this.state.trophy[key].weapon!=undefined){        
-          getWeapon = true  
+        if(this.state.trophy[key].weapon!=null && this.state.trophy[key].weapon!=undefined){
+          getWeapon = true
           weapon = this.state.trophy[key].weapon
           atk = atk + weapon.atk
           db.updatePoolWeapon(uid, weapon)
-          console.log("SHOULD SEE SMTH HERE")
-          console.log(weapon)
         }
-        if(this.state.trophy[key].armor!=null && this.state.trophy[key].armor!=undefined){          
+        if(this.state.trophy[key].armor!=null && this.state.trophy[key].armor!=undefined){
           getArmor = true
           armor = this.state.trophy[key].armor
           def = def + armor.def
           db.updatePoolArmor(uid, armor)
         }
-    }    
-    // console.log("KEYYYREPLYYY")
-    // console.log(key)
-    // console.log(total_XP)
-    // console.log(today_XP)
-    // console.log(HP)
-    // console.log(level)
-    // console.log(weapon)
-    // console.log(armor)
+    }
+
     db.updateXP(uid, today_XP, total_XP, day_now, HP , level, weapon, armor, trophy, atk, def)
     .then(() => {
-      db.doCreateReply(boardOwner, uid, username, content, isAnonymous, postid)
+      db.doCreateReply(boardOwner, uid, username, fname, mname, lname, content, isAnonymous, postid)
       .then(() => {
         window.location.reload();
         this.setState(() => ({
@@ -826,7 +810,68 @@ class Replymodal extends React.Component {
       this.setState({ error });
     })
     event.preventDefault();
-    
+
+  }
+
+  getRadio(){
+    if(this.state.reply.author.uid !== this.state.board.owner.uid){
+      return(
+        <Form.Group>
+          <Row>
+            <Col xs={2}><div className="selector-text">reply as</div></Col>
+            <Col>
+              <div key="custom-inline-radio" className="mb-3">
+                <Form.Check custom inline>
+                  <Form.Check.Input type="radio" name="anonimity" value="anonymous"
+                    defaultChecked
+                    onChange={this.handleAnonimity}/>
+                  <Form.Check.Label
+                    bsPrefix= {this.state.reply.isAnonymous ? "selector-label-checked" : "selector-label"}>
+                    Anonymous
+                  </Form.Check.Label>
+                </Form.Check>
+                <Form.Check custom inline>
+                  <Form.Check.Input type="radio" name="anonimity" value="public"
+                    onChange={this.handleAnonimity}/>
+                  <Form.Check.Label
+                    bsPrefix={this.state.reply.isAnonymous ? "selector-label" : "selector-label-checked"}>
+                    {createDisplayName(this.props.currentUser.fname, this.props.currentUser.mname, this.props.currentUser.lname, this.props.currentUser.username)}
+                  </Form.Check.Label>
+                </Form.Check>
+              </div>
+            </Col>
+          </Row>
+        </Form.Group>
+      );
+    } else {
+      return(
+        <Form.Group>
+          <Row>
+            <Col xs={2}><div className="selector-text">reply as</div></Col>
+            <Col>
+              <div key="custom-inline-radio" className="mb-3">
+                <Form.Check custom inline>
+                  <Form.Check.Input type="radio" name="anonimity" value="anonymous"
+                    disabled />
+                  <Form.Check.Label
+                    bsPrefix= "selector-label-disabled">
+                    Anonymous
+                  </Form.Check.Label>
+                </Form.Check>
+                <Form.Check custom inline>
+                  <Form.Check.Input type="radio" name="anonimity" value="public"
+                    defaultChecked />
+                  <Form.Check.Label
+                    bsPrefix="selector-label-checked">
+                    {createDisplayName(this.props.currentUser.fname, this.props.currentUser.mname, this.props.currentUser.lname, this.props.currentUser.username)}
+                  </Form.Check.Label>
+                </Form.Check>
+              </div>
+            </Col>
+          </Row>
+        </Form.Group>
+      );
+    }
   }
 
   render() {
@@ -854,6 +899,7 @@ class Replymodal extends React.Component {
                     onChange = {this.handleContentChange}
                   />
               </Form.Group>
+              {this.getRadio()}
               <Form.Group>
                 <Row><Col style={{textAlign: "center"}}>
                   <Button bsPrefix="submit-button" onClick={this.handleSubmit}>Reply</Button>
@@ -867,12 +913,12 @@ class Replymodal extends React.Component {
   }
 }
 
-const createPostStack = (currentUser, board) => {
+const createPostStack = (currentUser, board, trophy) => {
     var stack = [];
     if(board.posts!=null){
       for (const [key, value] of Object.entries(board.posts)) {
         stack.push(
-          <Postbox post={value} currentUser = {currentUser} board ={board}/>
+          <Postbox post={value} currentUser = {currentUser} board ={board} trophy = {trophy}/>
         );
       }
     }

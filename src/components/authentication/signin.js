@@ -6,9 +6,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCrown } from '@fortawesome/free-solid-svg-icons';
 import { SignUpLink } from './signup.js';
 import { PasswordForgetLink } from './passwordForget.js';
-import { auth } from '../firebase';
-import * as routes from '../constants/routes';
-import '../scss/auth.scss';
+import { auth } from '../../firebase';
+import * as routes from '../../constants/routes';
+import '../../scss/auth.scss';
 
 library.add(faCrown)
 const SignInPage = ({ history }) => (
@@ -51,6 +51,7 @@ class SignInForm extends Component {
       })
       .catch(error => {
         this.setState({ error });
+        alert("wrong email or password")
       });
 
     event.preventDefault();

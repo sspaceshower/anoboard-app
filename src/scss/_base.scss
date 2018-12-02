@@ -42,12 +42,40 @@ $latobold: Lato-Bold;
   font-style: italic;
 }
 
+@keyframes fadeIn {
+  0% {
+    opacity: 0.1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(-2%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes shrink {
+  0% {
+    width: 95%;
+  }
+  100% {
+    width: 90%;
+  }
+}
+
 body {
   background-color: $brown-bg;
 }
 
 .wrapper {
   height: 100vh;
+  padding-top: 50px;
 }
 
 .horizontal-line {
@@ -68,12 +96,21 @@ body {
   text-decoration: none;
 }
 
-.fade-enter {
-  opacity: 0;
-  z-index: 1;
+.center-content{
+  text-align: center;
 }
 
-.fade-enter.fade-enter-active {
-  opacity: 1;
-  transition: opacity 1000ms ease-in-out;
+.center-vertical {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.center-all {
+  margin: auto;
+}
+
+@media (min-width: 780px){
+  .wrapper {
+    padding-top: 0;
+  }
 }

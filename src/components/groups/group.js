@@ -1,8 +1,8 @@
 import React from 'react';
 import { Col, Container, Row } from "react-bootstrap";
 import { NavLink, withRouter } from "react-router-dom";
-import { createDisplayName } from '../helper/helper.js';
-import '../scss/group.scss'
+import { createDisplayName } from '../../helper/helper.js';
+import '../../scss/group.scss'
 
 class Group extends React.Component {
   constructor(props){
@@ -33,7 +33,6 @@ class Group extends React.Component {
   }
 
   render(){
-    console.log(this.props.location)
     return(
       <Col md={{span:10, offset: 2}} style={{padding: "30px 40px 30px 40px"}}>
         <Container fluid style={{paddingLeft: "0"}}>
@@ -68,7 +67,7 @@ class UserDisplay extends React.Component {
           </Row>
           <Row>
             <NavLink to={"/user/" + this.props.user.username} className="user-name">
-              {createDisplayName(this.props.user)}
+              {createDisplayName(this.props.user.fname, this.props.user.mname, this.props.user.lname, this.props.user.username)}
             </NavLink>
           </Row>
         </Container>

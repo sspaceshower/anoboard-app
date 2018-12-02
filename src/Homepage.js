@@ -5,7 +5,8 @@ import { db } from './firebase';
 import { loading } from './constants/loading.js';
 import { mapStateToProps, mapDispatchToProps } from './reducers/map.js'
 import withAuthorization from './session/withAuthorization.js';
-import FullBoard from './components/fullboard.js';
+import FullBoard from './components/users/fullboard.js';
+import Pacman from './components/util/pacman.js';
 
 
 const paddingSet = {
@@ -21,6 +22,22 @@ class Homepage extends Component {
       board: null,
       loading: loading.NOTHING,
       loaded: false,
+      currentUser: {
+        uid: this.props.uid,
+        username: this.props.username,
+        email: this.props.email,
+        fname: this.props.fname,
+        mname: this.props.mname,
+        lname: this.props.lname,
+        biography: this.props.bio,
+        grouplist: this.props.groups,
+        status: this.props.status,
+        pool: this.props.pool,
+        fvh: this.props.fvh,
+        fvg: this.props.fvg,
+        fvgs: this.props.fvgs,
+        fvt: this.props.fvt,
+      }
 
     };
   }
@@ -32,13 +49,11 @@ class Homepage extends Component {
       {
         var board = null;
         for (const [key, value] of Object.entries(snapshot.val())){
-          if (key === this.props.currentUser.username){
+          if (key === this.props.username){
             board = value;
             break;
           }
         }
-      console.log("fetching board");
-      console.log(board);
       this.setState({board: board, loaded:true,loading:loading.NOTHING,});
     }).catch((err)=> {
       console.log("fetch board error",err);});
@@ -56,13 +71,13 @@ class Homepage extends Component {
         <Container fluid>
           <Row className="wrapper">
             <Col md={{span:10, offset: 2}} style={paddingSet}>
-              <FullBoard currentUser={this.props.currentUser} board={this.state.board}/>
+              <FullBoard currentUser={this.state.currentUser} board={this.state.board}/>
             </Col>
           </Row>
         </Container>
       );
     } else {
-      return(<div>Loading...</div>);
+      return(<Pacman />);
     }
   }
 }

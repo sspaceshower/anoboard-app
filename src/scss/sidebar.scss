@@ -1,119 +1,5 @@
 @import '_base.scss';
 
-#sidebar {
-  height: 100%;
-  padding: 25px 0px 25px 0px;
-  position: fixed;
-  background-color: white;
-  font-family: $semiboldfont;
-}
-
-#sidebar-logo {
-  padding: 15px;
-  vertical-align: center;
-  text-align: center;
-  background-color: $brown-text;
-  color: white;
-}
-
-#sidebar-login-text {
-  color: $bgray;
-  font-size: 14px;
-  font-family: $defaultfont;
-}
-
-#sidebar-login-user {
-  color: $blue-title;
-  font-family: $boldfont;
-  font-size: 21px;
-  margin-bottom: 10px;
-}
-
-.sidebar-button {
-  height: 35px;
-  width: 100%;
-  padding-left: 30px;
-  margin: 0;
-  line-height: 35px;
-  text-align: left;
-  font-size: 18px;
-  color: $brown-text;
-  transition: all 0.2s ease-out;
-
-  &:hover{
-    color: $orange;
-  }
-
-  &:focus {
-    outline: none;
-  }
-
-  &:active {
-    outline: none;
-  }
-}
-
-.active-sidebar-button {
-  color: white;
-  background-color: $brown-bg;
-
-  &:hover{
-    color: $lightorange;
-  }
-}
-
-.plus-button {
-  color: $brown-text;
-  text-align: right;
-  float: right;
-  margin-right: 40px;
-  vertical-align: middle;
-  line-height: 28px;
-}
-
-.sub-menu {
-  padding-left: 45px;
-  font-size: 18px;
-  margin-bottom: 5px;
-  color: $brown-text;
-  font-family: $boldfont;
-}
-
-.sub-menu-button {
-  height: 25px;
-  width: 100%;
-  padding-left: 45px;
-  text-align: left;
-  vertical-align: middle;
-  color: $brown-text;
-  font-size: 16px;
-  font-family: $defaultfont;
-  transition: all 0.2s ease-out;
-
-  &:hover {
-    color: $orange;
-  }
-}
-
-.sub-menu-active {
-  color: white;
-  background-color: $brown-bg;
-
-  &:hover{
-    color: $lightorange;
-  }
-}
-
-#show-more {
-  font-size: 12px;
-  font-family: $defaultfont;
-  color: $brown-tag;
-  padding: 5px 0 0 45px;
-  &:hover {
-    color: $orange
-  }
-}
-
 .custom-button-brown {
   background-color: $brown-bg;
   border: none;
@@ -138,4 +24,140 @@
 .center-wrap{
   text-align: center;
   margin: 20px;
+}
+
+#sidebar {
+  display: none;
+}
+
+//sidebar for mobile {
+#sidebar {
+
+}
+
+@media (min-width: 780px) {
+  #sidebar {
+    height: 100%;
+    padding: 25px 0px 25px 0px;
+    position: fixed;
+    background-color: white;
+    font-family: $semiboldfont;
+    display: block;
+  }
+
+  #sidebar-logo {
+    padding: 15px;
+    vertical-align: center;
+    text-align: center;
+    background-color: $brown-text;
+    color: white;
+  }
+
+  #sidebar-login-text {
+    color: $bgray;
+    font-size: 14px;
+    font-family: $defaultfont;
+  }
+
+  #sidebar-login-user {
+    color: $blue-title;
+    font-family: $boldfont;
+    font-size: 21px;
+    margin-bottom: 10px;
+  }
+
+
+  .hidden-smmd {
+    display: none;
+  }
+
+  .sidebar-button {
+    height: 35px;
+    width: 100%;
+    padding-left: 30px;
+    margin: 0;
+    line-height: 35px;
+    text-align: left;
+    font-size: 18px;
+    color: $brown-text;
+    transition: all 0.2s ease-out;
+    display: block;
+
+    &:hover{
+      color: $orange;
+    }
+
+    &:focus {
+      outline: none;
+    }
+
+    &:active {
+      outline: none;
+    }
+  }
+
+  .active-sidebar-button {
+    color: white;
+    background-color: $brown-bg;
+
+    &:hover{
+      color: $lightorange;
+    }
+  }
+
+  .plus-button {
+    color: $brown-text;
+    text-align: right;
+    float: right;
+    vertical-align: middle;
+    line-height: 28px;
+    display: inline;
+  }
+
+  .sub-menu {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: $brown-text;
+    font-family: $boldfont;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      color: $orange;
+    }
+  }
+
+  .sub-menu-button {
+    height: 25px;
+    width: 100%;
+    padding-left: 45px;
+    text-align: left;
+    vertical-align: middle;
+    color: $brown-text;
+    font-size: 16px;
+    font-family: $defaultfont;
+    transition: all 0.2s ease-out;
+
+    &:hover {
+      color: $orange;
+    }
+  }
+
+  .sub-menu-active {
+    color: white;
+    background-color: $brown-bg;
+
+    &:hover{
+      color: $lightorange;
+    }
+  }
+
+  #show-more {
+    font-size: 12px;
+    font-family: $defaultfont;
+    color: $brown-tag;
+    text-align: center;
+    &:hover {
+      color: $orange
+    }
+  }
 }

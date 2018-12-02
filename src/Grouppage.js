@@ -2,7 +2,7 @@ import React from 'react';
 import { withRouter } from 'react-router-dom'
 import { db } from './firebase'
 import { loading } from './constants/loading.js';
-import Group from './components/group.js'
+import Group from './components/groups/group.js'
 
 class GroupPage extends React.Component {
   constructor(props){

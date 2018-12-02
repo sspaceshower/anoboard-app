@@ -1,11 +1,11 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import { auth } from '../firebase';
+import { auth } from '../../firebase';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import { SIGN_IN } from '../constants/routes';
-import '../scss/auth.scss';
+import { SIGN_IN } from '../../constants/routes';
+import '../../scss/auth.scss';
 
 library.add(faSignOutAlt)
 
