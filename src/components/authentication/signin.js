@@ -51,6 +51,7 @@ class SignInForm extends Component {
       })
       .catch(error => {
         this.setState({ error });
+        alert("wrong email or password")
       });
 
     event.preventDefault();

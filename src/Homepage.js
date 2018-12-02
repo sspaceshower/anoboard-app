@@ -6,6 +6,7 @@ import { loading } from './constants/loading.js';
 import { mapStateToProps, mapDispatchToProps } from './reducers/map.js'
 import withAuthorization from './session/withAuthorization.js';
 import FullBoard from './components/users/fullboard.js';
+import Pacman from './components/util/pacman.js';
 
 
 const paddingSet = {
@@ -76,7 +77,7 @@ class Homepage extends Component {
         </Container>
       );
     } else {
-      return(<div>Loading...</div>);
+      return(<Pacman />);
     }
   }
 }

@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { loading } from '../../constants/loading.js';
 import { faPlusCircle, faPlus, faReply, faComments } from '@fortawesome/free-solid-svg-icons';
 import { createDisplayName } from '../../helper/helper.js'
+import Pacman from '../util/pacman.js';
 import * as routes from '../../constants/routes';
 import { auth, db } from '../../firebase';
 import AuthUserContext from '../../session/authUserContext.js';
@@ -102,13 +103,13 @@ class Board extends React.Component {
                   </Row>
                 </div>
               </Col>
-              {createPostStack(this.state.currentUser, this.state.board)}
+              {createPostStack(this.state.currentUser, this.state.board, this.state.trophy)}
             </Row>
         </Col>
       </Row>
     );
   } else{
-    return(<div>Loading...</div>);
+    return(<Pacman />);
   }
   }
 }
@@ -342,7 +343,8 @@ class Postbox extends React.Component {
       board: this.props.board,
       currentUser: this.props.currentUser,
       loaded: false,
-			loading: loading.NOTHING,
+      loading: loading.NOTHING,
+      trophy: this.props.trophy
     }
     var currentPost = this.state.post;
     currentPost.user = {username: this.state.post.username};
@@ -581,6 +583,7 @@ class Postbox extends React.Component {
                   onHide = {modalClose}
                   currentUser = {this.props.currentUser}
                   board = {this.state.board}
+                  trophy = {this.state.trophy}
                 />
               </Col>
               <Col>
@@ -592,7 +595,7 @@ class Postbox extends React.Component {
       </Col>
     );
   } else {
-    return(<div>Loading...</div>);
+    return(<Pacman />);
   }
   }
 }
@@ -659,7 +662,7 @@ class Replymodal extends React.Component {
         isAnonymous: (this.props.currentUser.uid === this.props.board.owner.uid) ? false: true,
         timestamp: null
       },
-
+      trophy: this.props.trophy,
     };
     this.handleContentChange = this.handleContentChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -910,12 +913,12 @@ class Replymodal extends React.Component {
   }
 }
 
-const createPostStack = (currentUser, board) => {
+const createPostStack = (currentUser, board, trophy) => {
     var stack = [];
     if(board.posts!=null){
       for (const [key, value] of Object.entries(board.posts)) {
         stack.push(
-          <Postbox post={value} currentUser = {currentUser} board ={board}/>
+          <Postbox post={value} currentUser = {currentUser} board ={board} trophy = {trophy}/>
         );
       }
     }
