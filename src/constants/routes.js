@@ -7,6 +7,7 @@ export const HOME = '/home';
 export const ACCOUNT = '/account';
 export const NOTIFICATIONS = '/notifications';
 export const MESSAGES = '/messages';
+export const INVENTORY = '/inventory';
 export const GROUPS = '/groups';
 export const SEARCHGROUP = '/search';
 export const GROUPPAGE = '/group/:groupname';

@@ -14,16 +14,18 @@
   animation: 0.1s ease-in 0s 1 fadeIn;
 }
 
-#trophy {
-}
-
 .wrap {
   height: 120px;
   border-radius: 5px;
   background-color: white;
   margin: 25px 0 15px 0;
-  padding: 0 10px;
+  padding: 0;
   animation: 0.2s ease-in 0s 1 fadeIn;
+  overflow: scroll;
+}
+
+.inner-wrap {
+  height: 100%;
 }
 
 .profile-img-container {
@@ -36,6 +38,27 @@
   align-items: center;
   justify-content: center;
   background-color: $lightgray;
+}
+
+.status-title {
+  text-align: center;
+  color: $blue-form;
+  font-size: 20px;
+  font-family: $boldfont;
+}
+
+.status-level {
+  text-align: center;
+  color: $blue-form;
+  font-size: 40px;
+  font-family: $boldfont;
+}
+
+.item-badge {
+  display: inline-block;
+  margin: 5px 20px;
+  overflow: hidden;
+  border-radius: 100%;
 }
 
 .selector {
@@ -86,7 +109,7 @@
 }
 
 #profile-name {
-  color: $darkgray;
+  color: $blue-form;
   font-size: 26px;
   font-family: $boldfont;
 }
@@ -382,12 +405,41 @@
   background: #F1F1F1;
 }
 
+.col-line {
+  border-left: 1px solid #EEEEEE;
+}
+
+@media (min-width: 950px){
+  .item-badge {
+    display: inline-block;
+    margin: 5px 20px;
+    overflow: hidden;
+    border-radius: 100%;
+  }
+
+  .wrap {
+    padding: 5px;
+  }
+}
+
 @media (min-width: 780px){
   #board {
     margin-top: 0;
   }
-  #trophy {
+  #status {
     width: 95%;
     float: right;
+  }
+
+  .wrap {
+    padding: 5px;
+    overflow-x: scroll;
+  }
+
+  .item-badge {
+    display: inline-block;
+    margin: 5px;
+    overflow: hidden;
+    border-radius: 100%;
   }
 }

@@ -1,0 +1,106 @@
+@import '_base.scss';
+
+
+.inventory-title {
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  height: 40px;
+  width: 300px;
+  border: 2px solid white;
+  border-radius: 25px;
+  background-color: transparent;
+  color: white;
+  font-family: $lato;
+  line-height: 38px;
+  vertical-align: middle;
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.item-main-title {
+  color: white;
+  letter-spacing: .1rem;
+  font-family: $boldfont;
+  font-size: 24px;
+}
+
+.category-wrap {
+  overflow-x: scroll;
+  margin-top: 15px;
+}
+
+
+.item-wrap {
+  text-align: center;
+  width: 110px;
+  padding: 5px;
+  margin: 10px 15px;
+}
+
+.item-name {
+  color: white;
+  font-family: $semiboldfont;
+  font-size: 16px;
+}
+
+.item-effect {
+  color: $lightgray;
+  font-family: $defaultfont;
+  margin-bottom: 5px;
+}
+
+.item-badge {
+  display: inline-block;
+  margin: 5px 20px;
+  overflow: hidden;
+  border-radius: 100%;
+}
+
+.equip-button {
+  background-color: $skyblue;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  color: white;
+  font-family: $semiboldfont;
+  font-size: 14px;
+  line-height: 14px;
+  vertical-align: middle;
+  width: 55px;
+  height: 20px;
+  margin: 5px;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    outline: none;
+  }
+}
+
+.set-button {
+  background-color: $redalert;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  color: white;
+  font-family: $semiboldfont;
+  font-size: 14px;
+  line-height: 14px;
+  vertical-align: middle;
+  width: 40px;
+  height: 20px;
+  margin: 5px;
+  cursor:not-allowed;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    outline: none;
+  }
+}

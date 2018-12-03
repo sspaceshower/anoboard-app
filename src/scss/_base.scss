@@ -6,6 +6,7 @@ $orange: #FFD185;
 $lightorange: #FDDFAC;
 
 $redalert: #E98687;
+$skyblue: #3EC1D3;
 
 $board: #3D4751;
 $blue-bg: #1E2A38;
@@ -17,7 +18,6 @@ $lightgray: #AFBACA;
 $fadegray: #D3D4D6;
 $bgray: #D7D2D2;
 $disabled: #A6A8AB;
-$darkgray: #3D4434;
 
 //grid breakpoints
 $grid-breakpoints-sm: 480px;
@@ -73,9 +73,29 @@ body {
   background-color: $brown-bg;
 }
 
+
+
 .wrapper {
   height: 100vh;
   padding-top: 50px;
+}
+
+.page-wrap {
+  height: 100%;
+  min-height: 1000px;
+  margin: 0 0 30px 0;
+  padding: 30px 40px;
+  color: white;
+  border-radius: 5px;
+  background-color: $board;
+  font-family: $defaultfont;
+}
+
+
+.title {
+  color: white;
+  font-family: $boldfont;
+  font-size: 32px;
 }
 
 .horizontal-line {
@@ -109,6 +129,9 @@ body {
   margin: auto;
 }
 
+.spacer {
+  height: 1rem;
+}
 @media (min-width: 780px){
   .wrapper {
     padding-top: 0;

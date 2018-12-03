@@ -263,6 +263,7 @@ class Postmodal extends React.Component {
     }
     const get_item =  getTrophy || getWeapon || getArmor;
 
+    //TODO: <database> update level to board.owner.status.level too
     db.updateXP(uid, today_XP, total_XP, day_now, HP , level, weapon, armor, trophy, atk, def, get_item)
     .then(() => {
         db.doCreatePost(boardOwner, uid, username, content, isAnonymous)
@@ -280,7 +281,7 @@ class Postmodal extends React.Component {
             if(get_item){
               this.props.updateGet(true);
             } else {
-              this.props.reRender(!this.props.renderFlag);
+              window.location.reload()
             }
           });
         })
@@ -839,6 +840,7 @@ class Replymodal extends React.Component {
     console.log(getArmor);
     console.log(get_item);
 
+    //TODO: <database> update level to board.owner.status.level too
     db.updateXP(uid, today_XP, total_XP, day_now, HP , level, weapon, armor, trophy, atk, def, get_item)
     .then(() => {
       db.doCreateReply(boardOwner, uid, username, fname, mname, lname, content, isAnonymous, postid)
@@ -855,7 +857,7 @@ class Replymodal extends React.Component {
           if(get_item){
             this.props.updateGet(true);
           } else {
-            this.props.reRender(!this.props.renderFlag);
+            window.location.reload()
           }
         });
       })

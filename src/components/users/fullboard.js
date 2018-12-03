@@ -32,6 +32,9 @@ class FullBoard extends React.Component {
         setTimeout(() => {
           this.props.updateGet(false);
         }, 2500)
+        setTimeout(() => {
+          window.location.reload();
+        }, 2510)
       })
       return(<ItemAlert />);
     } else {
@@ -39,7 +42,7 @@ class FullBoard extends React.Component {
       <Container fluid>
           <Row>
             <Col sm={12} md={6}><Profile owner={this.props.board.owner}/></Col>
-            <Col sm={12} md={6}><Status /></Col>
+            <Col sm={12} md={6}><Status owner={this.props.board.owner} /></Col>
           </Row>
           <Row><Board currentUser = {this.state.currentUser} board = {this.state.board} {...this.props} /></Row>
       </Container>

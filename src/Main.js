@@ -15,6 +15,7 @@ import PasswordForgetPage from './components/authentication/passwordForget.js';
 import Sidebar from './Sidebar.js'
 import Notifications from './Notification.js';
 import Messages from './Messages.js';
+import Inventory from './Inventory.js';
 import AllGroup from './Allgroup.js';
 import Userboard from './Userboard.js';
 import Homepage from './Homepage.js';
@@ -113,17 +114,17 @@ const Page = (props) => (
 	 <Switch location={props.location}>
 		 <div className="navigation-auth">
 			 <Route exact path={routes.LANDING} component={Homepage} />
-			 <Route path={routes.SIGN_OUT} component={SignOutPage} />
-			 <Route path={routes.PASSWORD_FORGET} component={PasswordForgetPage} />
-			 <Route path={routes.HOME} component={Homepage} />
-			 <Route path={routes.ACCOUNT} component={AccountPage} />
-			 <Route path={routes.NOTIFICATIONS} component={Notifications} />
-			 <Route path={routes.MESSAGES} component={Messages} />
-			 <Route path={routes.SEARCHGROUP} component={GroupSearch} />
-			 <Route path={routes.GROUPS} component={AllGroup} />
-			 <Route path={routes.GROUPPAGE} component={GroupPage} />
-			 <Route path={routes.USERBOARD} component={Userboard} />
-			 <Route path={routes.SIGN_IN} render={() => (
+			 <Route exact path={routes.SIGN_OUT} component={SignOutPage} />
+			 <Route exact path={routes.HOME} component={Homepage} />
+			 <Route exact path={routes.ACCOUNT} component={AccountPage} />
+			 <Route exact path={routes.NOTIFICATIONS} component={Notifications} />
+			 <Route exact path={routes.MESSAGES} component={Messages} />
+			 <Route exact path={routes.INVENTORY} component={Inventory} />
+			 <Route exact path={routes.SEARCHGROUP} component={GroupSearch} />
+			 <Route exact path={routes.GROUPS} component={AllGroup} />
+			 <Route exact path={routes.GROUPPAGE} component={GroupPage} />
+			 <Route exact path={routes.USERBOARD} component={Userboard} />
+			 <Route exact path={routes.SIGN_IN} render={() => (
 						<Redirect to="/home" />
 					)}/>
 		 </div>
