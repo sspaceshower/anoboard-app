@@ -1,11 +1,16 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom'
 import { Container, Row, Col, Modal, Button } from 'react-bootstrap';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes} from '@fortawesome/free-solid-svg-icons';
 import { createDisplayName } from '../../helper/helper.js'
 import { loading } from '../../constants/loading.js';
 import { db } from '../../firebase';
 import Pacman from '../util/pacman.js';
 import '../../scss/userboard.scss';
+
+library.add(faTimes)
 
 const textStyle = {
   fontFamily: "Lato-Bold",
@@ -79,7 +84,7 @@ class BattleModal extends React.Component {
     var def = this.calculateEnemyDef()
     var FightResult = this.fight(atk,def)
 
-    HP = HP - 2
+    HP = HP - 2;
 
     db.updateHP(this.state.currentUser.uid, HP).then(() => {
       this.setState({win: FightResult}, () => {
@@ -121,6 +126,7 @@ class BattleModal extends React.Component {
         {...this.props}
         aria-labelledby = "battle-modal"
         dialogClassName = "custom-modal"
+        backdrop = "static"
       >
       <Modal.Header bsPrefix="custom-modal-header">
         <Modal.Title>
@@ -142,19 +148,37 @@ class BattleModal extends React.Component {
             this.state.win? (
               <Modal.Body bsPrefix="battle-body-wrap">
                 <div className="battle-congrats">Victory</div>
-                <div className="battle-message">Congratulations! You defeat the anonymous! Now you can find them here</div>
+                <div className="battle-message">Congratulations! You defeat the anonymous! Now you can find your enemy here</div>
                 <Row className="justify-content-center">
                   <NavLink to={"/user/" + this.state.post.username}>
-                    <div className="battle-author-link">
-                      {createDisplayName(this.state.post.fname, this.state.post.mname, this.state.post.lname, this.state.post.username)}
-                    </div>
-                </NavLink>
+                      <div className="battle-author-link">
+                        {createDisplayName(this.state.post.fname, this.state.post.mname, this.state.post.lname, this.state.post.username)}
+                      </div>
+                  </NavLink>
+                </Row>
+                <Row>
+                  <Col style={{textAlign: "center", position: "relative"}}>
+                    <Button
+                      bsPrefix="cancel-sq-button"
+                      onClick={ () => window.location.reload()}>
+                      Close
+                    </Button>
+                  </Col>
                 </Row>
               </Modal.Body>
             ) : (
               <Modal.Body bsPrefix="battle-body-wrap">
                 <div className="battle-failed">Defeated</div>
                 <div className="battle-message">Maybe your attack was not strong enough. Try again next time.</div>
+                <Row>
+                  <Col style={{textAlign: "center", position: "relative"}}>
+                    <Button
+                      bsPrefix="close-sq-button"
+                      onClick={() => window.location.reload()}>
+                      <FontAwesomeIcon className="close-icon" icon="times" /> Close
+                    </Button>
+                  </Col>
+                </Row>
               </Modal.Body>
             )
           )

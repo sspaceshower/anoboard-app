@@ -3,8 +3,8 @@ import { Container, Row, Col, Modal, Form, Button, OverlayTrigger, Tooltip } fro
 import { NavLink } from "react-router-dom";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { loading } from '../../constants/loading.js';
 import { faPlusCircle, faPlus, faReply, faComments } from '@fortawesome/free-solid-svg-icons';
+import { loading } from '../../constants/loading.js';
 import { createDisplayName } from '../../helper/helper.js'
 import * as routes from '../../constants/routes';
 import { auth, db } from '../../firebase';

@@ -482,6 +482,26 @@
   }
 }
 
+.close-sq-button {
+  background-color: transparent;
+  border: none;
+  margin-left: 10px;
+  margin-right: 10px;
+  box-sizing: border-box;
+  display: inline;
+  text-align: center;
+  color: $disabled;
+  font-family: $latobold;
+  font-size: 16px;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    outline: none;
+  }
+}
 
 .battle-body-wrap {
   height: 190px;
@@ -530,6 +550,11 @@
     text-decoration: none;
     color: $skyblue;
   }
+}
+
+.close-icon {
+  color: $disabled;
+  font-size: 16px;
 }
 
 @media (min-width: 950px){
