@@ -266,7 +266,7 @@ class Postmodal extends React.Component {
     //TODO: <database> update level to board.owner.status.level too
     db.updateXP(uid, today_XP, total_XP, day_now, HP , level, weapon, armor, trophy, atk, def, get_item)
     .then(() => {
-        db.updateBoard(username,level, weapon, armor, trophy)
+        db.updateBoard(username,level)
         .then(() => {
             db.doCreatePost(boardOwner, uid, username, content, isAnonymous)
             .then(() => {
@@ -524,7 +524,7 @@ class Postbox extends React.Component {
 
       db.updateXP(uid, today_XP, total_XP, day_now, HP , level, weapon, armor, trophy, atk, def)
     .then(() => {
-          db.updateBoard(username,level, weapon, armor, trophy)
+          db.updateBoard(username,level)
             .then(() => {
               //TODO: after win -> change XP and HP (done) and show username <FRONTEND>
 
@@ -862,7 +862,7 @@ class Replymodal extends React.Component {
     db.updateXP(uid, today_XP, total_XP, day_now, HP , level, weapon, armor, trophy, atk, def, get_item)
     .then(() => {
 
-      db.updateBoard(username,level, weapon, armor, trophy)
+      db.updateBoard(username,level)
         .then(() => {
               db.doCreateReply(boardOwner, uid, username, fname, mname, lname, content, isAnonymous, postid)
               .then(() => {

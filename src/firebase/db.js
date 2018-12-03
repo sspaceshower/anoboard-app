@@ -139,12 +139,10 @@ export const updateXP = (user, today_XP, total_XP, lastUpdate, HP , level, weapo
    })
  });
 
-export const updateBoard = (username,level, weapon, armor, trophy) =>
+export const updateBoard = (username,level) =>
 db.ref(`boards/${username}/owner/status`).update({  
   level,
-  weapon,
-  armor,
-  trophy,  
+  
 });
 
 export const updateBoardArmor = (username, armor, def) =>
