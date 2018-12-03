@@ -236,10 +236,12 @@ class Postmodal extends React.Component {
     var getArmor = false
     var key
     if(levelChange){
-      if(level%2==0){
-        HP = HP + 1
-      }
       level = level + 1
+      if(level%2 === 0){
+        HP = (level/2) + 1;
+      } else {
+        HP = (level-1)/2 + 1;
+      }
 
         if(level<10){
           key = "level0" + level
@@ -685,10 +687,12 @@ class Replymodal extends React.Component {
     var getArmor = false;
     var key;
     if(levelChange){
-      if(level%2 === 0){
-        HP = HP + 1;
-      }
       level = level + 1;
+      if(level%2 === 0){
+        HP = (level/2) + 1;
+      } else {
+        HP = (level-1)/2 + 1;
+      }
 
         if(level<10){
           key = "level0" + level
