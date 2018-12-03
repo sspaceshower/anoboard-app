@@ -36,7 +36,7 @@ class Group extends React.Component {
     return(
       <Col md={{span:10, offset: 2}} style={{padding: "30px 40px 30px 40px"}}>
         <Container fluid style={{paddingLeft: "0"}}>
-          <Row id="page-wrap">
+          <Row className="page-wrap">
             <Container fluid>
               <Row className="title">{this.state.groupName}</Row>
               <Row><div>Searchbar</div></Row>

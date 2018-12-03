@@ -104,6 +104,13 @@ export const updateFVT = fvt => (
   }
 );
 
+export const updateGet = (getItem) => (
+  {
+    type: 'UPDATE_GET',
+    payload: getItem,
+  }
+)
+
 export const loginStatus = status => (
   {
     type: 'LOGIN_STATUS',

@@ -26,16 +26,16 @@ export const doCreateUser = (uid, username, fname, mname, lname, biography, emai
       armor: {
         def: 5,
         name: "Cool leather jacket",
-        url: "anoboard-app/public/img/leather-jacket.png"
+        url: "/img/leather-jacket.png"
       },
       weapon: {
         atk: 5,
         name: "Baseball bat",
-        url: "anoboard-app/public/img/baseball-bat.png"
+        url: "/img/baseball-bat.png"
       },
       trophy: {
         name: "First Grader",
-        url: "anoboard-app/public/img/first.png"
+        url: "/img/first.png"
       },
     },
     pool: {
@@ -43,20 +43,20 @@ export const doCreateUser = (uid, username, fname, mname, lname, biography, emai
         somekey: {
           def: 5,
           name: "Cool leather jacket",
-          url: "anoboard-app/public/img/leather-jacket.png"
+          url: "/img/leather-jacket.png"
         }
       },
       weapon: {
         somekey: {
           atk: 5,
           name: "Baseball bat",
-          url: "anoboard-app/public/img/baseball-bat.png"
+          url: "/img/baseball-bat.png"
         }
       },
       trophy: {
         somekey:{
           name: "First Grader",
-          url: "anoboard-app/public/img/first.png"
+          url: "/img/first.png"
         }
       },
     },
@@ -64,6 +64,7 @@ export const doCreateUser = (uid, username, fname, mname, lname, biography, emai
     first_visit_group: true,
     first_visit_group_search: true,
     first_visit_trophy: true,
+    get_item: false,
   });
 
 export const doCreateBoard = (uid, username,fname,mname,lname,biography, email) =>
@@ -75,10 +76,24 @@ export const doCreateBoard = (uid, username,fname,mname,lname,biography, email) 
       lname,
       biography,
       email,
-      first_visit_home: true,
-      first_visit_group: true,
-      first_visit_group_search: true,
-      first_visit_trophy: true,}
+      status: {
+        level: 1,
+        armor: {
+          def: 5,
+          name: "Cool leather jacket",
+          url: "/img/leather-jacket.png"
+        },
+        weapon: {
+          atk: 5,
+          name: "Baseball bat",
+          url: "/img/baseball-bat.png"
+        },
+        trophy: {
+          name: "First Grader",
+          url: "/img/first.png"
+        },
+      },
+    }
   );
 
 export const doCreatePost = (boardOwner,uid, username, content, isAnonymous) =>
@@ -106,7 +121,7 @@ export const doCreateReply = (boardOwner, uid, username, fname, mname, lname, co
      replyid: snap.key
 })});
 
-export const updateXP = (user, today_XP, total_XP, lastUpdate, HP , level, weapon, armor, trophy, atk, def) =>
+export const updateXP = (user, today_XP, total_XP, lastUpdate, HP , level, weapon, armor, trophy, atk, def, get_item) =>
  db.ref(`users/${user}/status`).update({
    today_XP,
    total_XP,
@@ -118,7 +133,16 @@ export const updateXP = (user, today_XP, total_XP, lastUpdate, HP , level, weapo
    trophy,
    atk,
    def
+ }).then(() => {
+   db.ref(`users/${user}`).update({
+     get_item
+   })
  });
+
+export const updateGet = (user) =>
+  db.ref(`users/${user}`).update({
+    "get_item" : false,
+});
 
 export const updatePoolWeapon = (user, weapon) =>
  db.ref(`users/${user}/pool/weapon`).push({

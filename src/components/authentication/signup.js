@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { Container, Row, Col, Form} from 'react-bootstrap';
+import { Container, Row, Col, Form, InputGroup, Button} from 'react-bootstrap';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
@@ -35,7 +35,8 @@ const INITIAL_STATE = {
   passwordTwo: '',
   error: null,
   loaded: false,
-  loading: loading.NOTHING,  
+  loading: loading.NOTHING,
+  validated: false,
 };
 
 class SignUpForm extends React.Component {
@@ -50,19 +51,19 @@ class SignUpForm extends React.Component {
 		this.fetchUserData()
   }
 
-  fetchUserData(){    
+  fetchUserData(){
 		this.setState({
 			loading:loading.RELOADING
-    });          
+    });
 		db.onceGetUsers().then(snapshot =>
 		{
-      const user_list = [];			
+      const user_list = [];
 				for (const [key, value] of Object.entries(snapshot.val())) {
 					var childData = value.username;
 					user_list.push(childData);
-				}      
+				}
       this.setState({usernames: user_list, loaded:true, loading:loading.NOTHING,});
-      
+
 		}).catch((err)=> {
 			console.log("fetch user error",err);});
   }
@@ -70,7 +71,15 @@ class SignUpForm extends React.Component {
   onSubmit = event => {
     const { username, fname, mname, lname, biography, email, passwordOne, passwordTwo } = this.state;
 
-    const { history } = this.props;       
+    const { history } = this.props;
+
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    this.setState({ validated: true });
+    /*
     if(username === ''){
       alert("Please fill in username")
     }
@@ -89,9 +98,11 @@ class SignUpForm extends React.Component {
     else if(passwordTwo === ''){
       alert("Please confirm your password")
     }
-    else if(passwordTwo !== passwordOne){
+    */
+    if(passwordOne && passwordTwo && passwordTwo !== passwordOne){
       alert("Please make sure you confirm the same password")
     }
+
     else if(!this.state.usernames.includes(username)){
     auth
       .doCreateUserWithEmailAndPassword(email, passwordOne)
@@ -124,7 +135,7 @@ class SignUpForm extends React.Component {
         this.setState({ error });
       });
     }
-    else{      
+    else {
       alert("this username is already used")
     }
     event.preventDefault();
@@ -160,7 +171,12 @@ class SignUpForm extends React.Component {
       <div>
         <div className="header-icon"><FontAwesomeIcon icon="user-plus" /></div>
         <div className="box-title">Sign Up</div>
-        <Form onSubmit={this.onSubmit} bsPrefix="form-wrap">
+        <Form
+          onSubmit={this.onSubmit}
+          bsPrefix="form-wrap"
+          noValidate
+          validated={this.state.validated}
+          >
           <Form.Group controlId="signup">
             <Row>
               <Col>
@@ -168,15 +184,28 @@ class SignUpForm extends React.Component {
               <Form.Control
                 name="email" value={email}
                 onChange={this.onChange}
-                type="text" placeholder="Email Address" />
+                type="email" placeholder="ano@anoboard.com"
+                required
+                />
+              <Form.Control.Feedback type="invalid">
+                {error && <div className="error-message">{error.message}</div>}
+              </Form.Control.Feedback>
             </Col></Row>
             <Row>
               <Col>
                 <Form.Label />
+                <InputGroup>
+                  <InputGroup.Prepend>
+                  <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
+                </InputGroup.Prepend>
                 <Form.Control
                   name="username" value={username}
                   onChange={this.onChange}
-                  type="text" placeholder="Username" />
+                  type="text" placeholder="Username"
+                  required
+                  />
+                <Form.Control.Feedback type="invalid" />
+                </InputGroup>
               </Col>
             </Row>
             <Row>
@@ -185,14 +214,19 @@ class SignUpForm extends React.Component {
                 <Form.Control
                 name="passwordOne"   value={passwordOne}
                 onChange={this.onChange}
-                type="password" placeholder="Password" />
+                type="password" placeholder="Password"
+                required />
+              <Form.Control.Feedback type="invalid" />
               </Col>
               <Col>
                 <Form.Label />
                 <Form.Control
                   name="passwordTwo" value={passwordTwo}
                   onChange={this.onChange}
-                  type="password" placeholder="Confirm Password" />
+                  type="password" placeholder="Confirm Password"
+                  required
+                />
+                <Form.Control.Feedback type="invalid" />
               </Col>
             </Row>
             <Row>
@@ -201,7 +235,10 @@ class SignUpForm extends React.Component {
                 <Form.Control
                   name="fname" value={fname}
                   onChange={this.onChange}
-                  type="text" placeholder="First Name" />
+                  type="text" placeholder="First Name"
+                  required
+                   />
+                <Form.Control.Feedback type="invalid" />
               </Col>
             </Row>
             <Row>
@@ -219,21 +256,26 @@ class SignUpForm extends React.Component {
                 <Form.Control
                   name="lname"   value={lname}
                   onChange={this.onChange}
-                  type="text" placeholder="Last Name" />
+                  type="text" placeholder="Last Name"
+                  required
+                  />
+                <Form.Control.Feedback type="invalid" />
               </Col>
             </Row>
             <div className="center-wrap">
+              <Button bsPrefix="custom-button-lg-cancel">
+                <Link to="/signin" className="button-link">Back</Link>
+              </Button>
               <button className="custom-button-lg" type="submit">
                 Sign Up
               </button>
             </div>
           </Form.Group>
-          {error && <p>{error.message}</p>}
         </Form>
       </div>
-      );  
+      );
     } else { return (<Pacman />) }
-    
+
   }
 }
 

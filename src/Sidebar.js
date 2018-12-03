@@ -7,7 +7,7 @@ import { auth } from './firebase'
 import { mapStateToProps, mapDispatchToProps } from './reducers/map.js'
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faBell, faEnvelope, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faBell, faEnvelope, faPlusCircle, faToolbox } from '@fortawesome/free-solid-svg-icons';
 import { createDisplayName } from './helper/helper.js';
 import { SIGN_IN } from './constants/routes.js';
 import withAuthorization from './session/withAuthorization.js';
@@ -18,6 +18,7 @@ library.add(faHome);
 library.add(faBell);
 library.add(faEnvelope);
 library.add(faPlusCircle);
+library.add(faToolbox);
 
 class Sidebar extends React.Component {
   constructor(props){
@@ -118,7 +119,8 @@ class Sidebar extends React.Component {
     const menulist = [
       {icon: "home", label: "myboard", url: "/home"},
       {icon: "bell", label: "notifications", url: "/notifications"},
-      {icon: "envelope", label: "messages", url: "/messages"}
+      {icon: "envelope", label: "messages", url: "/messages"},
+      {icon: "toolbox", label: "inventory", url: "/inventory"}
     ];
 
     return(

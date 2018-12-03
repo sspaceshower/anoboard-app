@@ -45,6 +45,7 @@
   min-height: 600px;
   margin-bottom: 30px;
   padding: 20px 25px;
+  box-sizing: border-box;
 }
 
 .header-icon {
@@ -114,6 +115,50 @@
   }
 }
 
+
+.custom-button-lg-cancel {
+  width: 100px;
+  height: 40px;
+  background-color: transparent;
+  border: 1px solid $disabled;
+  border-radius: 25px;
+  text-align: center;
+  display: inline;
+  vertical-align: middle;
+  color: $disabled;
+  font-family: $latobold;
+  font-size: 16px;
+  margin: 15px;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    outline: none;
+  }
+}
+
+.button-link {
+  text-decoration: none;
+  color: $disabled;
+
+  &:hover {
+    text-decoration: none;
+    color: $disabled;
+  }
+  &:focus {
+    outline: none;
+    color: $disabled;
+  }
+
+  &:active {
+    outline: none;
+    color: $disabled;
+  }
+}
+
 .center-wrap{
   text-align: center;
   margin: 20px;
@@ -131,4 +176,13 @@
 .just-space {
   padding: 1px;
   margin: 1px;
+}
+
+.error-message{
+  line-height: 15px;
+  margin-bottom: -15px;
+}
+
+.label-space{
+  height: 15px;
 }

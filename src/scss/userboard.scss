@@ -14,16 +14,18 @@
   animation: 0.1s ease-in 0s 1 fadeIn;
 }
 
-#trophy {
-}
-
 .wrap {
   height: 120px;
   border-radius: 5px;
   background-color: white;
   margin: 25px 0 15px 0;
-  padding: 0 10px;
+  padding: 0;
   animation: 0.2s ease-in 0s 1 fadeIn;
+  overflow: scroll;
+}
+
+.inner-wrap {
+  height: 100%;
 }
 
 .profile-img-container {
@@ -36,6 +38,27 @@
   align-items: center;
   justify-content: center;
   background-color: $lightgray;
+}
+
+.status-title {
+  text-align: center;
+  color: $blue-form;
+  font-size: 20px;
+  font-family: $boldfont;
+}
+
+.status-level {
+  text-align: center;
+  color: $blue-form;
+  font-size: 40px;
+  font-family: $boldfont;
+}
+
+.item-badge {
+  display: inline-block;
+  margin: 5px 20px;
+  overflow: hidden;
+  border-radius: 100%;
 }
 
 .selector {
@@ -86,7 +109,7 @@
 }
 
 #profile-name {
-  color: $darkgray;
+  color: $blue-form;
   font-size: 26px;
   font-family: $boldfont;
 }
@@ -151,21 +174,22 @@
   font-size: 20px;
   color: $blue-title;
   float: left;
+  transition: all 0.2s ease-in-out;
 
   &:hover {
     text-decoration: none;
-    color: black;
+    color: $redalert;
   }
 }
 
-#postbox-author-match {
+.postbox-author-match {
   font-family: $boldfont;
   font-size: 22px;
   color: $blue-title;
   float: left;
 }
 
-#postbox-tag {
+.postbox-tag {
   font-family: $defaultfont;
   font-size: 18px;
   text-align: right;
@@ -176,7 +200,7 @@
 
 }
 
-#postbox-content {
+.postbox-content {
   font-family: $defaultfont;
   font-size: 20px;
   color: $blue-content;
@@ -190,6 +214,7 @@
   padding: 0;
   margin-left: 5px;
   cursor: pointer;
+
   &:focus {
     outline: none;
   }
@@ -199,31 +224,59 @@
   }
 }
 
-#postbox-reply {
+.postbox-fight-button{
   color: $fadegray;
+  width: 22px;
+  height: 22px;
+  background-color: transparent;
+  box-sizing: content-box;
+  border: none;
+  padding: 0;
+  display: inline;
+  margin-left: 5px;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    outline: none;
+  }
 }
-#postbox-reply-num {
+
+.postbox-reply {
+  color: $fadegray;
+  /*
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    color: $blue-form;
+  }
+  */
+}
+.postbox-reply-num {
   color: $fadegray;
   font-family: $defaultfont;
   display: inline;
   margin-left: 5px;
   text-align: left;
   font-size: 16px;
+
 }
-#postbox-timestamp {
+.postbox-timestamp {
   color: $fadegray;
   font-family: $defaultfont;
   text-align: right;
   font-size: 16px;
 }
 
-#postbox-menu {
+.postbox-menu {
   position: absolute;
   bottom: 10px;
   left: 0;
 }
 
-#postbox-icon-wrap{
+.postbox-icon-wrap{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -253,7 +306,7 @@
   }
 }
 
-#postbox-new-text {
+.postbox-new-text {
   color: $fadegray;
   font-size: 20px;
   font-family: $latobold;
@@ -301,21 +354,27 @@
   top: 5%;
 }
 
-#reply-author {
+.reply-author-anonymous {
   font-family: $boldfont;
   font-size: 18px;
   color: $blue-title;
   float: left;
 }
 
-#reply-author-match {
+.reply-author-link {
   font-family: $boldfont;
   font-size: 18px;
   color: $blue-title;
   float: left;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    text-decoration: none;
+    color: $redalert;
+  }
 }
 
-#reply-tag {
+.reply-tag {
   font-family: $defaultfont;
   font-size: 14px;
   text-align: right;
@@ -326,13 +385,13 @@
 
 }
 
-#reply-content {
+.reply-content {
   font-family: $defaultfont;
   font-size: 16px;
   color: $blue-content;
 }
 
-#reply-timestamp {
+.reply-timestamp {
   color: $fadegray;
   font-family: $defaultfont;
   font-size: 14px;
@@ -346,12 +405,41 @@
   background: #F1F1F1;
 }
 
+.col-line {
+  border-left: 1px solid #EEEEEE;
+}
+
+@media (min-width: 950px){
+  .item-badge {
+    display: inline-block;
+    margin: 5px 20px;
+    overflow: hidden;
+    border-radius: 100%;
+  }
+
+  .wrap {
+    padding: 5px;
+  }
+}
+
 @media (min-width: 780px){
   #board {
     margin-top: 0;
   }
-  #trophy {
+  #status {
     width: 95%;
     float: right;
+  }
+
+  .wrap {
+    padding: 5px;
+    overflow-x: scroll;
+  }
+
+  .item-badge {
+    display: inline-block;
+    margin: 5px;
+    overflow: hidden;
+    border-radius: 100%;
   }
 }

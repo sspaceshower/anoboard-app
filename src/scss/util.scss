@@ -1,0 +1,81 @@
+@import '_base.scss';
+@import '~loaders.css/src/animations/pacman.scss';
+
+@keyframes expandIn {
+  0% {
+    width: 0%;
+    opacity: 1;
+  }
+  25% {
+    width: 100%;
+    opacity: 1;
+  }
+  55% {
+    width: 100%;
+    opacity: 1;
+  }
+
+  79% {
+    opacity: 1;
+  }
+  80% {
+    width: 0%;
+    opacity: 0;
+  }
+
+  100% {
+    width: 0%;
+    opacity: 0;
+  }
+}
+
+.loader-hidden {
+  display: none;
+}
+
+.loader-active {
+  display: block;
+}
+
+.fullscreen-wrap {
+  height: 100vh;
+  display: block;
+  position: absolute;
+  top: 0; left: 0;
+}
+
+.alert-wrap {
+  width: 100%;
+  background-color: white;
+  height: 50px;
+  animation: 3.2s ease-in-out 0s 1 expandIn;
+  display: block;
+  text-align: center;
+  overflow: hidden;
+}
+
+.alert-text {
+  display: inline;
+  color: $blue-form;
+  line-height: 50px;
+  vertical-align: middle;
+  font-family: $boldfont;
+  font-size: 20px;
+  text-align: center;
+}
+
+.alert-strong {
+  display: inline;
+  color: $redalert;
+  font-family: $boldfont;
+  font-size: 20px;
+}
+
+.not-implemented {
+  width: 100%;
+  background-color: white;
+  height: 50px;
+  display: block;
+  text-align: center;
+  border-radius: 5px;
+}
