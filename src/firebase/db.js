@@ -139,6 +139,49 @@ export const updateXP = (user, today_XP, total_XP, lastUpdate, HP , level, weapo
    })
  });
 
+export const updateBoard = (username,level, weapon, armor, trophy) =>
+db.ref(`boards/${username}/owner/status`).update({  
+  level,
+  weapon,
+  armor,
+  trophy,  
+});
+
+export const updateBoardArmor = (username, armor, def) =>
+db.ref(`boards/${username}/owner/status`).update({    
+  armor,  
+  def
+});
+
+export const updateBoardWeapon = (username, weapon, atk) =>
+db.ref(`boards/${username}/owner/status`).update({    
+  weapon,  
+  atk
+});
+
+export const updateBoardTrophy = (username, trophy) =>
+db.ref(`boards/${username}/owner/status`).update({    
+  trophy,  
+});
+
+export const updateUserArmor = (uid, armor, def) =>
+db.ref(`users/${uid}/status`).update({    
+  def,
+  armor,
+  
+});
+
+export const updateUserWeapon = (uid, weapon, atk) =>
+db.ref(`users/${uid}/status`).update({    
+  weapon,  
+  atk
+});
+
+export const updateUserTrophy = (uid, trophy) =>
+db.ref(`users/${uid}/status`).update({      
+  trophy,  
+});
+
 export const updateGet = (user) =>
   db.ref(`users/${user}`).update({
     "get_item" : false,

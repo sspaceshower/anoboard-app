@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { Col, Container, Row, Button } from 'react-bootstrap';
 import { mapStateToProps, mapDispatchToProps } from './reducers/map.js'
 import withAuthentication from './session/withAuthentication.js';
+import {db} from './firebase';
 import './scss/inventory.scss'
+import { updateUid } from './reducers/actions.js';
 
 class Inventory extends React.Component {
   render(){
@@ -24,7 +26,7 @@ class Inventory extends React.Component {
                   <Row className="category-warp">
                     {
                      Object.keys(this.props.pool.trophy).map((key, value) => (
-                       <TrophyBadge item={this.props.pool.trophy[key]} setTrophy={this.props.status.trophy.name} />
+                       <TrophyBadge item={this.props.pool.trophy[key]} setTrophy={this.props.status.trophy.name} uid={this.props.uid} username={this.props.username}/>
                      ))
                    }
                  </Row>
@@ -39,7 +41,7 @@ class Inventory extends React.Component {
                   <Row className="category-warp">
                     {
                      Object.keys(this.props.pool.weapon).map((key, value) => (
-                       <WeaponBadge item={this.props.pool.weapon[key]} setWeapon={this.props.status.weapon.name} />
+                       <WeaponBadge item={this.props.pool.weapon[key]} setWeapon={this.props.status.weapon.name} uid={this.props.uid} username={this.props.username}/>
                      ))
                    }
                  </Row>
@@ -54,7 +56,7 @@ class Inventory extends React.Component {
                   <Row className="category-warp">
                     {
                      Object.keys(this.props.pool.armor).map((key, value) => (
-                       <ArmorBadge item={this.props.pool.armor[key]} setArmor={this.props.status.armor.name} />
+                       <ArmorBadge item={this.props.pool.armor[key]} setArmor={this.props.status.armor.name} uid={this.props.uid} username={this.props.username} />
                      ))
                    }
                  </Row>
@@ -70,10 +72,32 @@ class Inventory extends React.Component {
 
 class TrophyBadge extends React.Component {
 
+  constructor(props){
+    super(props);
+    this.updateTrophy = this.updateTrophy.bind(this)
+  }
+
+  updateTrophy(event){
+    db.updateUserTrophy(this.props.uid, this.props.item)
+    .then(() => {
+        db.updateBoardTrophy(this.props.username, this.props.item)
+        .then(() => {
+          this.setState(() => {
+            window.location.reload()
+          })
+
+        })
+        .catch(error => {
+          this.setState({ error });
+        })
+    })
+    event.preventDefault();
+  }
+
   getSetButton(){
     if(this.props.item.name !== this.props.setTrophy){
       return(
-        <Button bsPrefix="equip-button">
+        <Button bsPrefix="equip-button" onClick={this.updateTrophy}>
           EQUIP
         </Button>
       );
@@ -105,10 +129,32 @@ class TrophyBadge extends React.Component {
 
 class WeaponBadge extends React.Component {
 
+  constructor(props){
+    super(props);
+    this.updateWeapon = this.updateWeapon.bind(this)
+  }
+
+  updateWeapon(event){
+    db.updateUserWeapon(this.props.uid, this.props.item, 50 + this.props.item.atk)
+    .then(() => {
+        db.updateBoardWeapon(this.props.username, this.props.item, 50 + this.props.item.atk)
+        .then(() => {
+          this.setState(() => {
+            window.location.reload()
+          })
+
+        })
+        .catch(error => {
+          this.setState({ error });
+        })
+    })
+    event.preventDefault();
+  }
+
   getSetButton(){
     if(this.props.item.name !== this.props.setWeapon){
       return(
-        <Button bsPrefix="equip-button">
+        <Button bsPrefix="equip-button" onClick={this.updateWeapon}>
           EQUIP
         </Button>
       );
@@ -141,10 +187,31 @@ class WeaponBadge extends React.Component {
 
 class ArmorBadge extends React.Component {
 
+  constructor(props){
+    super(props);
+    this.updateArmor = this.updateArmor.bind(this)
+  }
+
+  updateArmor(event){
+    db.updateUserArmor(this.props.uid, this.props.item, 50 + this.props.item.def)
+    .then(() => {
+        db.updateBoardArmor(this.props.username, this.props.item, 50 + this.props.item.def)
+        .then(() => {
+          this.setState(() => {
+            window.location.reload()
+          })
+
+        })
+        .catch(error => {
+          this.setState({ error });
+        })
+    })
+    event.preventDefault();
+  }
   getSetButton(){
     if(this.props.item.name !== this.props.setArmor){
       return(
-        <Button bsPrefix="equip-button">
+        <Button bsPrefix="equip-button" onClick={this.updateArmor}>
           EQUIP
         </Button>
       );

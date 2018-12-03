@@ -251,13 +251,13 @@ class Postmodal extends React.Component {
         if(this.state.trophy[key].weapon!=null && this.state.trophy[key].weapon!=undefined){
           getWeapon = true
           weapon = this.state.trophy[key].weapon;
-          atk = atk + weapon.atk;
+          atk = 50 + weapon.atk;
           db.updatePoolWeapon(uid, weapon);
         }
         if(this.state.trophy[key].armor!=null && this.state.trophy[key].armor!=undefined){
           getArmor = true;
           armor = this.state.trophy[key].armor;
-          def = def + armor.def;
+          def = 50 + armor.def;
           db.updatePoolArmor(uid, armor);
         }
     }
@@ -266,25 +266,31 @@ class Postmodal extends React.Component {
     //TODO: <database> update level to board.owner.status.level too
     db.updateXP(uid, today_XP, total_XP, day_now, HP , level, weapon, armor, trophy, atk, def, get_item)
     .then(() => {
-        db.doCreatePost(boardOwner, uid, username, content, isAnonymous)
+        db.updateBoard(username,level, weapon, armor, trophy)
         .then(() => {
-          this.setState(() => ({
-            post: {
-              author: this.props.currentUser,
-              content: "",
-              tag: null,
-              isAnonymous: true,
-              replies: null,
-              timestamp: null
-            }
-          }), () => {
-            if(get_item){
-              this.props.updateGet(true);
-            } else {
-              window.location.reload()
-            }
-          });
-        })
+            db.doCreatePost(boardOwner, uid, username, content, isAnonymous)
+            .then(() => {
+              this.setState(() => ({
+                post: {
+                  author: this.props.currentUser,
+                  content: "",
+                  tag: null,
+                  isAnonymous: true,
+                  replies: null,
+                  timestamp: null
+                }
+              }), () => {
+                if(get_item){
+                  this.props.updateGet(true);
+                } else {
+                  window.location.reload()
+                }
+              });
+            })
+            .catch(error => {
+              this.setState({ error });
+            })
+          })
         .catch(error => {
           this.setState({ error });
         })
@@ -455,6 +461,7 @@ class Postbox extends React.Component {
     if(FightResult){
       //if you win, you get XP and lose HP
         var uid = this.state.currentUser.uid;
+        var username = this.state.currentUser.username;
         var today_XP = this.state.currentUser.status.today_XP
         var total_XP = this.state.currentUser.status.total_XP
         var level = this.state.currentUser.status.level
@@ -512,12 +519,22 @@ class Postbox extends React.Component {
               db.updatePoolArmor(uid, armor)
             }
         }
-        atk = atk + weapon.atk
-        def = def + armor.def
+        atk = 50 + weapon.atk
+        def = 50 + armor.def
 
       db.updateXP(uid, today_XP, total_XP, day_now, HP , level, weapon, armor, trophy, atk, def)
     .then(() => {
-      //TODO: after win -> change XP and HP (done) and show username <FRONTEND>
+          db.updateBoard(username,level, weapon, armor, trophy)
+            .then(() => {
+              //TODO: after win -> change XP and HP (done) and show username <FRONTEND>
+
+
+
+
+          }).catch(error => {
+              this.setState({ error });
+          })
+      
     })
 
     .catch(error => {
@@ -833,7 +850,8 @@ class Replymodal extends React.Component {
           db.updatePoolArmor(uid, armor)
         }
     }
-
+    atk = 50 + weapon.atk
+    def = 50 + armor.def
     const get_item = getTrophy || getWeapon || getArmor;
     console.log(getTrophy);
     console.log(getWeapon);
@@ -843,27 +861,33 @@ class Replymodal extends React.Component {
     //TODO: <database> update level to board.owner.status.level too
     db.updateXP(uid, today_XP, total_XP, day_now, HP , level, weapon, armor, trophy, atk, def, get_item)
     .then(() => {
-      db.doCreateReply(boardOwner, uid, username, fname, mname, lname, content, isAnonymous, postid)
-      .then(() => {
-        console.log("reply");
-        this.setState(() => ({
-          reply: {
-            author: this.props.currentUser,
-            content: "",
-            isAnonymous: true,
-            timestamp: null
-          },
-        }),  () => {
-          if(get_item){
-            this.props.updateGet(true);
-          } else {
-            window.location.reload()
-          }
-        });
-      })
-      .catch(error => {
-        this.setState({ error });
-      });
+
+      db.updateBoard(username,level, weapon, armor, trophy)
+        .then(() => {
+              db.doCreateReply(boardOwner, uid, username, fname, mname, lname, content, isAnonymous, postid)
+              .then(() => {
+                console.log("reply");
+                this.setState(() => ({
+                  reply: {
+                    author: this.props.currentUser,
+                    content: "",
+                    isAnonymous: true,
+                    timestamp: null
+                  },
+                }),  () => {
+                  if(get_item){
+                    this.props.updateGet(true);
+                  } else {
+                    window.location.reload()
+                  }
+                });
+              })
+              .catch(error => {
+                this.setState({ error });
+              });
+      }).catch(error => {
+         this.setState({ error });
+      }) 
     })
     .catch(error => {
       this.setState({ error });
