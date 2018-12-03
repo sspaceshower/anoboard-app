@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { Container, Row, Col, Form, InputGroup} from 'react-bootstrap';
+import { Container, Row, Col, Form, InputGroup, Button} from 'react-bootstrap';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
@@ -184,7 +184,7 @@ class SignUpForm extends React.Component {
               <Form.Control
                 name="email" value={email}
                 onChange={this.onChange}
-                type="email" placeholder="something@something.com"
+                type="email" placeholder="ano@anoboard.com"
                 required
                 />
               <Form.Control.Feedback type="invalid">
@@ -263,6 +263,9 @@ class SignUpForm extends React.Component {
               </Col>
             </Row>
             <div className="center-wrap">
+              <Button bsPrefix="custom-button-lg-cancel">
+                <Link to="/signin" className="button-link">Back</Link>
+              </Button>
               <button className="custom-button-lg" type="submit">
                 Sign Up
               </button>
