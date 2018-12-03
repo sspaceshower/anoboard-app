@@ -7,7 +7,7 @@ import { auth } from './firebase'
 import { mapStateToProps, mapDispatchToProps } from './reducers/map.js'
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHome, faBell, faEnvelope, faPlusCircle, faToolbox } from '@fortawesome/free-solid-svg-icons';
+import { faHome, faBell, faEnvelope, faPlusCircle, faToolbox, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { createDisplayName } from './helper/helper.js';
 import { SIGN_IN } from './constants/routes.js';
 import withAuthorization from './session/withAuthorization.js';
@@ -19,6 +19,7 @@ library.add(faBell);
 library.add(faEnvelope);
 library.add(faPlusCircle);
 library.add(faToolbox);
+library.add(faHeart);
 
 class Sidebar extends React.Component {
   constructor(props){
@@ -113,7 +114,15 @@ class Sidebar extends React.Component {
     );
   };
 
-
+  createHPbar(){
+    var hpbar = [];
+    for(let i=0; i<this.props.status.HP; i++){
+      hpbar.push(
+        <FontAwesomeIcon className="hp-heart" icon="heart" />
+      )
+    }
+    return hpbar;
+  }
 
   render() {
     const menulist = [
@@ -152,6 +161,12 @@ class Sidebar extends React.Component {
           </div>
           )}
         </Media>
+        <Row className="hp-wrap">
+          <Col>
+            <div className="hp-text">HP:</div>
+            {this.createHPbar()}
+          </Col>
+        </Row>
         {this.createMenu(menulist)}
         <Row className="justify-content-md-center">
           <Col xs={8} className="horizontal-line"></Col>
