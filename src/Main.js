@@ -103,7 +103,7 @@ class Main extends React.Component{
 		} else {
 			return(
 				<div>
-					<Pacman />
+					<Pacman Fullscreen />
 				</div>
 			);
 		}

@@ -39,7 +39,6 @@ class Group extends React.Component {
           <Row className="page-wrap">
             <Container fluid>
               <Row className="title">{this.state.groupName}</Row>
-              <Row><div>Searchbar</div></Row>
               <Row>
                 {this.state.students.map((user) => <UserDisplay user={user} />)}
               </Row>

@@ -8,6 +8,7 @@ const initialState = {
   bio: '',
   groups: '',
   pool: '',
+  hp: 0,
   status: '',
   fvh: '',
   fvg: '',
@@ -36,6 +37,8 @@ const rootReducer = (state = initialState, action) => {
       return Object.assign({}, state, { groups: action.payload });
     case "UPDATE_POOL":
       return Object.assign({}, state, { pool: action.payload });
+    case "UPDATE_HP":
+      return Object.assign({}, state, { hp: action.payload });
     case "UPDATE_STATUS":
       return Object.assign({}, state, { status: action.payload });
     case "UPDATE_BIO":

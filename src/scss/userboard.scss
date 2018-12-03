@@ -245,6 +245,27 @@
   }
 }
 
+.postbox-fight-button-disabled{
+  color: $fadegray;
+  width: 22px;
+  height: 22px;
+  background-color: transparent;
+  box-sizing: content-box;
+  border: none;
+  padding: 0;
+  display: inline;
+  margin-left: 5px;
+  cursor: not-allowed;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    outline: none;
+  }
+}
+
 .postbox-reply {
   color: $fadegray;
   /*
@@ -314,9 +335,6 @@
   margin-top: 5px;
 }
 
-.custom-modal {
-  top: 5%;
-}
 
 .custom-modal-header {
   text-align: center;
@@ -350,7 +368,7 @@
   position: relative;
 }
 
-.reply-custom-modal {
+.custom-modal {
   top: 5%;
 }
 
@@ -405,8 +423,138 @@
   background: #F1F1F1;
 }
 
+.fight-icon {
+    width: 45px;
+    height: 45px;
+    background-color: transparent;
+    box-sizing: content-box;
+    border: none;
+    padding: 0;
+}
+
 .col-line {
   border-left: 1px solid #EEEEEE;
+}
+
+.fight-sq-button {
+  background-color: $blue-form;
+  border: none;
+  border-radius: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  display: inline;
+  text-align: center;
+  color: white;
+  font-family: $latobold;
+  font-size: 16px;
+  width: 105px;
+  height: 45px;
+  cursor: pointer;
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    outline: none;
+  }
+}
+
+.retreat-sq-button {
+  background-color: white;
+  border: 1px solid $disabled;
+  border-radius: 7px;
+  margin-left: 10px;
+  margin-right: 10px;
+  box-sizing: border-box;
+  display: inline;
+  text-align: center;
+  color: $disabled;
+  font-family: $latobold;
+  font-size: 16px;
+  width: 100px;
+  height: 45px;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    outline: none;
+  }
+}
+
+.close-sq-button {
+  background-color: transparent;
+  border: none;
+  margin-left: 10px;
+  margin-right: 10px;
+  box-sizing: border-box;
+  display: inline;
+  text-align: center;
+  color: $disabled;
+  font-family: $latobold;
+  font-size: 16px;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    outline: none;
+  }
+}
+
+.battle-body-wrap {
+  height: 190px;
+  position: relative;
+  padding: 10px 25px 25px 25px;
+}
+
+.battle-text {
+  font-family: $lato;
+  color: #343434;
+  font-size: 20px;
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.battle-congrats {
+  font-family: $latobold;
+  color: $skyblue;
+  font-size: 32px;
+  text-align: center;
+}
+
+.battle-failed {
+  font-family: $latobold;
+  color: $redalert;
+  font-size: 32px;
+  text-align: center;
+}
+
+.battle-message {
+  font-family: $lato;
+  color: $lightgray;
+  font-size: 16px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.battle-author-link {
+  font-family: $boldfont;
+  font-size: 20px;
+  color: $blue-title;
+  float: left;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    text-decoration: none;
+    color: $skyblue;
+  }
+}
+
+.close-icon {
+  color: $disabled;
+  font-size: 16px;
 }
 
 @media (min-width: 950px){

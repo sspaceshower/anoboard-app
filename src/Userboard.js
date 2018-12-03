@@ -88,7 +88,7 @@ class Userboard extends React.Component {
           </Row>
         </Container>
       );
-    } else { return (<Pacman />) }
+    } else { return (<Pacman Fullscreen />) }
   }
 }
 

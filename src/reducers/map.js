@@ -10,6 +10,7 @@ export const mapStateToProps = state => {
     lname: state.lname,
     bio: state.bio,
     groups: state.groups,
+    hp: state.hp,
     status: state.status,
     pool: state.pool,
     fvh: state.fvh,
@@ -39,6 +40,7 @@ export const mapDispatchToProps = dispatch => {
     updateFVGS: fvgs => {dispatch(actions.updateFVGS(fvgs))},
     updateFVT: fvt => {dispatch(actions.updateFVT(fvt))},
     updateGet: getItem => {dispatch(actions.updateGet(getItem))},
+    updateHP: hp => {dispatch(actions.updateHP(hp))},
     reRender: bool => {dispatch(actions.reRender(bool))}
   };
 };
