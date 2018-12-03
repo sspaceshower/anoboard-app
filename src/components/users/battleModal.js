@@ -99,9 +99,9 @@ class BattleModal extends React.Component {
   calculateATK(currentUser){
     //TODO: we must delete all users again to create status there in firebase
     var atk = currentUser.status.atk
-    if(currentUser.status.weapon != null && currentUser.status.weapon != undefined){
+    
       atk = atk + currentUser.status.weapon.atk
-    }
+      
     return atk
 
   }
@@ -109,10 +109,10 @@ class BattleModal extends React.Component {
     //get post'owner -> XP,ATK,DEF,Weapon.ATK,Armor,HP,Today_XP,Total_XP
 
     //get current user -> XP,ATK,DEF,Weapon.ATK,Armor,HP,Today_XP,Total_XP
-    var def = this.state.postUser.def
-    if(this.state.postUser.status != null && this.state.postUser.status != undefined){
+    var def = this.state.postUser.status.def
+   
       def = def + this.state.postUser.status.armor.def
-    }
+      
     return def
   }
   fight(atk,def){

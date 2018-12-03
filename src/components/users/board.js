@@ -41,11 +41,34 @@ class Board extends React.Component {
 			loading: loading.NOTHING,
     }
     this.fetchTrophyData = this.fetchTrophyData.bind(this);
+    this.getToday = this.getToday.bind(this);
   }
 
 
   componentDidMount() {
-		this.fetchTrophyData()
+    this.fetchTrophyData()
+    var day_now = this.getToday()
+    var uid = this.state.currentUser.uid;    
+
+    var today_XP = 0
+    var total_XP = this.state.currentUser.status.total_XP
+    var level = this.state.currentUser.status.level
+    var HP = this.state.currentUser.status.HP
+    var weapon = this.state.currentUser.status.weapon
+    var armor = this.state.currentUser.status.armor
+    var trophy = this.state.currentUser.status.trophy
+    var atk = 50 + weapon.atk
+    var def = 50 + armor.def
+    var get_item = false
+    if(this.state.currentUser.status.lastUpdate.day!== day_now.day){
+        db.updateXP(uid, today_XP, total_XP, day_now, HP , level, weapon, armor, trophy, atk, def, get_item)
+        .then(() => {
+          window.location.reload()
+        })
+        .catch(error => {
+          this.setState({ error });
+        })
+    }
   }
 
   fetchTrophyData(){
@@ -57,6 +80,14 @@ class Board extends React.Component {
 			this.setState({trophy: snapshot.val(), loaded:true, loading:loading.NOTHING,});
 		}).catch((err)=> {
 			console.log("fetch user error",err);});
+  }
+
+  getToday(){
+    return {
+      day: new Date().getDate(),
+      month: (new Date().getMonth())+1,
+      year: new Date().getFullYear()
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -88,7 +119,7 @@ class Board extends React.Component {
   }
 
   render(){
-    console.log(this.props);
+    
     if(this.state.loaded){
     let modalClose = () => this.setState({ modalShow: false})
     return(
@@ -214,8 +245,8 @@ class Postmodal extends React.Component {
     var weapon = this.state.currentUser.status.weapon
     var armor = this.state.currentUser.status.armor
     var trophy = this.state.currentUser.status.trophy
-    var atk = this.state.currentUser.status.atk + weapon.atk
-    var def = this.state.currentUser.status.def + armor.def
+    var atk = 50 + weapon.atk
+    var def = 50 + armor.def
     today_XP = today_XP + 20
     total_XP = total_XP + 20
     const day_now = this.getToday()
@@ -491,7 +522,7 @@ class Postbox extends React.Component {
                   post = {this.state.post}
                   show = {this.state.battleShow}
                   onHide = {battleClose}
-                  currentUser = {this.props.currentUser}
+                  currentUser = {this.state.currentUser}
                 />
                 <Replymodal
                   {... this.props}
@@ -665,8 +696,8 @@ class Replymodal extends React.Component {
     var weapon = this.state.reply.author.status.weapon
     var armor = this.state.reply.author.status.armor
     var trophy = this.state.reply.author.status.trophy
-    var atk = this.state.reply.author.status.atk + weapon.atk
-    var def = this.state.reply.author.status.def + armor.def
+    var atk = 50 + weapon.atk
+    var def = 50 + armor.def
     today_XP = today_XP + 10
     total_XP = total_XP + 10
     const day_now = this.getToday()
@@ -721,10 +752,7 @@ class Replymodal extends React.Component {
     atk = 50 + weapon.atk
     def = 50 + armor.def
     const get_item = getTrophy || getWeapon || getArmor;
-    console.log(getTrophy);
-    console.log(getWeapon);
-    console.log(getArmor);
-    console.log(get_item);
+    
 
     //TODO: <database> update level to board.owner.status.level too
     db.updateXP(uid, today_XP, total_XP, day_now, HP , level, weapon, armor, trophy, atk, def, get_item)
