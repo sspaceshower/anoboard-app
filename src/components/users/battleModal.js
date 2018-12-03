@@ -126,7 +126,7 @@ class BattleModal extends React.Component {
         {...this.props}
         aria-labelledby = "battle-modal"
         dialogClassName = "custom-modal"
-        backdrop = "static"
+        backdrop = {this.state.battle? "static":true}
       >
       <Modal.Header bsPrefix="custom-modal-header">
         <Modal.Title>
@@ -159,9 +159,10 @@ class BattleModal extends React.Component {
                 <Row>
                   <Col style={{textAlign: "center", position: "relative"}}>
                     <Button
-                      bsPrefix="cancel-sq-button"
-                      onClick={ () => window.location.reload()}>
-                      Close
+                      bsPrefix="close-sq-button"
+                      onClick={() => window.location.reload()}>
+                      <FontAwesomeIcon className="close-icon" icon="times" />
+                      &nbsp;&nbsp;Close
                     </Button>
                   </Col>
                 </Row>
@@ -175,7 +176,8 @@ class BattleModal extends React.Component {
                     <Button
                       bsPrefix="close-sq-button"
                       onClick={() => window.location.reload()}>
-                      <FontAwesomeIcon className="close-icon" icon="times" /> Close
+                      <FontAwesomeIcon className="close-icon" icon="times" />
+                      &nbsp;&nbsp;Close
                     </Button>
                   </Col>
                 </Row>
