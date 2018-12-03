@@ -35,6 +35,7 @@ class Board extends React.Component {
       pool: this.props.pool,
       // posts : this.props.board.value.posts,
       modalShow: false,
+      newItem: false,
       loaded: false,
 			loading: loading.NOTHING,
     }
@@ -96,7 +97,7 @@ class Board extends React.Component {
               <Col sm={12} md={6} lg={4}>
                 <div className="postbox-new-wrap">
                   <Row>
-                      <Col id="postbox-icon-wrap">
+                      <Col className="postbox-icon-wrap">
                         <Button bsPrefix="custom-area-new-button" onClick={() => this.setState({modalShow: true})}>
                           <FontAwesomeIcon className="postbox-new-icon" icon="plus-circle" />
                         </Button>
@@ -111,7 +112,7 @@ class Board extends React.Component {
                       </Col>
                   </Row>
                   <Row>
-                      <Col id="postbox-new-text">
+                      <Col className="postbox-new-text">
                         write a new post
                       </Col>
                   </Row>
@@ -243,24 +244,26 @@ class Postmodal extends React.Component {
           key = "level" + level
         }
         if(this.state.trophy[key].trophy!=null && this.state.trophy[key].trophy!=undefined){
-          getTrophy = true
-          trophy = this.state.trophy[key].trophy
-          db.updatePoolTrophy(uid, trophy)
+          getTrophy = true;
+          trophy = this.state.trophy[key].trophy;
+          db.updatePoolTrophy(uid, trophy);
         }
         if(this.state.trophy[key].weapon!=null && this.state.trophy[key].weapon!=undefined){
           getWeapon = true
-          weapon = this.state.trophy[key].weapon
-          atk = atk + weapon.atk
-          db.updatePoolWeapon(uid, weapon)
+          weapon = this.state.trophy[key].weapon;
+          atk = atk + weapon.atk;
+          db.updatePoolWeapon(uid, weapon);
         }
         if(this.state.trophy[key].armor!=null && this.state.trophy[key].armor!=undefined){
-          getArmor = true
-          armor = this.state.trophy[key].armor
-          def = def + armor.def
-          db.updatePoolArmor(uid, armor)
+          getArmor = true;
+          armor = this.state.trophy[key].armor;
+          def = def + armor.def;
+          db.updatePoolArmor(uid, armor);
         }
     }
-    db.updateXP(uid, today_XP, total_XP, day_now, HP , level, weapon, armor, trophy, atk, def)
+    const get_item =  getTrophy || getWeapon || getArmor;
+
+    db.updateXP(uid, today_XP, total_XP, day_now, HP , level, weapon, armor, trophy, atk, def, get_item)
     .then(() => {
         db.doCreatePost(boardOwner, uid, username, content, isAnonymous)
         .then(() => {
@@ -273,7 +276,13 @@ class Postmodal extends React.Component {
               replies: null,
               timestamp: null
             }
-          }), () => this.props.reRender(true));
+          }), () => {
+            if(get_item){
+              this.props.updateGet(true);
+            } else {
+              this.props.reRender(!this.props.renderFlag);
+            }
+          });
         })
         .catch(error => {
           this.setState({ error });
@@ -577,22 +586,25 @@ class Postbox extends React.Component {
         <div className="postbox-wrap">
           <Row>
             {this.getAuthor()}
-            <Col xs={4}><div id="postbox-tag">{"#classtag" /*TODO: <mockup> change to createTag*/}</div></Col>
+            <Col xs={4}><div className="postbox-tag">{"#classtag" /*TODO: <mockup> change to createTag*/}</div></Col>
           </Row>
           <Row><Col><div className="breakline"></div></Col></Row>
           <Row>
             <Col>
-              <div id="postbox-content">
+              <div className="postbox-content">
                 {this.state.post.content /*TODO: <frontend> handle case where content is too long*/}
               </div>
             </Col>
           </Row>
-          <Container fluid id="postbox-menu">
+          <Container fluid className="postbox-menu">
             <Row>
               <Col>
                 <Button bsPrefix="postbox-reply-button" onClick={() => this.setState({modalShow: true})}>
                   <FontAwesomeIcon className="postbox-reply" icon="comments" />
-                  <div id="postbox-reply-num">{this.getReplyNum()}</div>
+                  <div className="postbox-reply-num">{this.getReplyNum()}</div>
+                </Button>
+                <Button bsPrefix="postbox-fight-button" onClick={() => this.setState({modalShow: true})}>
+                  <img src={process.env.PUBLIC_URL + '/img/swords.png'} alt="fight" />
                 </Button>
                 <Replymodal
                   {... this.props}
@@ -605,7 +617,7 @@ class Postbox extends React.Component {
                 />
               </Col>
               <Col>
-                <div id="postbox-timestamp">{"timestamp" /*TODO: <mockup> change to createTimeStamp()*/}</div>
+                <div className="postbox-timestamp">{"timestamp" /*TODO: <mockup> change to createTimeStamp()*/}</div>
               </Col>
             </Row>
           </Container>
@@ -663,18 +675,18 @@ class Replybox extends React.Component {
         <div className="reply-container">
           <Row>
             {this.getAuthor()}
-            <Col xs={6}><div id="reply-tag">{"#classtag"}</div></Col>
+            <Col xs={6}><div className="reply-tag">{"#classtag"}</div></Col>
           </Row>
           <Row>
             <Col>
-              <div id="reply-content">
+              <div className="reply-content">
                 {this.state.content /*TODO: <frontend> handle case where content is too long*/}
               </div>
             </Col>
           </Row>
           <Row>
             <Col>
-              <div id="reply-timestamp">{"timestamp" /*TODO: <mockup> change to createTimeStamp()*/}</div>
+              <div className="reply-timestamp">{"timestamp" /*TODO: <mockup> change to createTimeStamp()*/}</div>
             </Col>
           </Row>
           <Row><div className="reply-breakline"></div></Row>
@@ -784,17 +796,17 @@ class Replymodal extends React.Component {
     if(day !== day_user && month !== month_user && year !== year_user){
       today_XP = 10
     }
-    var levelChange = this.calculateLevel(total_XP)
+    var levelChange = this.calculateLevel(total_XP);
     //use this variable as get Trophy to be true or false
-    var getTrophy = false
-    var getWeapon = false
-    var getArmor = false
-    var key
+    var getTrophy = false;
+    var getWeapon = false;
+    var getArmor = false;
+    var key;
     if(levelChange){
-      if(level%2==0){
-        HP = HP + 1
+      if(level%2 === 0){
+        HP = HP + 1;
       }
-      level = level + 1
+      level = level + 1;
 
         if(level<10){
           key = "level0" + level
@@ -821,10 +833,17 @@ class Replymodal extends React.Component {
         }
     }
 
-    db.updateXP(uid, today_XP, total_XP, day_now, HP , level, weapon, armor, trophy, atk, def)
+    const get_item = getTrophy || getWeapon || getArmor;
+    console.log(getTrophy);
+    console.log(getWeapon);
+    console.log(getArmor);
+    console.log(get_item);
+
+    db.updateXP(uid, today_XP, total_XP, day_now, HP , level, weapon, armor, trophy, atk, def, get_item)
     .then(() => {
       db.doCreateReply(boardOwner, uid, username, fname, mname, lname, content, isAnonymous, postid)
       .then(() => {
+        console.log("reply");
         this.setState(() => ({
           reply: {
             author: this.props.currentUser,
@@ -832,7 +851,13 @@ class Replymodal extends React.Component {
             isAnonymous: true,
             timestamp: null
           },
-        }),  () => this.props.reRender(true));
+        }),  () => {
+          if(get_item){
+            this.props.updateGet(true);
+          } else {
+            this.props.reRender(!this.props.renderFlag);
+          }
+        });
       })
       .catch(error => {
         this.setState({ error });

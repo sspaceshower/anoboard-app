@@ -13,6 +13,7 @@ const initialState = {
   fvg: '',
   fvgs: '',
   fvt: '',
+  get_item: false,
   loggedIn: false,
   renderFlag: false,
 };
@@ -47,6 +48,8 @@ const rootReducer = (state = initialState, action) => {
       return Object.assign({}, state, { fvgs: action.payload });
     case "UPDATE_FVT":
       return Object.assign({}, state, { fvt: action.payload });
+    case "UPDATE_GET":
+      return Object.assign({}, state, { get_item: action.payload });
     case "LOGIN_STATUS":
       return Object.assign({}, state, { loggedIn: action.payload });
     case "RERENDER":

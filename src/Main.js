@@ -13,7 +13,8 @@ import GroupSearch from './components/groups/groupSearch.js';
 import AccountPage from './components/users/account.js';
 import PasswordForgetPage from './components/authentication/passwordForget.js';
 import Sidebar from './Sidebar.js'
-import Notification from './Notification.js';
+import Notifications from './Notification.js';
+import Messages from './Messages.js';
 import AllGroup from './Allgroup.js';
 import Userboard from './Userboard.js';
 import Homepage from './Homepage.js';
@@ -67,6 +68,7 @@ class Main extends React.Component{
     		first_visit_group: snapshot.val().first_visit_group,
 				first_visit_group_search: snapshot.val().first_visit_group_search,
 				first_visit_trophy: snapshot.val().first_visit_trophy,
+				get_item: snapshot.val().get_item,
 			}
 			this.props.updateUid(user.uid);
 			this.props.updateUsername(user.username);
@@ -82,7 +84,8 @@ class Main extends React.Component{
 			this.props.updateFVG(user.first_visit_group);
 			this.props.updateFVGS(user.first_visit_group_search);
 			this.props.updateFVT(user.first_visit_trophy);
-			
+			this.props.updateGet(user.get_item);
+
 			this.setState({user: user, loaded: true, loading:loading.NOTHING,});
 		}).catch((err)=> {
 			console.log("fetch user error",err);});
@@ -114,7 +117,8 @@ const Page = (props) => (
 			 <Route path={routes.PASSWORD_FORGET} component={PasswordForgetPage} />
 			 <Route path={routes.HOME} component={Homepage} />
 			 <Route path={routes.ACCOUNT} component={AccountPage} />
-			 <Route path={routes.NOTIFICATION} component={Notification} />
+			 <Route path={routes.NOTIFICATIONS} component={Notifications} />
+			 <Route path={routes.MESSAGES} component={Messages} />
 			 <Route path={routes.SEARCHGROUP} component={GroupSearch} />
 			 <Route path={routes.GROUPS} component={AllGroup} />
 			 <Route path={routes.GROUPPAGE} component={GroupPage} />

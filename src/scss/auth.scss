@@ -45,6 +45,7 @@
   min-height: 600px;
   margin-bottom: 30px;
   padding: 20px 25px;
+  box-sizing: border-box;
 }
 
 .header-icon {
@@ -131,4 +132,13 @@
 .just-space {
   padding: 1px;
   margin: 1px;
+}
+
+.error-message{
+  line-height: 15px;
+  margin-bottom: -15px;
+}
+
+.label-space{
+  height: 15px;
 }

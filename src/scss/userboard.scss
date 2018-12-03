@@ -159,14 +159,14 @@
   }
 }
 
-#postbox-author-match {
+.postbox-author-match {
   font-family: $boldfont;
   font-size: 22px;
   color: $blue-title;
   float: left;
 }
 
-#postbox-tag {
+.postbox-tag {
   font-family: $defaultfont;
   font-size: 18px;
   text-align: right;
@@ -177,7 +177,7 @@
 
 }
 
-#postbox-content {
+.postbox-content {
   font-family: $defaultfont;
   font-size: 20px;
   color: $blue-content;
@@ -191,6 +191,7 @@
   padding: 0;
   margin-left: 5px;
   cursor: pointer;
+
   &:focus {
     outline: none;
   }
@@ -200,31 +201,59 @@
   }
 }
 
-#postbox-reply {
+.postbox-fight-button{
   color: $fadegray;
+  width: 22px;
+  height: 22px;
+  background-color: transparent;
+  box-sizing: content-box;
+  border: none;
+  padding: 0;
+  display: inline;
+  margin-left: 5px;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    outline: none;
+  }
 }
-#postbox-reply-num {
+
+.postbox-reply {
+  color: $fadegray;
+  /*
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    color: $blue-form;
+  }
+  */
+}
+.postbox-reply-num {
   color: $fadegray;
   font-family: $defaultfont;
   display: inline;
   margin-left: 5px;
   text-align: left;
   font-size: 16px;
+
 }
-#postbox-timestamp {
+.postbox-timestamp {
   color: $fadegray;
   font-family: $defaultfont;
   text-align: right;
   font-size: 16px;
 }
 
-#postbox-menu {
+.postbox-menu {
   position: absolute;
   bottom: 10px;
   left: 0;
 }
 
-#postbox-icon-wrap{
+.postbox-icon-wrap{
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -254,7 +283,7 @@
   }
 }
 
-#postbox-new-text {
+.postbox-new-text {
   color: $fadegray;
   font-size: 20px;
   font-family: $latobold;
@@ -322,7 +351,7 @@
   }
 }
 
-#reply-tag {
+.reply-tag {
   font-family: $defaultfont;
   font-size: 14px;
   text-align: right;
@@ -333,13 +362,13 @@
 
 }
 
-#reply-content {
+.reply-content {
   font-family: $defaultfont;
   font-size: 16px;
   color: $blue-content;
 }
 
-#reply-timestamp {
+.reply-timestamp {
   color: $fadegray;
   font-family: $defaultfont;
   font-size: 14px;

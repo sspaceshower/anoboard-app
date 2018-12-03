@@ -16,6 +16,7 @@ export const mapStateToProps = state => {
     fvg: state.fvg,
     fvgs: state.fvgs,
     fvt: state.fvt,
+    get_item: state.get_item,
     loggedIn: state.loggedIn,
     renderFlag: state.renderFlag,
   };
@@ -37,6 +38,7 @@ export const mapDispatchToProps = dispatch => {
     updateFVH: fvh => {dispatch(actions.updateFVH(fvh))},
     updateFVGS: fvgs => {dispatch(actions.updateFVGS(fvgs))},
     updateFVT: fvt => {dispatch(actions.updateFVT(fvt))},
+    updateGet: getItem => {dispatch(actions.updateGet(getItem))},
     reRender: bool => {dispatch(actions.reRender(bool))}
   };
 };
