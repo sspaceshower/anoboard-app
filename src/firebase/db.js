@@ -127,10 +127,7 @@ export const updateXP = (user, today_XP, total_XP, lastUpdate, HP , level, weapo
    total_XP,
    lastUpdate,
    HP,
-   level,
-   weapon,
-   armor,
-   trophy,
+   level,   
    atk,
    def
  }).then(() => {
