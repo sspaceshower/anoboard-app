@@ -96,12 +96,15 @@ export const doCreateBoard = (uid, username,fname,mname,lname,biography, email) 
     }
   );
 
-export const doCreatePost = (boardOwner,uid, username, content, isAnonymous) =>
+export const doCreatePost = (boardOwner,uid, username, fname, mname, lname, content, isAnonymous) =>
   db.ref(`boards/${boardOwner}/posts`).push({
     uid,
     username,
     content,
-    isAnonymous
+    isAnonymous,
+    fname,
+    mname,
+    lname,
   }).then((snap) => {
     db.ref(`boards/${boardOwner}/posts/${snap.key}`).update({
       postid: snap.key
@@ -127,7 +130,7 @@ export const updateXP = (user, today_XP, total_XP, lastUpdate, HP , level, weapo
    total_XP,
    lastUpdate,
    HP,
-   level,   
+   level,
    atk,
    def
  }).then(() => {
@@ -136,45 +139,50 @@ export const updateXP = (user, today_XP, total_XP, lastUpdate, HP , level, weapo
    })
  });
 
+ export const updateHP = (user, HP) =>
+  db.ref(`users/${user}/status`).update({
+    HP,
+  })
+
 export const updateBoard = (username,level) =>
-db.ref(`boards/${username}/owner/status`).update({  
+db.ref(`boards/${username}/owner/status`).update({
   level,
-  
+
 });
 
 export const updateBoardArmor = (username, armor, def) =>
-db.ref(`boards/${username}/owner/status`).update({    
-  armor,  
+db.ref(`boards/${username}/owner/status`).update({
+  armor,
   def
 });
 
 export const updateBoardWeapon = (username, weapon, atk) =>
-db.ref(`boards/${username}/owner/status`).update({    
-  weapon,  
+db.ref(`boards/${username}/owner/status`).update({
+  weapon,
   atk
 });
 
 export const updateBoardTrophy = (username, trophy) =>
-db.ref(`boards/${username}/owner/status`).update({    
-  trophy,  
+db.ref(`boards/${username}/owner/status`).update({
+  trophy,
 });
 
 export const updateUserArmor = (uid, armor, def) =>
-db.ref(`users/${uid}/status`).update({    
+db.ref(`users/${uid}/status`).update({
   def,
   armor,
-  
+
 });
 
 export const updateUserWeapon = (uid, weapon, atk) =>
-db.ref(`users/${uid}/status`).update({    
-  weapon,  
+db.ref(`users/${uid}/status`).update({
+  weapon,
   atk
 });
 
 export const updateUserTrophy = (uid, trophy) =>
-db.ref(`users/${uid}/status`).update({      
-  trophy,  
+db.ref(`users/${uid}/status`).update({
+  trophy,
 });
 
 export const updateGet = (user) =>

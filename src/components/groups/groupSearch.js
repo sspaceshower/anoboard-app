@@ -45,9 +45,6 @@ class GroupSearch extends React.Component {
             <Container fluid>
               <Row className="title">Join a New Group</Row>
               <Row>
-                <div>Searchbar</div>
-              </Row>
-              <Row>
                 {this.state.groupNames.map((name) => <GroupDisplay name={name} {...this.props}/>)}
               </Row>
             </Container>

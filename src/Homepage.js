@@ -77,7 +77,7 @@ class Homepage extends Component {
         </Container>
       );
     } else {
-      return(<Pacman />);
+      return(<Pacman Fullscreen/>);
     }
   }
 }

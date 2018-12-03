@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col, Modal, Form, Button } from 'react-bootstrap';
+import { Container, Row, Col, Modal, Form, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { NavLink } from "react-router-dom";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,6 +8,7 @@ import { faPlusCircle, faPlus, faReply, faComments } from '@fortawesome/free-sol
 import { createDisplayName } from '../../helper/helper.js'
 import * as routes from '../../constants/routes';
 import { auth, db } from '../../firebase';
+import BattleModal from './battleModal.js';
 import AuthUserContext from '../../session/authUserContext.js';
 import '../../scss/userboard.scss';
 
@@ -199,6 +200,9 @@ class Postmodal extends React.Component {
 
     var uid = this.state.currentUser.uid;
     var username = this.state.currentUser.username;
+    var fname = this.state.currentUser.fname;
+    var mname = this.state.currentUser.mname;
+    var lname = this.state.currentUser.lname;
     var content = this.state.post.content;
     var isAnonymous = this.state.post.isAnonymous;
     const { history } = this.props;
@@ -268,7 +272,7 @@ class Postmodal extends React.Component {
     .then(() => {
         db.updateBoard(username,level)
         .then(() => {
-            db.doCreatePost(boardOwner, uid, username, content, isAnonymous)
+            db.doCreatePost(boardOwner, uid, username, fname, mname, lname, content, isAnonymous)
             .then(() => {
               this.setState(() => ({
                 post: {
@@ -371,58 +375,19 @@ class Postbox extends React.Component {
       post: this.props.post,
       board: this.props.board,
       currentUser: this.props.currentUser,
-      loaded: false,
-      loading: loading.NOTHING,
       trophy: this.props.trophy,
-      newItem: false,
-      win: false,
+      battleShow: false,
+      modalShow: false,
     }
     var currentPost = this.state.post;
     currentPost.user = {username: this.state.post.username};
     this.setState({post: currentPost});
 
     this.getReplyNum = this.getReplyNum.bind(this);
-    this.clickAttack = this.clickAttack.bind(this);
-    this.calculateATK = this.calculateATK.bind(this);
-    this.calculateEnemyDef = this.calculateEnemyDef.bind(this);
-    this.fight = this.fight.bind(this);
     this.getToday = this.getToday.bind(this);
     this.checkHP = this.checkHP.bind(this);
   }
 
-  componentDidMount() {
-		this.fetchUserData()
-  }
-
-  fetchUserData(){
-		this.setState({
-			loading:loading.RELOADING
-		});
-		db.onceGetOneUser(this.state.post.uid).then(snapshot =>
-		{
-			const data_list = [];
-			if(snapshot.val().grouplist !== undefined && snapshot.val().grouplist !== null){
-				for (const [key, value] of Object.entries(snapshot.val().grouplist)) {
-					var childData = value.name;
-					data_list.push(childData);
-				}
-			}
-			var user = {
-				uid: snapshot.val().uid,
-				username: snapshot.val().username,
-				email: snapshot.val().email,
-				fname: snapshot.val().fname,
-				mname: snapshot.val().mname,
-				lname: snapshot.val().lname,
-				biography: snapshot.val().biography,
-				grouplist: data_list,
-				status: snapshot.val().status,
-			}
-
-			this.setState({postUser: user, loaded:true, loading:loading.NOTHING,});
-		}).catch((err)=> {
-			console.log("fetch user error",err);});
-  }
 
   getReplyNum(){
     if(this.state.post.replys !== undefined && this.state.post.replys !== null){
@@ -434,119 +399,13 @@ class Postbox extends React.Component {
 
   //use this function to check whether you can click fight or not
   checkHP(){
-    if(this.state.currentUser.status.HP > 2){
+    if(this.state.currentUser.status.HP >= 2){
       return true
     } else {
       return false
     }
   }
 
-  //TODO:use this function for clicking fight!!
-  clickAttack(){
-    //get post'owner -> XP,ATK,DEF,Weapon.ATK,Armor,HP,Today_XP,Total_XP
-
-    //get current user -> XP,ATK,DEF,Weapon.ATK,Armor,HP,Today_XP,Total_XP
-    var currentUser = this.state.currentUser
-    var HP = this.state.currentUser.status.HP
-
-    const date_now = Date.now()
-    const today = this.getToday()
-    const timestamp = Math.floor(date_now / 1000);
-    var atk = this.calculateATK(currentUser)
-    var def = this.calculateEnemyDef()
-    var FightResult = this.fight(atk,def)
-
-    HP = HP - 2
-
-    if(FightResult){
-      //if you win, you get XP and lose HP
-        var uid = this.state.currentUser.uid;
-        var username = this.state.currentUser.username;
-        var today_XP = this.state.currentUser.status.today_XP
-        var total_XP = this.state.currentUser.status.total_XP
-        var level = this.state.currentUser.status.level
-
-        var weapon = this.state.currentUser.status.weapon
-        var armor = this.state.currentUser.status.armor
-        var trophy = this.state.currentUser.status.trophy
-        var atk = this.state.currentUser.status.atk
-        var def = this.state.currentUser.status.def
-        //TODO: are you sure with getting 20 XP for winning the fight?
-        today_XP = today_XP + 20
-        total_XP = total_XP + 20
-        const day_now = this.getToday()
-        //check time not same
-        var day = day_now.day
-        var month = day_now.month
-        var year = day_now.year
-        var day_user = this.state.currentUser.status.lastUpdate.day
-        var month_user = this.state.currentUser.status.lastUpdate.month
-        var year_user = this.state.currentUser.status.lastUpdate.year
-        if(day !== day_user && month !== month_user && year !== year_user){
-          today_XP = 20
-        }
-        var levelChange = this.calculateLevel(total_XP)
-        //use this variable as get Trophy to be true or false
-        var getTrophy = false
-        var getWeapon = false
-        var getArmor = false
-        var key
-        if(levelChange){
-          if(level%2==0){
-            HP = HP + 1
-          }
-          level = level + 1
-
-            if(level<10){
-              key = "level0" + level
-            }
-            else{
-              key = "level" + level
-            }
-            if(this.state.trophy[key].trophy!=null && this.state.trophy[key].trophy!=undefined){
-              getTrophy = true
-              trophy = this.state.trophy[key].trophy
-              db.updatePoolTrophy(uid, trophy)
-            }
-            if(this.state.trophy[key].weapon!=null && this.state.trophy[key].weapon!=undefined){
-              getWeapon = true
-              weapon = this.state.trophy[key].weapon
-              db.updatePoolWeapon(uid, weapon)
-            }
-            if(this.state.trophy[key].armor!=null && this.state.trophy[key].armor!=undefined){
-              getArmor = true
-              armor = this.state.trophy[key].armor
-              db.updatePoolArmor(uid, armor)
-            }
-        }
-        atk = 50 + weapon.atk
-        def = 50 + armor.def
-
-      db.updateXP(uid, today_XP, total_XP, day_now, HP , level, weapon, armor, trophy, atk, def)
-    .then(() => {
-          db.updateBoard(username,level)
-            .then(() => {
-              //TODO: after win -> change XP and HP (done) and show username <FRONTEND>
-
-
-
-
-          }).catch(error => {
-              this.setState({ error });
-          })
-      
-    })
-
-    .catch(error => {
-      this.setState({ error });
-    })
-
-    }
-    else{
-      //TODO: if lost, show that you have lower atk, lost the fight <FRONTEND> cannot show username
-    }
-
-  }
 
   getToday(){
     return {
@@ -554,29 +413,6 @@ class Postbox extends React.Component {
       month: (new Date().getMonth())+1,
       year: new Date().getFullYear()
     }
-  }
-  calculateATK(currentUser){
-    //TODO: we must delete all users again to create status there in firebase
-    var atk = currentUser.status.atk
-    if(currentUser.status.weapon != null && currentUser.status.weapon != undefined){
-      atk = atk + currentUser.status.weapon.atk
-    }
-    return atk
-
-  }
-  calculateEnemyDef(){
-    //get post'owner -> XP,ATK,DEF,Weapon.ATK,Armor,HP,Today_XP,Total_XP
-
-    //get current user -> XP,ATK,DEF,Weapon.ATK,Armor,HP,Today_XP,Total_XP
-    var def = this.state.postUser.def
-    if(this.state.postUser.status != null && this.state.postUser.status != undefined){
-      def = def + this.state.postUser.status.armor.def
-    }
-    return def
-  }
-  fight(atk,def){
-    if(atk > def) return true
-    else return false
   }
 
   getAuthor(){
@@ -587,18 +423,44 @@ class Postbox extends React.Component {
     } else {
       return(
         <Col xs={8}>
-          <NavLink to={"/user/" + this.state.postUser.username}>
+          <NavLink to={"/user/" + this.state.post.username}>
             <div className="postbox-author-link">
-              {createDisplayName(this.state.postUser.fname, this.state.postUser.mname, this.state.postUser.lname, this.state.postUser.username)}
+              {createDisplayName(this.state.post.fname, this.state.post.mname, this.state.post.lname, this.state.post.username)}
             </div>
-        </NavLink>
+          </NavLink>
         </Col>
       );
     }
   }
+
+  getFightButton() {
+    if(this.checkHP()){
+      return(
+        <Button bsPrefix="postbox-fight-button" onClick={() => this.setState({battleShow: true})}>
+          <img src={process.env.PUBLIC_URL + '/img/swords.png'} alt="fight" />
+        </Button>
+      );
+    } else {
+      return(
+        <OverlayTrigger
+        placement={"bottom"}
+        overlay={
+          <Tooltip id="tooltip">
+            Your HP have to be more than 2 to start a fight
+          </Tooltip>
+        }
+        >
+        <Button disabled bsPrefix="postbox-fight-button-disabled">
+          <img src={process.env.PUBLIC_URL + '/img/swords.png'} alt="fight" />
+        </Button>
+      </OverlayTrigger>
+      );
+    }
+  }
+
   render(){
-    if(this.state.loaded){
     let modalClose = () => this.setState({ modalShow: false})
+    let battleClose = () => this.setState({ battleShow: false})
     return(
       <Col sm={12} md={6} lg={4}>
         <div className="postbox-wrap">
@@ -621,9 +483,14 @@ class Postbox extends React.Component {
                   <FontAwesomeIcon className="postbox-reply" icon="comments" />
                   <div className="postbox-reply-num">{this.getReplyNum()}</div>
                 </Button>
-                <Button bsPrefix="postbox-fight-button" onClick={() => this.setState({modalShow: true})}>
-                  <img src={process.env.PUBLIC_URL + '/img/swords.png'} alt="fight" />
-                </Button>
+                {this.getFightButton()}
+                <BattleModal
+                  {... this.props}
+                  post = {this.state.post}
+                  show = {this.state.battleShow}
+                  onHide = {battleClose}
+                  currentUser = {this.props.currentUser}
+                />
                 <Replymodal
                   {... this.props}
                   post = {this.state.post}
@@ -642,9 +509,6 @@ class Postbox extends React.Component {
         </div>
       </Col>
     );
-  } else {
-    return(null);
-  }
   }
 }
 
@@ -887,7 +751,7 @@ class Replymodal extends React.Component {
               });
       }).catch(error => {
          this.setState({ error });
-      }) 
+      })
     })
     .catch(error => {
       this.setState({ error });
@@ -962,7 +826,7 @@ class Replymodal extends React.Component {
       <Modal
         {...this.props}
         aria-labelledby = "reply-modal"
-        dialogClassName = "reply-custom-modal"
+        dialogClassName = "custom-modal"
       >
         <Modal.Body>
           <Container fluid className="reply-stack-wrap">

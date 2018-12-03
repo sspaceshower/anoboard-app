@@ -50,7 +50,6 @@ class AllGroup extends React.Component {
           <Row className="page-wrap">
             <Container fluid>
               <Row className="title">My Group</Row>
-              <Row><div>Searchbar</div></Row>
               <Row>
                 {this.state.groupNames.map((name) => <GroupDisplay name={name} groups={this.state.groups}/>)}
               </Row>
