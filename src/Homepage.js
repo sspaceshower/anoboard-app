@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Media from 'react-media';
 import { connect } from 'react-redux';
 import { Container, Row, Col } from 'react-bootstrap';
 import { db } from './firebase';
@@ -70,9 +71,17 @@ class Homepage extends Component {
       return (
         <Container fluid>
           <Row className="wrapper">
-            <Col md={{span:10, offset: 2}} style={paddingSet}>
-              <FullBoard currentUser={this.state.currentUser} board={this.state.board} {...this.props}/>
-            </Col>
+            <Media query="(min-width: 780px)">
+              {matches => matches ? (
+                <Col md={{span:10, offset: 2}} style={paddingSet}>
+                  <FullBoard currentUser={this.state.currentUser} board={this.state.board} {...this.props}/>
+                </Col>
+              ) : (
+                <Col xs={12}>
+                  <FullBoard currentUser={this.state.currentUser} board={this.state.board} {...this.props}/>
+                </Col>
+              )}
+            </Media>
           </Row>
         </Container>
       );

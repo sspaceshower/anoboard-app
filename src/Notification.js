@@ -5,15 +5,17 @@ import './scss/util.scss'
 class Notifications extends React.Component {
   render(){
     return(
-      <Row style={{height: "100vh"}}>
-        <Col md={{span: 8, offset: 3}} sm={{span: 8, offset: 2}} className="center-vertical">
-          <div className="not-implemented">
-            <div className="alert-text">
-              This page is not yet implemented.
+      <Container fluid>
+        <Row style={{height: "100vh"}}>
+          <Col md={{span: 8, offset: 3}} xs={{span: 10, offset: 1}} className="center-vertical">
+            <div className="not-implemented">
+              <div className="alert-text">
+                This page is not yet implemented.
+              </div>
             </div>
-          </div>
-        </Col>
-      </Row>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }

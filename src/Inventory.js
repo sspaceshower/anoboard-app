@@ -1,4 +1,5 @@
 import React from 'react';
+import Media from 'react-media';
 import { connect } from 'react-redux';
 import { Col, Container, Row, Button } from 'react-bootstrap';
 import { mapStateToProps, mapDispatchToProps } from './reducers/map.js'
@@ -22,7 +23,7 @@ class Inventory extends React.Component {
               </Row>
               <Row>
                 <Col>
-                  <Row className="item-main-title">Trophy</Row>
+                  <Row className="item-main-title justify-content-center justify-content-md-start">Trophy</Row>
                   <Row className="category-warp">
                     {
                      Object.keys(this.props.pool.trophy).map((key, value) => (
@@ -37,7 +38,7 @@ class Inventory extends React.Component {
 
               <Row>
                 <Col>
-                  <Row className="item-main-title">Weapon</Row>
+                  <Row className="item-main-title justify-content-center justify-content-md-start">Weapon</Row>
                   <Row className="category-warp">
                     {
                      Object.keys(this.props.pool.weapon).map((key, value) => (
@@ -52,7 +53,7 @@ class Inventory extends React.Component {
 
               <Row>
                 <Col>
-                  <Row className="item-main-title">Armor</Row>
+                  <Row className="item-main-title justify-content-center justify-content-md-start">Armor</Row>
                   <Row className="category-warp">
                     {
                      Object.keys(this.props.pool.armor).map((key, value) => (
@@ -112,16 +113,31 @@ class TrophyBadge extends React.Component {
 
   render() {
     return(
-      <div className="item-wrap">
-        <Row className="item-badge justify-content-center">
-          <img
-            src={process.env.PUBLIC_URL + this.props.item.url}
-            alt={this.props.item.name}
-            />
-        </Row>
-        <Row className="item-name justify-content-center">{this.props.item.name}</Row>
-        <Row className="justify-content-center">{this.getSetButton() /*TODO: implement onClick (set trophy to users' status)*/}</Row>
-      </div>
+      <Media query="(min-width: 780px)">
+        {matches => matches? (
+          <div className="item-wrap">
+            <Row className="item-badge justify-content-center">
+              <img
+                src={process.env.PUBLIC_URL + this.props.item.url}
+                alt={this.props.item.name}
+                />
+            </Row>
+            <Row className="item-name justify-content-center">{this.props.item.name}</Row>
+            <Row className="justify-content-center">{this.getSetButton() /*TODO: implement onClick (set armor to users' status)*/}</Row>
+          </div>
+        ): (
+          <Col className="item-wrap">
+            <Row className="item-badge justify-content-center">
+              <img
+                src={process.env.PUBLIC_URL + this.props.item.url}
+                alt={this.props.item.name}
+                />
+            </Row>
+            <Row className="item-name justify-content-center">{this.props.item.name}</Row>
+            <Row className="justify-content-center">{this.getSetButton() /*TODO: implement onClick (set armor to users' status)*/}</Row>
+          </Col>
+        )}
+      </Media>
     );
   }
 }
@@ -169,17 +185,33 @@ class WeaponBadge extends React.Component {
 
   render() {
     return(
-      <div className="item-wrap">
-        <Row className="item-badge justify-content-center">
-          <img
-            src={process.env.PUBLIC_URL + this.props.item.url}
-            alt={this.props.item.name}
-            />
-        </Row>
-        <Row className="item-name justify-content-center">{this.props.item.name}</Row>
-        <Row className="item-effect justify-content-center">ATK : +{this.props.item.atk}</Row>
-        <Row className="justify-content-center">{this.getSetButton() /*TODO: implement onClick (set weapon to users' status)*/}</Row>
-      </div>
+      <Media query="(min-width: 780px)">
+        {matches => matches? (
+          <div className="item-wrap">
+            <Row className="item-badge justify-content-center">
+              <img
+                src={process.env.PUBLIC_URL + this.props.item.url}
+                alt={this.props.item.name}
+                />
+            </Row>
+            <Row className="item-name justify-content-center">{this.props.item.name}</Row>
+            <Row className="item-effect justify-content-center">DEF : +{this.props.item.def}</Row>
+            <Row className="justify-content-center">{this.getSetButton() /*TODO: implement onClick (set armor to users' status)*/}</Row>
+          </div>
+        ): (
+          <Col className="item-wrap">
+            <Row className="item-badge justify-content-center">
+              <img
+                src={process.env.PUBLIC_URL + this.props.item.url}
+                alt={this.props.item.name}
+                />
+            </Row>
+            <Row className="item-name justify-content-center">{this.props.item.name}</Row>
+            <Row className="item-effect justify-content-center">ATK : +{this.props.item.atk}</Row>
+            <Row className="justify-content-center">{this.getSetButton() /*TODO: implement onClick (set armor to users' status)*/}</Row>
+          </Col>
+        )}
+      </Media>
     );
   }
 }
@@ -226,17 +258,33 @@ class ArmorBadge extends React.Component {
 
   render() {
     return(
-      <div className="item-wrap">
-        <Row className="item-badge justify-content-center">
-          <img
-            src={process.env.PUBLIC_URL + this.props.item.url}
-            alt={this.props.item.name}
-            />
-        </Row>
-        <Row className="item-name justify-content-center">{this.props.item.name}</Row>
-        <Row className="item-effect justify-content-center">DEF : +{this.props.item.def}</Row>
-        <Row className="justify-content-center">{this.getSetButton() /*TODO: implement onClick (set armor to users' status)*/}</Row>
-      </div>
+      <Media query="(min-width: 780px)">
+        {matches => matches? (
+          <div className="item-wrap">
+            <Row className="item-badge justify-content-center">
+              <img
+                src={process.env.PUBLIC_URL + this.props.item.url}
+                alt={this.props.item.name}
+                />
+            </Row>
+            <Row className="item-name justify-content-center">{this.props.item.name}</Row>
+            <Row className="item-effect justify-content-center">DEF : +{this.props.item.def}</Row>
+            <Row className="justify-content-center">{this.getSetButton() /*TODO: implement onClick (set armor to users' status)*/}</Row>
+          </div>
+        ): (
+          <Col className="item-wrap">
+            <Row className="item-badge justify-content-center">
+              <img
+                src={process.env.PUBLIC_URL + this.props.item.url}
+                alt={this.props.item.name}
+                />
+            </Row>
+            <Row className="item-name justify-content-center">{this.props.item.name}</Row>
+            <Row className="item-effect justify-content-center">DEF : +{this.props.item.def}</Row>
+            <Row className="justify-content-center">{this.getSetButton() /*TODO: implement onClick (set armor to users' status)*/}</Row>
+          </Col>
+        )}
+      </Media>
     );
   }
 }

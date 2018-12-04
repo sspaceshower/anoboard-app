@@ -9,7 +9,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHome, faBell, faEnvelope, faPlusCircle, faToolbox, faHeart } from '@fortawesome/free-solid-svg-icons';
 import { createDisplayName } from './helper/helper.js';
-import { SIGN_IN } from './constants/routes.js';
+import { LANDING } from './constants/routes.js';
 import withAuthorization from './session/withAuthorization.js';
 import './scss/sidebar.scss';
 
@@ -35,7 +35,7 @@ class Sidebar extends React.Component {
     auth
       .doSignOut()
       .then(() => {
-        history.push(SIGN_IN);
+        history.push(LANDING);
       })
       .catch(error => {
         this.setState({ error });

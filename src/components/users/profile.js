@@ -17,7 +17,7 @@ class Profile extends React.Component {
       <div>
         <Row className="wrap" id="profile-wrap">
           <Col xs={3} className="center-all">
-            <div className="profile-img-container"></div>
+            <Row><Col><div className="profile-img-container"></div></Col></Row>
           </Col>
           <Col xs={9} className="center-vertical">
             <Row><Col><div id="profile-name">{displayName}</div></Col></Row>

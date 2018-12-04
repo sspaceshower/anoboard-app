@@ -69,6 +69,15 @@ $latobold: Lato-Bold;
   }
 }
 
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 body {
   background-color: $brown-bg;
 }
@@ -83,8 +92,8 @@ body {
 .page-wrap {
   height: 100%;
   min-height: 1000px;
-  margin: 0 0 30px 0;
-  padding: 30px 40px;
+  margin: 50px 0 30px 0;
+  padding: 30px 15px;
   color: white;
   border-radius: 5px;
   background-color: $board;
@@ -132,8 +141,15 @@ body {
 .spacer {
   height: 1rem;
 }
+
 @media (min-width: 780px){
   .wrapper {
     padding-top: 0;
   }
+
+  .page-wrap {
+    margin-top: 0px;
+    padding: 30px 40px;
+  }
+
 }

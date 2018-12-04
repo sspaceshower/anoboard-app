@@ -1,4 +1,5 @@
 import React from 'react';
+import Media from 'react-media';
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { firebase, db } from './firebase'
@@ -12,7 +13,8 @@ import SignOutPage from './components/authentication/signout.js';
 import GroupSearch from './components/groups/groupSearch.js';
 import AccountPage from './components/users/account.js';
 import PasswordForgetPage from './components/authentication/passwordForget.js';
-import Sidebar from './Sidebar.js'
+import Sidebar from './Sidebar.js';
+import Hamburger from './Hamburger.js';
 import Notifications from './Notification.js';
 import Messages from './Messages.js';
 import Inventory from './Inventory.js';
@@ -96,7 +98,13 @@ class Main extends React.Component{
 		if(this.state.loaded){
 			return(
 	      <div>
-	        <Route pattern="/" component={props => <Sidebar />} />
+	        <Media query="(min-width: 780px)">
+						{matches => matches ? (
+							<Route pattern="/" component={props => <Sidebar />} />
+						) : (
+							<Route pattern="/" component={props => <Hamburger />} />
+						)}
+					</Media>
 	        <Route pattern="/" component={props => <Page location={props.location}/>} />
 	      </div>
 			);
