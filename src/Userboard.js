@@ -1,4 +1,5 @@
 import React from 'react';
+import Media from 'react-media';
 import { Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { db } from './firebase';
@@ -82,13 +83,21 @@ class Userboard extends React.Component {
       return(
         <Container fluid>
           <Row className="wrapper">
-            <Col md={{span:10, offset: 2}} style={paddingSet}>
-              <FullBoard currentUser={this.state.currentUser} board={this.state.userboard}/>
-            </Col>
+            <Media query="(min-width: 780px)">
+              {matches => matches ? (
+                <Col md={{span:10, offset: 2}} style={paddingSet}>
+                  <FullBoard currentUser={this.state.currentUser} board={this.state.userboard} {...this.props}/>
+                </Col>
+              ) : (
+                <Col xs={12}>
+                  <FullBoard currentUser={this.state.currentUser} board={this.state.userboard} {...this.props}/>
+                </Col>
+              )}
+            </Media>
           </Row>
         </Container>
       );
-    } else { return (<Pacman />) }
+    } else { return (<Pacman Fullscreen />) }
   }
 }
 

@@ -1,10 +1,3 @@
-/*export const updateUser = currentUser => (
-  {
-    type: 'UPDATE_USER',
-    payload: currentUser
-  }
-);*/
-
 export const updateUid = uid => (
   {
     type: 'UPDATE_UID',
@@ -103,6 +96,21 @@ export const updateFVT = fvt => (
     payload: fvt
   }
 );
+
+export const updateGet = (getItem) => (
+  {
+    type: 'UPDATE_GET',
+    payload: getItem,
+  }
+)
+
+export const updateHP = (hp) => (
+  {
+    type: 'UPDATE_HP',
+    payload: hp,
+  }
+)
+
 
 export const loginStatus = status => (
   {

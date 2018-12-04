@@ -36,10 +36,9 @@ class Group extends React.Component {
     return(
       <Col md={{span:10, offset: 2}} style={{padding: "30px 40px 30px 40px"}}>
         <Container fluid style={{paddingLeft: "0"}}>
-          <Row id="page-wrap">
+          <Row className="page-wrap">
             <Container fluid>
-              <Row className="title">{this.state.groupName}</Row>
-              <Row><div>Searchbar</div></Row>
+              <Row className="title justify-content-center justify-content-md-start">{this.state.groupName}</Row>
               <Row>
                 {this.state.students.map((user) => <UserDisplay user={user} />)}
               </Row>
@@ -56,7 +55,7 @@ class Group extends React.Component {
 class UserDisplay extends React.Component {
   render(){
     return(
-      <Col sm={{span: 6, offset: 1}} md={{span: 3, offset: 0}} xs={{span: 10, offset: 1}}  className="group-display-wrap">
+      <Col sm={{span: 6, offset: 0}} md={{span: 3, offset: 0}} xs={{span: 10, offset: 1}}  className="group-display-wrap">
         <Container fluid>
           <Row>
             <Col>

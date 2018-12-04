@@ -1,18 +1,18 @@
 import React from 'react';
 import Loader from 'react-loaders';
 import { Container, Row, Col } from 'react-bootstrap';
-import '../../scss/pacmanloader.scss'
+import '../../scss/util.scss'
 
 class Pacman extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      fullscreen:  true//this.props.fullscreen,
+      Fullscreen:  this.props.Fullscreen//this.props.fullscreen,
     }
   }
   render() {
     return(
-      <Container fluid className="loader-fullscreen-wrap">
+      <Container fluid className={this.state.Fullscreen? "fullscreen-wrap":""}>
         <Row className="justify-content-center" style={{height: "100%"}}>
           <div className="col-xs-12 center-vertical">
             <div className="loaders single">

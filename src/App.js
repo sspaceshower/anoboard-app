@@ -6,6 +6,7 @@ import AuthUserContext from './session/authUserContext';
 import SignUpPage from './components/authentication/signup.js';
 import SignInPage from './components/authentication/signin.js';
 import SignOutPage from './components/authentication/signout.js';
+import LandingPage from './landingpage.js';
 import PasswordForgetPage from './components/authentication/passwordForget.js';
 import * as routes from './constants/routes';
 import './index.css';
@@ -31,13 +32,11 @@ const App = () => (
 const Page = () => (
   <Switch>
     <div className="navigation-non-auth">
+      <Route exact path={routes.LANDING} component={LandingPage} />
       <Route path={routes.SIGN_UP} component={SignUpPage} />
       <Route path={routes.SIGN_IN} component={SignInPage} />
       <Route path={routes.PASSWORD_FORGET} component={PasswordForgetPage} />
       <Route path={routes.SIGN_OUT} component={SignOutPage} />
-      <Route exact path={routes.LANDING} render={() => (
-           <Redirect to="/signin" />
-         )}/>
       {/*TODO: <frontend> this could be done more neatly, will come back later*/}
     </div>
   </Switch>

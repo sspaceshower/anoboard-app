@@ -12,7 +12,7 @@
   background-color: white;
   color: $blue-title;
   border-radius: 10px;
-  height: 55vh;
+  min-height: 55vh;
   min-height: 400px;
   margin-bottom: 50px;
   padding: 20px 25px;
@@ -22,7 +22,7 @@
   background-color: white;
   color: $blue-title;
   border-radius: 10px;
-  height: 30vh;
+  min-height: 30vh;
   margin-top: 10px;
   margin-bottom: 30px;
   padding: 20px 25px;
@@ -32,7 +32,7 @@
   background-color: white;
   color: $blue-title;
   border-radius: 10px;
-  height: 30vh;
+  min-height: 30vh;
   margin-bottom: 30px;
   padding: 20px 25px;
 }
@@ -41,10 +41,11 @@
   background-color: white;
   color: $blue-title;
   border-radius: 10px;
-  height: 80vh;
+  min-height: 80vh;
   min-height: 600px;
   margin-bottom: 30px;
   padding: 20px 25px;
+  box-sizing: border-box;
 }
 
 .header-icon {
@@ -74,6 +75,7 @@
 .custom-button-blue {
   background-color: $blue-form;
   border: none;
+  box-sizing: border-box;
   border-radius: 25px;
   text-align: center;
   color: white;
@@ -81,6 +83,8 @@
   font-size: 16px;
   width: 90px;
   height: 35px;
+  margin-left: 8px;
+  margin-right: 8px;
   cursor: pointer;
 
   &:focus {
@@ -114,6 +118,74 @@
   }
 }
 
+
+.custom-button-cancel {
+  background-color: transparent;
+  border: 1px solid $disabled;
+  border-radius: 25px;
+  text-align: center;
+  color: disabled;
+  box-sizing: border-box;
+  font-family: $latobold;
+  font-size: 16px;
+  width: 90px;
+  height: 35px;
+  margin-left: 8px;
+  margin-right: 8px;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    outline: none;
+  }
+}
+
+.custom-button-lg-cancel {
+  width: 100px;
+  height: 40px;
+  background-color: transparent;
+  border: 1px solid $disabled;
+  border-radius: 25px;
+  text-align: center;
+  display: inline;
+  vertical-align: middle;
+  color: $disabled;
+  font-family: $latobold;
+  font-size: 16px;
+  margin: 15px;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    outline: none;
+  }
+}
+
+.button-link {
+  text-decoration: none;
+  color: $disabled;
+
+  &:hover {
+    text-decoration: none;
+    color: $disabled;
+  }
+  &:focus {
+    outline: none;
+    color: $disabled;
+  }
+
+  &:active {
+    outline: none;
+    color: $disabled;
+  }
+}
+
 .center-wrap{
   text-align: center;
   margin: 20px;
@@ -131,4 +203,13 @@
 .just-space {
   padding: 1px;
   margin: 1px;
+}
+
+.error-message{
+  line-height: 15px;
+  margin-bottom: -15px;
+}
+
+.label-space{
+  height: 15px;
 }

@@ -63,7 +63,6 @@
     color: $blue-title;
     font-family: $boldfont;
     font-size: 21px;
-    margin-bottom: 10px;
   }
 
 
@@ -149,6 +148,31 @@
     &:hover{
       color: $lightorange;
     }
+  }
+
+  .hp-wrap {
+    display: block;
+    margin-bottom: 5px;
+    padding-left: 25px;
+    padding-right: 10px;
+
+  }
+
+  .hp-text {
+    font-size: 14px;
+    font-family: $defaultfont;
+    color: $fadegray;
+    display: inline;
+    margin-left: 8px;
+  }
+
+  .hp-heart {
+    font-size: 14px;
+    font-family: $defaultfont;
+    color: $lightorange;
+    margin-left: 3px;
+    margin-right: 3px;
+    display: inline;
   }
 
   #show-more {
