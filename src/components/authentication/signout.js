@@ -4,7 +4,7 @@ import { auth } from '../../firebase';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import { SIGN_IN } from '../../constants/routes';
+import { LANDING } from '../../constants/routes';
 import '../../scss/auth.scss';
 
 library.add(faSignOutAlt)
@@ -16,7 +16,7 @@ class SignOutPage extends React.Component {
     auth
       .doSignOut()
       .then(() => {
-        history.push(SIGN_IN);
+        history.push(LANDING);
       })
       .catch(error => {
         this.setState({ error });

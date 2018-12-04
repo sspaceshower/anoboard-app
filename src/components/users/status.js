@@ -8,7 +8,7 @@ class Status extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      owner: this.props.owner,      
+      owner: this.props.owner,
     };
   }
 
@@ -16,7 +16,7 @@ class Status extends React.Component {
     // Typical usage (don't forget to compare props):
     if (this.props.owner !== prevProps.owner) {
       this.setState(() => ({ owner: this.props.owner }))
-    }    
+    }
   }
 
   render() {
@@ -59,11 +59,7 @@ class Status extends React.Component {
         ):(
           <div>
             <Row className="wrap" id="status">
-              <Col xs={2} md={2}>
-                <div className="status-title">Level</div>
-                <div className="status-level">{this.state.owner.status.level}</div>
-              </Col>
-              <Col xs={10} className="col-line">
+              <Col xs={12} className="col-line">
                 <div className="status-title">Equipment</div>
                 <Row className="center-content">
                   <Col xs={4}><Badge item={this.state.owner.status.trophy} /></Col>
@@ -83,7 +79,7 @@ class Badge extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      item: this.props.item,      
+      item: this.props.item,
     };
   }
 
@@ -91,7 +87,7 @@ class Badge extends React.Component {
     // Typical usage (don't forget to compare props):
     if (this.props.item !== prevProps.item) {
       this.setState(() => ({ item: this.props.item }))
-    }    
+    }
   }
 
   render() {

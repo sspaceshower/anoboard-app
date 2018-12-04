@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { auth, db } from '../../firebase';
 import { loading } from '../../constants/loading.js';
-import Pacman from '../util/pacman.js';
 import * as routes from '../../constants/routes';
 import '../../scss/auth.scss';
 
@@ -264,7 +263,7 @@ class SignUpForm extends React.Component {
             </Row>
             <div className="center-wrap">
               <Button bsPrefix="custom-button-lg-cancel">
-                <Link to="/signin" className="button-link">Back</Link>
+                <Link to={routes.SIGN_IN} className="button-link">Back</Link>
               </Button>
               <button className="custom-button-lg" type="submit">
                 Sign Up
@@ -274,7 +273,7 @@ class SignUpForm extends React.Component {
         </Form>
       </div>
       );
-    } else { return (<Pacman />) }
+    } else { return (null) }
 
   }
 }

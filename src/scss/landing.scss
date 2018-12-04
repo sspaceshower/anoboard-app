@@ -1,0 +1,127 @@
+@import './_base.scss';
+
+.landing-wrap {
+  background-color: $blue-bg;
+  height: 100%;
+  padding: 30px;
+}
+
+.landing-inner-wrap {
+  height: 100vh;
+}
+
+.landing-title {
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  font-size: 1.3rem;
+  font-family: $boldfont;
+  display: block;
+}
+
+.button-started {
+  background-color: transparent;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  border: 1px solid white;
+  border-radius: 25px;
+  text-align: center;
+  color: white;
+  font-family: $semiboldfont;
+  font-size: 16px;
+  height: 35px;
+  margin-bottom: 30px;
+  padding: 5px 15px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: white;
+    color: $board;
+  }
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    outline: none;
+  }
+}
+
+.landing-subtitle {
+  color: white;
+  text-transform: lowercase;
+  letter-spacing: 0.1rem;
+  font-size: 1.0rem;
+  line-height: 12px;
+  font-family: $semiboldfont;
+  display: block;
+}
+
+
+.landing-img-wrap {
+  height: 175px;
+}
+
+
+.landing-step-title {
+  text-transform: uppercase;
+  color: $lightorange;
+  letter-spacing: 0.06rem;
+  font-size: 1.2rem;
+  margin: 40px 0 15px 0;
+  line-height: 1.5rem;
+  font-family: $boldfont;
+  display: block;
+  text-align: center;
+}
+
+.landing-text {
+  color: white;
+  letter-spacing: 0.06rem;
+  font-size: 1.0rem;
+  margin: 0 0 40px 0;
+  line-height: 1.3rem;
+  font-family: $defaultfont;
+  display: block;
+  text-align: center;
+}
+
+.wide-space {
+  height: 50px;
+  background: transparent;
+}
+
+.step-wrap {
+  margin-bottom: 30px;
+}
+
+@media (min-width: 780px){
+
+  .landing-wrap {
+    background-color: $blue-bg;
+    padding: 30px;
+  }
+
+  .landing-title {
+    font-size: 2rem;
+  }
+
+  .landing-subtitle {
+    font-size: 1.2rem;
+    line-height: 12px;
+  }
+
+  .landing-step-title {
+    font-size: 1.5rem;
+  }
+
+  .landing-text {
+      margin-bottom: 20px;
+  }
+
+  .wide-space {
+    height: 170px;
+    background: transparent;
+  }
+}

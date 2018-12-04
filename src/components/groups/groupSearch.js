@@ -43,7 +43,7 @@ class GroupSearch extends React.Component {
         <Container fluid style={{paddingLeft: "0"}}>
           <Row className="page-wrap">
             <Container fluid>
-              <Row className="title">Join a New Group</Row>
+              <Row className="title justify-content-center justify-content-md-start">Join a New Group</Row>
               <Row>
                 {this.state.groupNames.map((name) => <GroupDisplay name={name} {...this.props}/>)}
               </Row>
@@ -101,7 +101,7 @@ class GroupDisplay extends React.Component {
   render() {
     let modalClose = () => this.setState({modalShow: false})
     return (
-      <Col sm={{span: 6, offset: 1}} md={{span: 3, offset: 0}} xs={{span: 10, offset: 1}}
+      <Col sm={{span: 6, offset: 0}} md={{span: 3, offset: 0}} xs={{span: 10, offset: 1}}
            className="group-display-wrap">
         <Container fluid>
           <Row>

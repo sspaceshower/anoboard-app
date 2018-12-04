@@ -23,6 +23,7 @@
   letter-spacing: .1rem;
   font-family: $boldfont;
   font-size: 24px;
+  text-align: center;
 }
 
 .category-wrap {
@@ -102,5 +103,11 @@
 
   &:active {
     outline: none;
+  }
+}
+
+@media (min-width: 780px){
+  .item-main-title {
+    text-align: left;
   }
 }

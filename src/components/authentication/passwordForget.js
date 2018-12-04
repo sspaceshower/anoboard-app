@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { Container, Row, Col, Form, Button} from 'react-bootstrap';
 import { auth } from '../../firebase';
 import * as routes from '../../constants/routes';
 import '../../scss/auth.scss';
 
 const PasswordForgetPage = () => (
-  <div>
-    <h1>PasswordForget</h1>
+  <Container fluid>
     <PasswordForgetForm />
-  </div>
+  </Container>
+
 );
 
 const INITIAL_STATE = {
@@ -48,20 +49,36 @@ class PasswordForgetForm extends Component {
     const isInvalid = email === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          name="email"
-          value={this.state.email}
-          onChange={this.onChange}
-          type="text"
-          placeholder="Email Address"
-        />
-        <button disabled={isInvalid} type="submit">
-          Reset My Password
-        </button>
 
-        {error && <p>{error.message}</p>}
-      </form>
+      <Row className="justify-content-md-center nonauth-wrapper">
+        <Col xs={10} sm={8} md={3}>
+          <div id="password-forget-wrap">
+            <div>
+              <div className="box-title">Reset Password</div>
+              <Form onSubmit={this.onSubmit} bsPrefix="form-wrap">
+                <Form.Group controlId="forget-password">
+                  <Form.Label bsPrefix="label-text">Email Address</Form.Label>
+                  <Form.Control
+                    type="email" placeholder="name@example.com"
+                    name="email"
+                    value={this.state.email}
+                    onChange={this.onChange}
+                    />
+                  <div className="center-wrap">
+                    <Button bsPrefix="custom-button-cancel">
+                      <Link to={routes.SIGN_IN} className="button-link">Back</Link>
+                    </Button>
+                    <button className="custom-button-blue" disabled={isInvalid} type="submit">
+                      Reset
+                    </button>
+                  </div>
+                  {error && <p>{error.message}</p>}
+                </Form.Group>
+              </Form>
+            </div>
+          </div>
+        </Col>
+      </Row>
     );
   }
 }

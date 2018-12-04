@@ -49,7 +49,7 @@ class AllGroup extends React.Component {
         <Container fluid style={{paddingLeft: "0"}}>
           <Row className="page-wrap">
             <Container fluid>
-              <Row className="title">My Group</Row>
+              <Row className="title justify-content-center justify-content-md-start">My Group</Row>
               <Row>
                 {this.state.groupNames.map((name) => <GroupDisplay name={name} groups={this.state.groups}/>)}
               </Row>
@@ -85,10 +85,10 @@ class GroupDisplay extends React.Component {
 
   render(){
     return(
-      <Col sm={{span: 6, offset: 1}} md={{span: 3, offset: 0}} xs={{span: 10, offset: 1}}  className="group-display-wrap">
+      <Col sm={{span: 6, offset: 0}} md={{span: 3, offset: 0}} xs={{span: 10, offset: 1}}  className="group-display-wrap">
         <Container fluid>
-          <Row><div className="group-img-wrap">IMG</div></Row>
-          <Row><div className="group-name">{this.props.name}</div></Row>
+          <Row><NavLink to={"/group/" + this.props.name} className="group-img-wrap"><div>IMG</div></NavLink></Row>
+          <Row><NavLink to={"/group/" + this.props.name} className="group-name"><div>{this.props.name}</div></NavLink></Row>
           <Row>
             <div>{this.getGroupIcon()}</div>
             <div className="group-privacy">{this.getGroupPrivacy()}</div>
