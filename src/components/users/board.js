@@ -450,9 +450,16 @@ class Postbox extends React.Component {
 
   getAuthor(){
     if(this.state.post.isAnonymous){
-      return(
-        <Col xs={8}><div className="postbox-author-anonymous">anonymous</div></Col>
-      );
+      if(this.state.post.username==this.state.currentUser.username){
+        return(
+          <Col xs={8}><div className="postbox-author-anonymous-me">anonymous (me)</div></Col>
+        );
+      }
+      else{
+        return(
+          <Col xs={8}><div className="postbox-author-anonymous">anonymous</div></Col>
+        );
+      }
     } else {
       return(
         <Col xs={8}>
@@ -556,7 +563,7 @@ class Replybox extends React.Component {
         mname: this.props.reply.mname,
         lname: this.props.reply.lname,
       },
-
+      currentUser: this.props.currentUser,
       content: this.props.reply.content,
       // timestamp: this.props.reply.timestamp,
       isAnonymous: this.props.reply.isAnonymous,
@@ -568,10 +575,17 @@ class Replybox extends React.Component {
   }
 
   getAuthor(){
-    if(this.state.isAnonymous){
-      return(
-        <Col xs={6}><div className="reply-author-anonymous">anonymous</div></Col>
-      );
+    if(this.state.isAnonymous){      
+      if(this.state.author.username==this.state.currentUser.username){
+        return(
+          <Col xs={6}><div className="reply-author-anonymous-me">anonymous (me)</div></Col>
+        );
+      }
+      else{
+        return(
+          <Col xs={6}><div className="reply-author-anonymous">anonymous</div></Col>
+        );
+      }     
     } else {
       return(
         <Col xs={6}>
@@ -862,7 +876,7 @@ class Replymodal extends React.Component {
       >
         <Modal.Body>
           <Container fluid className="reply-stack-wrap">
-            <div>{createReplyStack(this.state.post)}</div>
+            <div>{createReplyStack(this.state.post, this.state.reply.author)}</div>
             <div className="custom-modal-header">
               <div style={iconStyle}><FontAwesomeIcon icon="reply" /></div>
               <div style={textStyle}>write a reply</div>
@@ -906,13 +920,13 @@ const createTag = (taglist) => {
   );
 }
 
-const createReplyStack = (post) => {
+const createReplyStack = (post, currentUser) => {
   var stack = [];
 
   if(post.replys!=null){
     for (const [key, value] of Object.entries(post.replys)) {
       stack.push(
-        <Replybox reply={value}/>
+        <Replybox reply={value} currentUser = {currentUser}/>
       );
     }
   }

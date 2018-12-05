@@ -93,7 +93,7 @@ class Badge extends React.Component {
   render() {
     return(
       <OverlayTrigger
-      placement={"bottom"}
+      placement={"top"}
       overlay={
         <Tooltip id="tooltip">
           {this.state.item.name}

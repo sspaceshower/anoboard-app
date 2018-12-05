@@ -169,6 +169,13 @@
   float: left;
 }
 
+.postbox-author-anonymous-me {
+  font-family: $boldfont;
+  font-size: 22px;
+  color: $redalert;
+  float: left;
+}
+
 .postbox-author-link {
   font-family: $boldfont;
   font-size: 20px;
@@ -376,6 +383,13 @@
   font-family: $boldfont;
   font-size: 18px;
   color: $blue-title;
+  float: left;
+}
+
+.reply-author-anonymous-me {
+  font-family: $boldfont;
+  font-size: 18px;
+  color: $redalert;
   float: left;
 }
 

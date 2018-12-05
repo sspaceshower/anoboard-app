@@ -195,7 +195,7 @@ class WeaponBadge extends React.Component {
                 />
             </Row>
             <Row className="item-name justify-content-center">{this.props.item.name}</Row>
-            <Row className="item-effect justify-content-center">DEF : +{this.props.item.def}</Row>
+            <Row className="item-effect justify-content-center">ATK : +{this.props.item.atk}</Row>
             <Row className="justify-content-center">{this.getSetButton() /*TODO: implement onClick (set armor to users' status)*/}</Row>
           </div>
         ): (
