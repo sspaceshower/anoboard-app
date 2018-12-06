@@ -106,6 +106,38 @@
   }
 }
 
+.status-box {
+  border: 1px solid white;
+  border-radius: 5px;
+  background-color: transparent;
+  box-sizing: border-box;
+  margin-bottom: 40px;
+  padding: 0px 20px 15px 20px;
+}
+
+.status-box-title {
+  color: white;
+  letter-spacing: .1rem;
+  font-family: $boldfont;
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.status-content-title {
+  color: white;
+  font-family: $semiboldfont;
+  font-size: 16px;
+  display: inline;
+}
+
+.status-content {
+  color: white;
+  font-family: $defaultfont;
+  font-size: 16px;
+  display: inline;
+}
+
 @media (min-width: 780px){
   .item-main-title {
     text-align: left;

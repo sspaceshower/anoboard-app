@@ -167,14 +167,6 @@ class Sidebar extends React.Component {
             {this.createHPbar()}
           </Col>
         </Row>
-        <div>
-          <Col>
-          <div id="sidebar-atk-def">ATK: {this.props.status.atk}</div>  
-          </Col>              
-          <Col>
-            <div id="sidebar-atk-def">DEF: {this.props.status.def}</div>            
-          </Col>
-        </div>
         {this.createMenu(menulist)}
         <Row className="justify-content-md-center">
           <Col xs={8} className="horizontal-line"></Col>
