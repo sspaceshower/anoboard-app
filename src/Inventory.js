@@ -22,6 +22,45 @@ class Inventory extends React.Component {
                 </div>
               </Row>
               <Row>
+                <Col md={{span: 6, offset: 3}}>
+                  <div className="status-box">
+                    <Row className="justify-content-center status-box-title ">Current Status</Row>
+                    <Row>
+                      <Col xs={{span: 5, offset: 1}}>
+                        <div>
+                          <div className="status-content-title">Level&nbsp;:&nbsp;</div>
+                          <div className="status-content">{this.props.status.level}</div>
+                        </div>
+                          <div className="status-content-title">ATK&nbsp;:&nbsp;</div>
+                          <div className="status-content">{this.props.status.atk}</div>
+                        <div>
+                          <div className="status-content-title">DEF&nbsp;:&nbsp;</div>
+                          <div className="status-content">{this.props.status.def}</div>
+                        </div>
+                        <div>
+                          <div className="status-content-title">Total XP&nbsp;:&nbsp;</div>
+                          <div className="status-content">{this.props.status.total_XP}</div>
+                        </div>
+                      </Col>
+                      <Col xs={5}>
+                        <div>
+                          <div className="status-content-title">Trophies&nbsp;:&nbsp;</div>
+                          <div className="status-content">{Object.keys(this.props.pool.trophy).length}</div>
+                        </div>
+                        <div>
+                          <div className="status-content-title">Weapons&nbsp;:&nbsp;</div>
+                          <div className="status-content">{Object.keys(this.props.pool.weapon).length}</div>
+                        </div>
+                        <div>
+                          <div className="status-content-title">Armors&nbsp;:&nbsp;</div>
+                          <div className="status-content">{Object.keys(this.props.pool.armor).length}</div>
+                        </div>
+                      </Col>
+                   </Row>
+                  </div>
+                </Col>
+              </Row>
+              <Row>
                 <Col>
                   <Row className="item-main-title justify-content-center justify-content-md-start">Trophy</Row>
                   <Row className="category-warp">
