@@ -189,7 +189,7 @@ class BattleModal extends React.Component {
               <Container fluid>
                 <Row>
                   <Col>
-                    <div className="battle-text">Do you want to start the battle?</div>
+                    <div className="battle-text">Battle this user to see his true identity?</div>
                   </Col>
                 </Row>
                 <Row>
